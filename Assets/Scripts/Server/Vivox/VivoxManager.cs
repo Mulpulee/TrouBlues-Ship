@@ -40,20 +40,20 @@ public class VivoxManager : MonoBehaviour
 
     public void Login()
     {
-        string userName = "Tester";
-        AccountId accountId = new AccountId(vivox.issuer, userName, vivox.domain);
-        vivox.LoginSession = vivox.client.GetLoginSession(accountId);
-        vivox.LoginSession.BeginLogin(vivox.server, vivox.LoginSession.GetLoginToken(vivox.tokenKey, vivox.timeSpan),
-            callback: AsyncResult =>
-            {
-                try
-                {
-                    vivox.LoginSession.EndLogin(callback);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-            });
+        //string userName = "Tester";
+        //AccountId accountId = new AccountId(vivox.issuer, userName, vivox.domain);
+        //vivox.LoginSession = vivox.client.GetLoginSession(accountId);
+        //vivox.LoginSession.BeginLogin(vivox.server, vivox.LoginSession.GetLoginToken(vivox.tokenKey, vivox.timeSpan),
+        //    callback: AsyncResult =>
+        //    {
+        //        try
+        //        {
+        //            vivox.LoginSession.EndLogin(callback);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Console.WriteLine(e);
+        //        }
+        //    });
     }
 }

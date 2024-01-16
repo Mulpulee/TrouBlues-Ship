@@ -6,7 +6,8 @@ public class Player
 {
     private int[] m_id;
     private Dictionary<ItemIndex, int> m_inventory;
-    private bool m_isSpy;
+    private bool m_isSpy = false;
+    private bool m_isInfected = false;
     private Job m_job;
     private Dictionary<ItemIndex, int> m_usedItem;
 
@@ -23,11 +24,16 @@ public class Player
     public Job GetJob() { return m_job; }
     public bool GetPosition() { return m_isSpy; }
 
-    public Player(int[] pId, Job pJob, bool pIsSpy = false)
+    public bool IsSpy() { return m_isSpy; }
+    public void SetSpy() { m_isSpy = true; }
+
+    public bool IsInfected() { return m_isInfected; }
+    public void SetInfected() { m_isInfected = true; }
+
+    public Player(int[] pId, Job pJob)
     {
         m_id = pId;
         m_job = pJob;
-        m_isSpy = pIsSpy;
 
         m_inventory = new Dictionary<ItemIndex, int>();
         for (int i = 0; i < 5; i++)
