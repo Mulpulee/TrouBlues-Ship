@@ -13,7 +13,8 @@ public class Player
     public int[] GetID() { return m_id; }
     public int GetID(int index) { return m_id[index]; }
 
-    public int GetItem(ItemIndex index) { return m_inventory.ContainsKey(index) ? m_inventory[index] : 0; }
+    public Dictionary<ItemIndex, int> GetInventory() { return m_inventory; }
+    public int GetItem(ItemIndex index) { return m_inventory[index]; }
     public int AddItem(ItemIndex index, int value) { m_inventory[index] += value; return m_inventory[index]; }
 
     public int GetUsedItem(ItemIndex index) { return m_usedItem.ContainsKey(index) ? m_usedItem[index] : 0; }
@@ -29,5 +30,9 @@ public class Player
         m_isSpy = pIsSpy;
 
         m_inventory = new Dictionary<ItemIndex, int>();
+        for (int i = 0; i < 5; i++)
+        {
+            m_inventory.Add((ItemIndex)i, 0);
+        }
     }
 }
