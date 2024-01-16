@@ -13,9 +13,11 @@ public class ItemSearching
     {
         m_provided = DataManager.Data.ProvidedItems[pPlayer - 4];
         m_selectable = DataManager.Data.SelectableItems[pPlayer - 4];
-        m_currentMap = Random.Range(0, 2);
+        m_currentMap = Random.Range(0, 3);
 
         m_percentage = DataManager.Data.SearchedItemPercentage[m_currentMap];
+
+        Debug.Log(m_currentMap);
     }
 
     public void SetDatas(int pP, int pS, int pC, int[] pPercent)
@@ -31,20 +33,21 @@ public class ItemSearching
         return m_selectable;
     }
 
-    public ItemIndex[] GetItems()
+    public int[] GetItems()
     {
-        ItemIndex[] items = new ItemIndex[m_provided];
+        int[] items = new int[6];
         
         for (int i = 0; i < m_provided; i++)
         {
-            int result = Random.Range(0, 99);
-            if (result < m_percentage[0]) items[i] = ItemIndex.Scrap;
-            else if (result < m_percentage[1]) items[i] = ItemIndex.Bolt;
-            else if (result < m_percentage[2]) items[i] = ItemIndex.Wire;
-            else if (result < m_percentage[3]) items[i] = ItemIndex.SuperConductor;
-            else items[i] = ItemIndex.Scanner;
+            int result = Random.Range(1, 101);
+            if (result < m_percentage[0]) items[0]++;
+            else if (result < m_percentage[0] + m_percentage[1]) items[1]++;
+            else if (result < m_percentage[0] + m_percentage[1] + m_percentage[2]) items[2]++;
+            else if (result < m_percentage[0] + m_percentage[1] + m_percentage[2] + m_percentage[3]) items[3]++;
+            else if (result < m_percentage[0] + m_percentage[1] + m_percentage[2] + m_percentage[3] + m_percentage[4]) items[4]++;
+            else items[5]++;
         }
 
         return items;
-    }
+    }    
 }

@@ -8,7 +8,8 @@ public enum ItemIndex
     Bolt,
     Wire,
     SuperConductor,
-    Scanner
+    Scanner,
+    Medicine
 }
 
 [CreateAssetMenu(fileName = "ItemObject", menuName = "ScriptableObject/ItemObject", order = 1)]
