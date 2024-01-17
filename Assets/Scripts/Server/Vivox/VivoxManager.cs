@@ -40,6 +40,7 @@ public class VivoxManager : MonoBehaviour
 
     public void Login()
     {
+<<<<<<< HEAD
         string userName = "Tester";
         AccountId accountId = new AccountId(vivox.issuer, userName, vivox.domain);
         vivox.LoginSession = vivox.client.GetLoginSession(accountId);
@@ -55,5 +56,22 @@ public class VivoxManager : MonoBehaviour
                     Console.WriteLine(e);
                 }
             });
+=======
+        //string userName = "Tester";
+        //AccountId accountId = new AccountId(vivox.issuer, userName, vivox.domain);
+        //vivox.LoginSession = vivox.client.GetLoginSession(accountId);
+        //vivox.LoginSession.BeginLogin(vivox.server, vivox.LoginSession.GetLoginToken(vivox.tokenKey, vivox.timeSpan),
+        //    callback: AsyncResult =>
+        //    {
+        //        try
+        //        {
+        //            vivox.LoginSession.EndLogin(callback);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Console.WriteLine(e);
+        //        }
+        //    });
+>>>>>>> 485a3daa15e5138722096f77da935e232c7447fb
     }
 }

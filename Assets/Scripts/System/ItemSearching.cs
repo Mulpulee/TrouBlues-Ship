@@ -39,7 +39,7 @@ public class ItemSearching
         
         for (int i = 0; i < m_provided; i++)
         {
-            int result = Random.Range(1, 101);
+            int result = Random.Range(0, 100);
             if (result < m_percentage[0]) items[0]++;
             else if (result < m_percentage[0] + m_percentage[1]) items[1]++;
             else if (result < m_percentage[0] + m_percentage[1] + m_percentage[2]) items[2]++;
