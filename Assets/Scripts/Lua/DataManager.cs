@@ -13,6 +13,7 @@ public interface Data
     int[] SelectableItems { get; }
     int[] FailureProbability { get; }
     [CSharpCallLua] List<int[]> SearchedItemPercentage { get; }
+    int[] JobPerPlayer { get; }
 }
 
 public static class DataManager

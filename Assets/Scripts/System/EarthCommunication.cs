@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EarthCommunication
 {
+    public static char[] CharacterID = { '♣', '★', '♥', '♠', '◆', '●' };
+
     private List<List<int>> m_openedAloneHint;
     private List<List<int>> m_openedTogetherHint;
 
@@ -52,7 +54,7 @@ public class EarthCommunication
 
         if (m_openedAloneHint[index].Count == 0) code = Random.Range(0, 6);
         else code = m_openedAloneHint[index][Random.Range(0, m_openedAloneHint[index].Count)];
-        Debug.Log($"{indexing} 스파이의 ID에는 {id[code]}가 포함됨이 밝혀짐");
+        Debug.Log($"{indexing} 스파이의 ID에는 {CharacterID[id[code]]}가 포함됨이 밝혀짐");
 
         m_openedAloneHint[index].Remove(code);
     }
@@ -67,7 +69,7 @@ public class EarthCommunication
 
         if (m_openedTogetherHint[index].Count == 0) code = Random.Range(0, 6);
         else code = m_openedTogetherHint[index][Random.Range(0, m_openedTogetherHint[index].Count)];
-        Debug.Log($"{indexing} 스파이의 ID {code + 1}번 칸 문자는 {id[code]}임이 밝혀짐");
+        Debug.Log($"{indexing} 스파이의 ID {code + 1}번 칸 문자는 {CharacterID[id[code]]}임이 밝혀짐");
 
         m_openedTogetherHint[index].Remove(code);
     }

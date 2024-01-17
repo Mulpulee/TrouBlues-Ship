@@ -2,33 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public static class CommonData
+{
+    public static List<Player> Players;
+    public static List<Player> Spys;
+    public static Player Infected;
+
+    public static int Medecines;
+}
+
 public class GameManagerEx // : MonoBehaviour
 {
-    public List<Player> m_players;
-    public List<Player> m_spys;
-    public Player m_infected;
+    private static Player m_this;
+    public static Player Player
+    {
+        get { return m_this; }
+    }
 
     public void StartGame(int pPlayer)
-    {
+    {        
         Job tempJob = new Job();
 
-        m_players = new List<Player>();
-        m_players.Add(new Player(IdGenerator.GenerateID(true), tempJob));
+        CommonData.Players = new List<Player>();
+        CommonData.Players.Add(new Player(IdGenerator.GenerateID(true), tempJob));
 
         for (int i = 1; i < pPlayer; i++)
         {
-            m_players.Add(new Player(IdGenerator.GenerateID(), tempJob));
+            CommonData.Players.Add(new Player(IdGenerator.GenerateID(), tempJob));
         }
 
-        m_spys = new List<Player>(m_players);
+        CommonData.Spys = new List<Player>(CommonData.Players);
         int spycount = DataManager.Data.SpyPerPlayer[pPlayer - 4];
 
         for (int i = pPlayer - 1; i > spycount; i--)
         {
-            m_spys.RemoveAt(Random.Range(0, m_spys.Count));
+            CommonData.Spys.RemoveAt(Random.Range(0, CommonData.Spys.Count));
         }
 
-        m_infected = m_spys[Random.Range(0, m_spys.Count)];
-        m_spys.Remove(m_infected);
+        CommonData.Infected = CommonData.Spys[Random.Range(0, CommonData.Spys.Count)];
+        CommonData.Spys.Remove(CommonData.Infected);
+
+        m_this = CommonData.Players[0];
+
+        CommonData.Medecines = 0;
     }
 }

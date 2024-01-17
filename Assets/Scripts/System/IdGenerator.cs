@@ -17,7 +17,7 @@ public class IdGenerator
         int[] id = new int[5];
         for (int i = 0; i < 5; i++)
         {
-            id[i] = Random.Range(0, 5);
+            id[i] = Random.Range(0, 6);
         }
 
         if (m_previousIds.Contains(id))
