@@ -44,7 +44,7 @@ public class EarthCommunication
         }
     }
 
-    public void Alone()
+    public string Alone()
     {
         int index = Random.Range(0, m_spyCount);
         int[] id = m_spys[index];
@@ -54,12 +54,12 @@ public class EarthCommunication
 
         if (m_openedAloneHint[index].Count == 0) code = Random.Range(0, 6);
         else code = m_openedAloneHint[index][Random.Range(0, m_openedAloneHint[index].Count)];
-        Debug.Log($"{indexing} 스파이의 ID에는 {CharacterID[id[code]]}가 포함됨이 밝혀짐");
-
         m_openedAloneHint[index].Remove(code);
+
+        return $"{indexing} 스파이의 ID에는 {CharacterID[id[code]]}가 포함됨이 밝혀짐";
     }
 
-    public void Together()
+    public string Together()
     {
         int index = Random.Range(0, m_spyCount);
         int[] id = m_spys[index];
@@ -69,8 +69,8 @@ public class EarthCommunication
 
         if (m_openedTogetherHint[index].Count == 0) code = Random.Range(0, 6);
         else code = m_openedTogetherHint[index][Random.Range(0, m_openedTogetherHint[index].Count)];
-        Debug.Log($"{indexing} 스파이의 ID {code + 1}번 칸 문자는 {CharacterID[id[code]]}임이 밝혀짐");
-
         m_openedTogetherHint[index].Remove(code);
+
+        return $"{indexing} 스파이의 ID {code + 1}번 칸 문자는 {CharacterID[id[code]]}임이 밝혀짐";
     }
 }

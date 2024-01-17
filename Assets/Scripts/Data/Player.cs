@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player
 {
     private Sprite m_profile;
+    private string m_name;
     private int[] m_id;
     private Dictionary<ItemIndex, int> m_inventory;
     private bool m_isSpy = false;
@@ -14,6 +15,8 @@ public class Player
 
     public Sprite GetProfile() { return m_profile; }
     public void SetProfile(Sprite sprite) { m_profile = sprite; }
+
+    public string Name { set { m_name = value; } get { return m_name; } }
 
     public int[] GetID() { return m_id; }
     public int GetID(int index) { return m_id[index]; }

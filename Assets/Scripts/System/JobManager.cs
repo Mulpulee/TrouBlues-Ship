@@ -22,10 +22,12 @@ public class JobManager
 public class CaptainSkill : Skill
 {
     public bool CanUseSkill = true;
+    public Player Searched;
 
     public CaptainSkill()
     {
         CoolDown = 0;
+        Script = $"{Searched.Name}의 직업은  {Searched.GetJob().name}으로 밝혀졌습니다!";
     }
 
     public override void DoSkill()
@@ -41,11 +43,12 @@ public class EngineerSkill : Skill
     {
         CoolDown = 2;
         CoolCount = 0;
+        Script = "우주선 수리 진척도가 일정 수준 올라갑니다.";
     }
 
     public override void DoSkill()
     {
-        // 우주선 수리 진척도 전체의 10%를 올림
+        // 우주선 수리 진척도 올림(수치받아와야함ㅜㅜ)
     }
 }
 
@@ -66,14 +69,21 @@ public class MedicSkill : Skill
 
 public class JanitorSkill : Skill
 {
+    public Item Component;
+
     public JanitorSkill()
     {
         CoolDown = 1;
         CoolCount = 0;
+        //Script = $"{Component.name}을(를) 관리인이 획득했습니다.";
+        Script = $"관리인이 고철, 나사, 전선 각 2개를 획득했습니다.";
     }
 
     public override void DoSkill()
     {
+        GameManagerEx.Player.AddItem(ItemIndex.Scrap, 2);
+        GameManagerEx.Player.AddItem(ItemIndex.Bolt, 2);
+        GameManagerEx.Player.AddItem(ItemIndex.Wire, 2);
         // 원하는 자원 지급받음
         // 각각 선택 시 고철/나사/전선 4개, 초전도체 2개, 스캐너 1개 지급
     }
@@ -81,6 +91,7 @@ public class JanitorSkill : Skill
 
 public class ControllerSkill : Skill
 {
+
     public ControllerSkill()
     {
         CoolDown = 2;
@@ -89,6 +100,6 @@ public class ControllerSkill : Skill
 
     public override void DoSkill()
     {
-        // 2인이상 지구통신 결과를 받음
+        Script = GameManagerEx.EarthCommu.Together();
     }
 }
