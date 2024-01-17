@@ -38,6 +38,11 @@ public class VivoxManager : MonoBehaviour
         vivox.client.Uninitialize();
     }
 
+    private void Start()
+    {
+        Login();
+    }
+
     public void Login()
     {
         string userName = "Tester";
@@ -49,6 +54,7 @@ public class VivoxManager : MonoBehaviour
                 try
                 {
                     vivox.LoginSession.EndLogin(callback);
+                    print("로그인 완료");
                 }
                 catch (Exception e)
                 {
