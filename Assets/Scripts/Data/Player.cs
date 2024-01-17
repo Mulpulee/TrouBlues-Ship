@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Player
 {
+    private Sprite m_profile;
     private int[] m_id;
     private Dictionary<ItemIndex, int> m_inventory;
     private bool m_isSpy = false;
     private bool m_isInfected = false;
     private Job m_job;
     private Dictionary<ItemIndex, int> m_usedItem;
+
+    public Sprite GetProfile() { return m_profile; }
+    public void SetProfile(Sprite sprite) { m_profile = sprite; }
 
     public int[] GetID() { return m_id; }
     public int GetID(int index) { return m_id[index]; }

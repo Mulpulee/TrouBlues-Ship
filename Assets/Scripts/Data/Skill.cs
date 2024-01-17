@@ -5,5 +5,6 @@ using UnityEngine;
 public abstract class Skill
 {
     public int CoolDown;
-    public void DoSkill() { }
+    public int CoolCount;
+    public abstract void DoSkill();
 }
