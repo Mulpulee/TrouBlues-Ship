@@ -51,23 +51,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         code = UnityEngine.Random.Range(100000, 1000000);
-        PhotonNetwork.CreateRoom(code.ToString());
+        PhotonNetwork.CreateRoom(code.ToString(), new RoomOptions { MaxPlayers = 8});
     }
     public override void OnCreatedRoom()
     {
         Debug.Log("방 만들기 성공");
-
+        text_code.text = code.ToString();
         panel_Server.SetActive(false);
         panel_Lobby.SetActive(true);
-
-        text_code.text = code.ToString();
     }
 
     public void JoinRoom() => PhotonNetwork.JoinRoom(codeInput.text);
     public override void OnJoinedRoom()
     {
         Debug.Log("방 참가 성공");
-
+        text_code.text = code.ToString();
         panel_Server.SetActive(false);
         panel_Lobby.SetActive(true);
     }
