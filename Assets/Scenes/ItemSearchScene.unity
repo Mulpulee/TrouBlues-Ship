@@ -2782,7 +2782,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_players: 0
   m_participants: 0
-  script: {fileID: 1260318789}
+  m_hudInfo: {fileID: 0}
 --- !u!4 &1150996888
 Transform:
   m_ObjectHideFlags: 0

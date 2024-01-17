@@ -9,6 +9,8 @@ public static class CommonData
     public static Player Infected;
 
     public static int Medecines;
+
+    public static int[] RepairProgress;
 }
 
 public class GameManagerEx // : MonoBehaviour
@@ -45,5 +47,6 @@ public class GameManagerEx // : MonoBehaviour
         m_this = CommonData.Players[0];
 
         CommonData.Medecines = 0;
+        CommonData.RepairProgress = new int[3];
     }
 }

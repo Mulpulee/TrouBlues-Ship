@@ -77,6 +77,6 @@ public class ItemSearchingUI : MonoBehaviour
             pPlayer.AddItem((ItemIndex)i, m_collectedItems[i]);
         }
 
-        // 전체게임관리하는곳에 구충제 수 추가
+        CommonData.Medecines += m_collectedItems[(int)ItemIndex.Medicine];
     }
 }
