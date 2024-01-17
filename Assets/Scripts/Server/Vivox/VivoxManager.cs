@@ -44,7 +44,7 @@ public class VivoxManager : MonoBehaviour
         AccountId accountId = new AccountId(vivox.issuer, userName, vivox.domain);
         vivox.LoginSession = vivox.client.GetLoginSession(accountId);
         vivox.LoginSession.BeginLogin(vivox.server, vivox.LoginSession.GetLoginToken(vivox.tokenKey, vivox.timeSpan),
-            callback: AsyncResult =>
+            callback =>
             {
                 try
                 {
