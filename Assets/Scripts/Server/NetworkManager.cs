@@ -12,7 +12,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject panel_Code;
     public GameObject panel_Lobby;
 
-    public InputField nickNameInput;
     public InputField codeInput;
 
     public Button btn_makeRoom;
@@ -23,7 +22,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        Screen.SetResolution(1920, 1080, false);
+        Screen.SetResolution(1920, 1080, true);
 
         btn_makeRoom.interactable = false;
         btn_joinRoom.interactable = false;
@@ -33,7 +32,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("서버 접속 완료");
-        PhotonNetwork.LocalPlayer.NickName = nickNameInput.text;
 
         btn_makeRoom.interactable = true;
         btn_joinRoom.interactable = true;
