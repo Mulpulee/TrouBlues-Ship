@@ -16,6 +16,7 @@ public class LobbyManager : MonoBehaviour
     {
         get { return m_players; }
     }
+    List<Profile> m_profilesAsset;
     List<Profile> m_profiles;
 
     public void SetProfile()
@@ -32,8 +33,6 @@ public class LobbyManager : MonoBehaviour
     public void SetPlayerData(int[] pList)
     {
         m_players = pList.ToList();
-
-        MakePlayer();
     }
 
     public void NewPlayer()
@@ -41,6 +40,7 @@ public class LobbyManager : MonoBehaviour
         int random = Random.Range(0, m_profiles.Count);
         m_players.Add(random);
         m_profiles.RemoveAt(random);
+        MakePlayer();
     }
 
     public void MakePlayer()
@@ -48,7 +48,7 @@ public class LobbyManager : MonoBehaviour
         foreach (var item in m_players)
         {
             LobbyPlayer lobbyPlayer = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
-            lobbyPlayer.Setup(m_profiles[item].nickName, m_profiles[item].profile);
+            lobbyPlayer.Setup(m_profilesAsset[item].nickName, m_profilesAsset[item].profile);
         }
 
         Debug.Log("橇府普 积己 己傍");
