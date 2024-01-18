@@ -72,6 +72,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("방 참가 성공");
         panel_Server.SetActive(false);
         panel_Lobby.SetActive(true);
+        panel_Code.SetActive(false);
+
         lobby.SetProfile();
         if (PVHandler.pv == null)
         {
