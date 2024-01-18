@@ -70,7 +70,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("방 참가 성공");
-        text_code.text = code.ToString();
+        text_code.text = codeInput.text;
         panel_Server.SetActive(false);
         panel_Lobby.SetActive(true);
         lobby.SetProfile();
