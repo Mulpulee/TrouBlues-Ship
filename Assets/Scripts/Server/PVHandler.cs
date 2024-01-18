@@ -8,7 +8,7 @@ public class PVHandler : MonoBehaviour
     public static PhotonView pv;
 
     [PunRPC]
-    public static void AddPlayer(int item)
+    public void AddPlayer(int item)
     {
         LobbyManager lobby = FindObjectOfType<LobbyManager>();
         lobby.AddPlayer(item);
