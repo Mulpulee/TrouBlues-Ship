@@ -170,6 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nickName: {fileID: 2150227341652158392}
   profile: {fileID: 8371697825404872005}
+  isReady: 0
 --- !u!1 &4302344046605520612
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +239,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 71dfec13639780e4c9c7780d3c004855, type: 3}
-    m_FontSize: 45
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2

@@ -15,6 +15,9 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
 
+    public Slider _bgmSlider;
+    public Slider _effectSlider;
+
     public AudioSource Bgm;
     public AudioSource Effect;
 
@@ -68,23 +71,30 @@ public class SoundManager : MonoBehaviour
         PlayBgm("Bgm");
     }
 
-    public void ToggleBgm()
-    {
-        Bgm.mute = !Bgm.mute;
-    }
-
-    public void ToggleEffect()
-    {
-        Effect.mute = !Effect.mute;
-    }
-
     public void BgmVolume(float volume)
     {
         Bgm.volume = volume;
     }
-        
+
     public void EffectVolume(float volume)
     {
         Bgm.volume = volume;
+    }
+
+
+    public void BgmVolume()
+    {
+        SoundManager.instance.BgmVolume(_bgmSlider.value);
+    }
+
+    public void EffectVolume()
+    {
+        SoundManager.instance.EffectVolume(_bgmSlider.value);
+    }
+
+    public void SetVolume()
+    {
+        _bgmSlider.value = SoundManager.instance.Bgm.volume;
+        _effectSlider.value = SoundManager.instance.Effect.volume;
     }
 }
