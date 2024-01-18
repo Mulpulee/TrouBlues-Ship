@@ -1,12 +1,28 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PVHandler : MonoBehaviour
 {
     private static PhotonView m_pv;
-    public static PhotonView pv { get { return m_pv; } }
+    public static PhotonView pv
+    {
+        get
+        {
+            if (m_pv == null)
+            {
+                m_pv = FindObjectOfType<PhotonView>();
+                if (m_pv == null)
+                {
+                    m_pv = Instance.AddComponent<PhotonView>();
+                }
+            }
+
+            return m_pv;
+        }
+    }
     private static PVHandler m_instance;
     public static PVHandler Instance
     {
