@@ -14,6 +14,7 @@ public interface Data
     int[] FailureProbability { get; }
     [CSharpCallLua] List<int[]> SearchedItemPercentage { get; }
     int[] JobPerPlayer { get; }
+    [CSharpCallLua] List<int[]> EngineerSkillLevel { get; }
 }
 
 public static class DataManager

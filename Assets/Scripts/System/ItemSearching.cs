@@ -9,15 +9,13 @@ public class ItemSearching
     private int m_currentMap;
     private int[] m_percentage;
 
-    public void Search(int pPlayer) // 호스트만 굴림
+    public void Search(int pPlayer)
     {
         m_provided = DataManager.Data.ProvidedItems[pPlayer - 4];
         m_selectable = DataManager.Data.SelectableItems[pPlayer - 4];
         m_currentMap = Random.Range(0, 3);
 
         m_percentage = DataManager.Data.SearchedItemPercentage[m_currentMap];
-
-        Debug.Log(m_currentMap);
     }
 
     public void SetDatas(int pP, int pS, int pC, int[] pPercent)

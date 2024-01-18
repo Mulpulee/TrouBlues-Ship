@@ -27,20 +27,23 @@ public class EarthCommunication
         m_openedTogetherHint = new List<List<int>>(m_openedAloneHint);
     }
 
-    public void StartCommunication(int pPlayer)
+    public bool StartCommunication(int pPlayer)
     {
         int[] percent = DataManager.Data.FailureProbability;
 
         if (Random.Range(0, 100) < (pPlayer == 1 ? m_alonePercent : percent[m_successStack]))
         {
             m_successStack = 0;
-            Debug.Log("(치지직)....&#$....$..@$...#.>>$>...%>>..(치지직)..$%#..#..@%...");
-            Debug.Log("연결이 불안정합니다.");
+            //Debug.Log("(치지직)....&#$....$..@$...#.>>$>...%>>..(치지직)..$%#..#..@%...");
+            //Debug.Log("연결이 불안정합니다.");
+            return false;
         }
         else
         {
             if (pPlayer == 1) Alone();
             else Together();
+
+            return true;
         }
     }
 
