@@ -13,11 +13,11 @@ public class Player
     private Job m_job;
     private Dictionary<ItemIndex, int> m_usedItem;
 
-    public Sprite GetProfile() { return m_profile; }
-    public void SetProfile(Sprite sprite) { m_profile = sprite; }
+    public Sprite Profile { set { m_profile = value; } get { return m_profile; } }
 
     public string Name { set { m_name = value; } get { return m_name; } }
 
+    public void SetID(int[] id) { m_id = id; }
     public int[] GetID() { return m_id; }
     public int GetID(int index) { return m_id[index]; }
 
@@ -28,7 +28,7 @@ public class Player
     public int GetUsedItem(ItemIndex index) { return m_usedItem.ContainsKey(index) ? m_usedItem[index] : 0; }
     public void SetUsedItem(Dictionary<ItemIndex, int> usedItem) { m_usedItem = usedItem; }
 
-    public Job GetJob() { return m_job; }
+    public Job Job { set { m_job = value; } get { return m_job; } }
     public bool GetPosition() { return m_isSpy; }
 
     public bool IsSpy() { return m_isSpy; }
@@ -37,6 +37,17 @@ public class Player
     public bool IsInfected() { return m_isInfected; }
     public void SetInfected() { m_isInfected = true; }
 
+    public Player(Sprite pProfile, string pName)
+    {
+        m_profile = pProfile;
+        m_name = pName;
+
+        m_inventory = new Dictionary<ItemIndex, int>();
+        for (int i = 0; i < 5; i++)
+        {
+            m_inventory.Add((ItemIndex)i, 0);
+        }
+    }
     public Player(int[] pId, Job pJob)
     {
         m_id = pId;

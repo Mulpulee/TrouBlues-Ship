@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 184f830913ca3724baed7ecbfeda3b9f, type: 3}
-  m_Name: Engineer
+  m_Name: None
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 84345933dbe880a4b98c7eb55ff35538, type: 3}
-  Name: "\uC5D4\uC9C0\uB2C8\uC5B4"
-  Description: "\uC6B0\uC8FC\uC120\uC774 \uC548\uC804\uD558\uAC8C \uC720\uC9C0\uB418\uAE30
-    \uC704\uD574 \uD568\uAED8 \uD30C\uACAC\uB41C \uC778\uBB3C"
+  Icon: {fileID: 0}
+  Name: "\uC77C\uBC18 \uC5F0\uAD6C\uC6D0"
+  Description: "\uD589\uC131\uC5D0 \uB300\uD574 \uC804\uCCB4\uC801\uC73C\uB85C \uC5F0\uAD6C\uD558\uAE30
+    \uC704\uD574 \uD0D1\uC2B9\uD55C \uC5F0\uAD6C\uC6D0\uB4E4"

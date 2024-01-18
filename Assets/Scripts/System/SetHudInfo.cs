@@ -8,9 +8,9 @@ public class SetHudInfo : MonoBehaviour
     [SerializeField] private Text m_tabCount;
     [SerializeField] private Image m_profile;
 
-    public void UpdateInfo(int pMedecine, Sprite pProfile = null)
+    public void UpdateInfo()
     {
-        m_tabCount.text = pMedecine.ToString();
-        if (pProfile != null) m_profile.sprite = pProfile;
+        m_tabCount.text = CommonData.Medecines.ToString();
+        m_profile.sprite = GameManagerEx.Player.Profile;
     }
 }

@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,10 +12,14 @@ public static class CommonData
     public static int Medecines;
 
     public static int[] RepairProgress;
+
+    [PunRPC]
+    public static void SetPlayerList(List<Player> list) { Players = list; }
 }
 
 public class GameManagerEx // : MonoBehaviour
 {
+    private bool m_isHost = false;
     private static Player m_this;
     public static Player Player
     {
@@ -24,7 +29,8 @@ public class GameManagerEx // : MonoBehaviour
     public static EarthCommunication EarthCommu = new EarthCommunication();
 
     public void StartGame(int pPlayer)
-    {        
+    {
+
         Job tempJob = new Job();
 
         CommonData.Players = new List<Player>();
