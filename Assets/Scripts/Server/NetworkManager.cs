@@ -82,7 +82,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PVHandler.pv.IsMine)
         {
             lobby.NewPlayer();
-            PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, lobby.m_currentProfile);
             GameObject.Find("JoinButton").SetActive(false);
         }
     }
