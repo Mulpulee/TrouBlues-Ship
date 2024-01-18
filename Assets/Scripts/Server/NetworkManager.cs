@@ -20,7 +20,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public Text text_code;
     private int code;
 
-    
+    private GameObject lobby;
 
     private void Awake()
     {
@@ -28,6 +28,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         btn_makeRoom.interactable = false;
         btn_joinRoom.interactable = false;
+
+        lobby = GameObject.Find("LobbyManager");
     }
 
     public void Connect() => PhotonNetwork.ConnectUsingSettings();
@@ -59,6 +61,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         text_code.text = code.ToString();
         panel_Server.SetActive(false);
         panel_Lobby.SetActive(true);
+        //lobby.GetComponent<LobbyManager>().SetProfile();
+        //lobby.GetComponent<LobbyManager>().NewPlayer();
     }
 
     public void JoinRoom() => PhotonNetwork.JoinRoom(codeInput.text);
@@ -68,6 +72,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         text_code.text = code.ToString();
         panel_Server.SetActive(false);
         panel_Lobby.SetActive(true);
+        lobby.GetComponent<LobbyManager>().SetProfile();
+        lobby.GetComponent<LobbyManager>().NewPlayer();
     }
     public override void OnJoinRoomFailed(short returnCode, string message) => Debug.Log("방 참가 실패");
 
