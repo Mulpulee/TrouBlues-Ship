@@ -20,6 +20,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public Text text_code;
     private int code;
 
+    
+
     private void Awake()
     {
         Screen.SetResolution(1920, 1080, true);

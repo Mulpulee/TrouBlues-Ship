@@ -4,22 +4,42 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class LobbyPlayer
-{
-    public Sprite profile;
-    public Text nickName;
-}
 
 public class LobbyManager : MonoBehaviour
 {
-    [SerializeField] public LobbyPlayer[] lobbyPlayers;
-    public GameObject l_Player;
-    private List<GameObject> players = new List<GameObject>();
+    public LobbyPlayer prefab;
+    private List<LobbyPlayer> players = new List<LobbyPlayer>();
+    List<Profile> m_profiles;
+
+    public void SetProfile()
+    {
+        Profile[] profiles = Resources.LoadAll<Profile>("ScriptableObject/Profile");
+        m_profiles = new List<Profile>();
+        foreach (Profile profile in profiles)
+        {
+            m_profiles.Add(profile);
+        }
+    }
 
     public void NewPlayer()
     {
-        int random = Random.Range(0, 8);
+        int random = Random.Range(0, m_profiles.Count);
+        LobbyPlayer lobbyPlayer = GameObject.Instantiate<GameObject>(prefab.gameObject, Vector3.zero, Quaternion.identity).GetComponent<LobbyPlayer>();
+        lobbyPlayer.Setup(m_profiles[random].name, m_profiles[random].profile);
+
+        Debug.Log("橇府普 积己 己傍");
     }
 
+}
+
+public class LobbyPlayer : MonoBehaviour
+{
+    public Text nickName;
+    public Sprite profile;
+
+    public void Setup(string name, Sprite sprite)
+    {
+        nickName.text = name;
+        profile = sprite;
+    }
 }
