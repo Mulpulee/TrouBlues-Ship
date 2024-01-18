@@ -28,7 +28,7 @@ public class LobbyManager : MonoBehaviour
     {
         int random = Random.Range(0, m_profiles.Count);
         LobbyPlayer lobbyPlayer = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
-        lobbyPlayer.Setup(m_profiles[random].name, m_profiles[random].profile);
+        lobbyPlayer.Setup(m_profiles[random].nickName, m_profiles[random].profile);
 
         Debug.Log("橇府普 积己 己傍");
 
