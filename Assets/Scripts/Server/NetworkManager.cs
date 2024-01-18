@@ -82,9 +82,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PVHandler.pv.IsMine)
         {
             lobby.NewPlayer();
-            PVHandler.pv.RPC("SetPlayerData", RpcTarget.AllBuffered, lobby.Players.ToArray());
+            PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, lobby.m_currentProfile);
+            GameObject.Find("JoinButton").SetActive(false);
         }
-        if (!PVHandler.pv.IsMine) lobby.NewPlayer();
     }
     public override void OnJoinRoomFailed(short returnCode, string message) => Debug.Log("방 참가 실패");
 

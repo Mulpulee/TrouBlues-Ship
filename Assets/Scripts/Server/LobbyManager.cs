@@ -18,6 +18,8 @@ public class LobbyManager : MonoBehaviour
     List<Profile> m_profilesAsset;
     List<int> m_profiles;
 
+    public int m_currentProfile;
+
     public void SetProfile()
     {
         Profile[] profiles = Resources.LoadAll<Profile>("ScriptableObject/Profile");
@@ -31,32 +33,23 @@ public class LobbyManager : MonoBehaviour
         for (int i = 0; i < 8; i++) m_profiles.Add(i);
     }
 
-    [PunRPC]
-    public void SetPlayerData(int[] pList)
+    public void AddPlayer(int item)
     {
-        m_players = pList.ToList();
+        m_players.Add(item);
+        LobbyPlayer lobbyPlayer = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
+        lobbyPlayer.Setup(m_profilesAsset[item].nickName, m_profilesAsset[item].profile);
+
+        PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, item);
     }
 
     public void NewPlayer()
     {
-        foreach (int i in m_players) m_profiles.RemoveAt(i);
+        foreach (int i in m_players) m_profiles.Remove(i);
         int random = Random.Range(0, 8 - m_players.Count);
-        m_players.Add(m_profiles[random]);
-        m_profiles.RemoveAt(random);
-        MakePlayer();
+        m_currentProfile = m_profiles[random];
+
+        AddPlayer(m_currentProfile);
     }
-
-    public void MakePlayer()
-    {
-        foreach (var item in m_players)
-        {
-            LobbyPlayer lobbyPlayer = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
-            lobbyPlayer.Setup(m_profilesAsset[item].nickName, m_profilesAsset[item].profile);
-        }
-
-        Debug.Log("橇府普 积己 己傍");
-    }
-
 }
 
 //public class LobbyPlayer : MonoBehaviour
