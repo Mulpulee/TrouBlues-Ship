@@ -21,6 +21,8 @@ public class GameManagerEx // : MonoBehaviour
         get { return m_this; }
     }
 
+    public static EarthCommunication EarthCommu = new EarthCommunication();
+
     public void StartGame(int pPlayer)
     {        
         Job tempJob = new Job();
