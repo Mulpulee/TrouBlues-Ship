@@ -40,7 +40,7 @@ public class LobbyManager : MonoBehaviour
     public void NewPlayer()
     {
         foreach (int i in m_players) m_profiles.RemoveAt(i);
-        int random = Random.Range(0, m_profiles.Count);
+        int random = Random.Range(0, 8 - m_players.Count);
         m_players.Add(m_profiles[random]);
         m_profiles.RemoveAt(random);
         MakePlayer();
