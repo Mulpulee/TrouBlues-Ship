@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 
 public class LobbyManager : MonoBehaviour
@@ -38,8 +39,6 @@ public class LobbyManager : MonoBehaviour
         m_players.Add(item);
         LobbyPlayer lobbyPlayer = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
         lobbyPlayer.Setup(m_profilesAsset[item].nickName, m_profilesAsset[item].profile);
-
-        PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, item);
     }
 
     public void NewPlayer()
@@ -47,6 +46,8 @@ public class LobbyManager : MonoBehaviour
         foreach (int i in m_players) m_profiles.Remove(i);
         int random = Random.Range(0, 8 - m_players.Count);
         m_currentProfile = m_profiles[random];
+
+        PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, m_currentProfile);
 
         AddPlayer(m_currentProfile);
     }
