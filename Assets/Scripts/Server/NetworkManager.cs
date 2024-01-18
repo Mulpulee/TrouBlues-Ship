@@ -70,7 +70,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("방 참가 성공");
-        text_code.text = codeInput.text;
         panel_Server.SetActive(false);
         panel_Lobby.SetActive(true);
         lobby.SetProfile();
@@ -83,6 +82,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             lobby.NewPlayer();
             GameObject.Find("JoinButton").SetActive(false);
+        }
+        else
+        {
+            text_code.text = codeInput.text;
         }
     }
     public override void OnJoinRoomFailed(short returnCode, string message) => Debug.Log("방 참가 실패");
