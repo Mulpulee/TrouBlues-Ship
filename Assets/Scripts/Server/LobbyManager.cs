@@ -10,7 +10,11 @@ public class LobbyManager : MonoBehaviour
 {
     [SerializeField] GameObject gridLayoutGroup;
     public LobbyPlayer prefab;
-    private List<LobbyPlayer> players = new List<LobbyPlayer>();
+    private List<int> m_players = new List<int>();
+    public List<int> Players
+    {
+        get { return m_players; }
+    }
     List<Profile> m_profiles;
 
     public void SetProfile()
@@ -24,17 +28,31 @@ public class LobbyManager : MonoBehaviour
     }
 
     [PunRPC]
+    public void SetPlayerData(List<int> pList)
+    {
+        m_players = pList;
+
+        MakePlayer();
+    }
+
     public void NewPlayer()
     {
         int random = Random.Range(0, m_profiles.Count);
-        LobbyPlayer lobbyPlayer = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
-        lobbyPlayer.Setup(m_profiles[random].nickName, m_profiles[random].profile);
+        m_players.Add(random);
+        m_profiles.RemoveAt(random);
+
+        MakePlayer();
+    }
+
+    public void MakePlayer()
+    {
+        foreach (var item in m_players)
+        {
+            LobbyPlayer lobbyPlayer = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
+            lobbyPlayer.Setup(m_profiles[item].nickName, m_profiles[item].profile);
+        }
 
         Debug.Log("橇府普 积己 己傍");
-
-        players.Add(lobbyPlayer);
-
-        m_profiles.RemoveAt(random);
     }
 
 }
