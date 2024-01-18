@@ -2,7 +2,6 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,6 +28,7 @@ public class LobbyManager : MonoBehaviour
         }
 
         m_profiles = new List<int>();
+        for (int i = 0; i < 8; i++) m_profiles.Add(i);
     }
 
     [PunRPC]
