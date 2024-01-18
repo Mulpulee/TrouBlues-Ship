@@ -80,7 +80,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PVHandler.pv = gameObject.AddComponent<PhotonView>();
             PVHandler.pv.ViewID = PhotonNetwork.MasterClient.ActorNumber;
         }
-        if (PVHandler.pv.IsMine) PVHandler.pv.RPC("SetPlayerData", RpcTarget.AllBuffered, lobby.Players);
+        if (PVHandler.pv.IsMine) PVHandler.pv.RPC("SetPlayerData", RpcTarget.AllBuffered, lobby.Players.ToArray());
     }
     public override void OnJoinRoomFailed(short returnCode, string message) => Debug.Log("방 참가 실패");
 

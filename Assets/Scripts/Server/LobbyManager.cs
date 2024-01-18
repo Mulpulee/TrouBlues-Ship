@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,9 +29,9 @@ public class LobbyManager : MonoBehaviour
     }
 
     [PunRPC]
-    public void SetPlayerData(List<int> pList)
+    public void SetPlayerData(int[] pList)
     {
-        m_players = pList;
+        m_players = pList.ToList();
 
         MakePlayer();
     }
@@ -40,8 +41,6 @@ public class LobbyManager : MonoBehaviour
         int random = Random.Range(0, m_profiles.Count);
         m_players.Add(random);
         m_profiles.RemoveAt(random);
-
-        MakePlayer();
     }
 
     public void MakePlayer()
