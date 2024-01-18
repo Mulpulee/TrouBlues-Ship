@@ -73,7 +73,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         panel_Server.SetActive(false);
         panel_Lobby.SetActive(true);
         lobby.GetComponent<LobbyManager>().SetProfile();
-        lobby.GetComponent<LobbyManager>().NewPlayer();
+        PVHandler.pv.RPC("NewPlayer", RpcTarget.OthersBuffered);
     }
     public override void OnJoinRoomFailed(short returnCode, string message) => Debug.Log("방 참가 실패");
 

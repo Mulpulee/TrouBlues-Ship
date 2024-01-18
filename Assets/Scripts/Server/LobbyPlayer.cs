@@ -7,6 +7,7 @@ public class LobbyPlayer : MonoBehaviour
 {
     public Text nickName;
     public Image profile;
+    public bool isReady;
 
     public void Setup(string name, Image sprite)
     {

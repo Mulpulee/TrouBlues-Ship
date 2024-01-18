@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -22,6 +23,7 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void NewPlayer()
     {
         int random = Random.Range(0, m_profiles.Count);
