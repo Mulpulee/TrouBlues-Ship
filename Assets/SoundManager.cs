@@ -84,17 +84,17 @@ public class SoundManager : MonoBehaviour
 
     public void BgmVolume()
     {
-        SoundManager.instance.BgmVolume(_bgmSlider.value);
+        instance.BgmVolume(_bgmSlider.value);
     }
 
     public void EffectVolume()
     {
-        SoundManager.instance.EffectVolume(_bgmSlider.value);
+        instance.EffectVolume(_bgmSlider.value);
     }
 
     public void SetVolume()
     {
-        _bgmSlider.value = SoundManager.instance.Bgm.volume;
-        _effectSlider.value = SoundManager.instance.Effect.volume;
+        _bgmSlider.value = instance.Bgm.volume;
+        _effectSlider.value = instance.Effect.volume;
     }
 }
