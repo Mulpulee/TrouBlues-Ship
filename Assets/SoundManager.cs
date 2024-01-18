@@ -21,9 +21,6 @@ public class SoundManager : MonoBehaviour
     public Sound[] BgmSnds;
     public Sound[] EffectSnds;
 
-    public Sprite[] Sound;
-
-
     public void PlayBgm(string name)
     {
         Sound s = Array.Find(BgmSnds, x => x.name == name);
@@ -85,7 +82,7 @@ public class SoundManager : MonoBehaviour
     {
         Bgm.volume = volume;
     }
-
+        
     public void EffectVolume(float volume)
     {
         Bgm.volume = volume;
