@@ -74,6 +74,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         panel_Server.SetActive(false);
         panel_Lobby.SetActive(true);
         lobby.SetProfile();
+        lobby.NewPlayer();
         if (PVHandler.pv == null)
         {
             PVHandler.pv = gameObject.AddComponent<PhotonView>();

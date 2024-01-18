@@ -41,6 +41,7 @@ MonoBehaviour:
   - RespawnSpaceship
   - SetPlayerList
   - NewPlayer
+  - SetPlayerData
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

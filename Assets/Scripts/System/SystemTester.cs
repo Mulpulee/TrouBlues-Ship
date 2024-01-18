@@ -9,12 +9,14 @@ public class SystemTester : MonoBehaviour
     [SerializeField] private int m_participants;
     [SerializeField] private bool m_isSpy;
 
-    [SerializeField] private Repairing repairing;
+    [SerializeField] private ItemSearchingUI script;
 
     private void Start()
     {
-        PVHandler.pv.RPC("dd", RpcTarget.All);
-
+        ItemSearching searching = new ItemSearching();
+        searching.Search(4);
+        script.SetValue(searching.GetSelectable(), searching.GetItems());
+        script.ShowUI();
     }
 
     private void PrintArrayInLine<T>(T[] pArray)
