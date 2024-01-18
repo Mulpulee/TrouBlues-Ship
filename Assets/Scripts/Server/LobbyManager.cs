@@ -17,16 +17,18 @@ public class LobbyManager : MonoBehaviour
         get { return m_players; }
     }
     List<Profile> m_profilesAsset;
-    List<Profile> m_profiles;
+    List<int> m_profiles;
 
     public void SetProfile()
     {
         Profile[] profiles = Resources.LoadAll<Profile>("ScriptableObject/Profile");
-        m_profiles = new List<Profile>();
+        m_profilesAsset = new List<Profile>();
         foreach (Profile profile in profiles)
         {
-            m_profiles.Add(profile);
+            m_profilesAsset.Add(profile);
         }
+
+        m_profiles = new List<int>();
     }
 
     [PunRPC]
@@ -37,8 +39,9 @@ public class LobbyManager : MonoBehaviour
 
     public void NewPlayer()
     {
+        foreach (int i in m_players) m_profiles.RemoveAt(i);
         int random = Random.Range(0, m_profiles.Count);
-        m_players.Add(random);
+        m_players.Add(m_profiles[random]);
         m_profiles.RemoveAt(random);
         MakePlayer();
     }
