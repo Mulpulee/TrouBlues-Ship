@@ -18,7 +18,7 @@ public class EarthCommunication
     public void SetInfo(List<Player> pSpylist)
     {
         m_spys = new List<int[]>();
-        foreach (var item in pSpylist) m_spys.Add(item.GetID());
+        foreach (var item in pSpylist) m_spys.Add(item.ID);
 
         m_spyCount = m_spys.Count;
 

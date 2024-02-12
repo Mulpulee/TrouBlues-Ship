@@ -17,8 +17,7 @@ public class Player
 
     public string Name { set { m_name = value; } get { return m_name; } }
 
-    public void SetID(int[] id) { m_id = id; }
-    public int[] GetID() { return m_id; }
+    public int[] ID { set { m_id = value; } get { return m_id; } }
     public int GetID(int index) { return m_id[index]; }
 
     public Dictionary<ItemIndex, int> GetInventory() { return m_inventory; }
@@ -31,10 +30,10 @@ public class Player
     public Job Job { set { m_job = value; } get { return m_job; } }
     public bool GetPosition() { return m_isSpy; }
 
-    public bool IsSpy() { return m_isSpy; }
+    public bool IsSpy { get { return m_isSpy; } }
     public void SetSpy() { m_isSpy = true; }
 
-    public bool IsInfected() { return m_isInfected; }
+    public bool IsInfected { get { return m_isInfected; } }
     public void SetInfected() { m_isInfected = true; }
 
     public Player(Sprite pProfile, string pName)

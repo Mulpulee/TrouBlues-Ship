@@ -31,7 +31,7 @@ public class Repairing : MonoBehaviour
             m_inventoryText[i].text = m_inventory[i].ToString();
         }
 
-        if (!GameManagerEx.Player.IsSpy()) m_changeUse[0].transform.parent.gameObject.SetActive(false);
+        if (!GameManagerEx.Player.IsSpy) m_changeUse[0].transform.parent.gameObject.SetActive(false);
     }
 
     public void SetText(int index)
@@ -76,7 +76,7 @@ public class Repairing : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             GameManagerEx.Player.AddItem((ItemIndex)i, -m_usingItems[i]);
-            if (!GameManagerEx.Player.IsInfected()) CommonData.RepairProgress[i] += m_usingItems[i];
+            if (!GameManagerEx.Player.IsInfected) CommonData.RepairProgress[i] += m_usingItems[i];
         }
     }
 }

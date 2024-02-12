@@ -15,7 +15,7 @@ public class ShowPlayerList : MonoBehaviour
     public void Show(List<Player> pPlayers)
     {
         gameObject.SetActive(true);
-        for (int i = 0; i < pPlayers.Count; i++) m_listParent.GetChild(i).gameObject.SetActive(false);
+        for (int i = 0; i < m_listParent.childCount; i++) m_listParent.GetChild(i).gameObject.SetActive(false);
 
         for (int i = 0; i < pPlayers.Count; i++)
         {
@@ -23,7 +23,7 @@ public class ShowPlayerList : MonoBehaviour
             p.gameObject.SetActive(true);
             p.GetChild(0).GetComponent<Image>().sprite = pPlayers[i].Profile;
 
-            int[] id = pPlayers[i].GetID();
+            int[] id = pPlayers[i].ID;
             string temp = "";
             foreach (int item in id) temp = $"{temp}{EarthCommunication.CharacterID[item]}";
             p.GetChild(1).GetComponent<Text>().text = temp;

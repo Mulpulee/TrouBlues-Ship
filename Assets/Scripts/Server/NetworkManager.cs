@@ -64,6 +64,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         PVHandler.pv = gameObject.AddComponent<PhotonView>();
         PVHandler.pv.ViewID = PhotonNetwork.LocalPlayer.ActorNumber;
+        gameObject.AddComponent<PVHandler>();
     }
 
     public void JoinRoom() => PhotonNetwork.JoinRoom(codeInput.text);
@@ -79,6 +80,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             PVHandler.pv = gameObject.AddComponent<PhotonView>();
             PVHandler.pv.ViewID = PhotonNetwork.MasterClient.ActorNumber;
+            gameObject.AddComponent<PVHandler>();
         }
         if (PVHandler.pv.IsMine)
         {
