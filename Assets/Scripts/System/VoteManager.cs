@@ -15,7 +15,7 @@ public static class VoteManager
     private static int m_voteCount;
     private static VoteType m_type;
 
-    public static void StartVote(VoteType type, string subject, int index, int count, Player[] list = null)
+    public static void StartVote(VoteType type, string subject, int index, int count, int[] list = null)
     {
         m_type = type;
         m_vote = new int[index];

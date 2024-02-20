@@ -37,7 +37,7 @@ public class VoteUI : MonoBehaviour
         }
     }
 
-    public void StartVote(VoteType type, string subject, Player[] list = null)
+    public void StartVote(VoteType type, string subject, int[] list = null)
     {
         m_subject.text = subject;
         m_type = type;
@@ -49,21 +49,21 @@ public class VoteUI : MonoBehaviour
                 for (int i = 0; i < m_count; i++)
                 {
                     m_buttons[i].gameObject.SetActive(true);
-                    m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = list[i].Profile;
+                    //m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = list[i];
                 }
                 break;
         }
     }
 
-    public void Vote(int index, bool hasNovote = true)
+    public void Vote(int index)
     {
-        PVHandler.pv.RPC("Vote", Photon.Pun.RpcTarget.MasterClient, index);
+        PVHandler.pv.RPC("Vote", Photon.Pun.RpcTarget.MasterClient, m_type == VoteType.Normal ? index : index - 1);
         
         foreach (var button in m_buttons) button.interactable = false;
         m_skip.interactable = false;
 
-        if (hasNovote && index == 0) m_skipFrame.SetActive(true);
-        else m_buttons[hasNovote ? index - 1 : index].transform.GetChild(2).gameObject.SetActive(true);
+        if (index == 0) m_skipFrame.SetActive(true);
+        else m_buttons[index - 1].transform.GetChild(2).gameObject.SetActive(true);
     }
 
     public void EndVote(int[] result)
@@ -78,8 +78,10 @@ public class VoteUI : MonoBehaviour
                 for (int i = 0; i < m_count; i++)
                 {
                     m_buttons[i].transform.GetChild(1).gameObject.SetActive(true);
-                    m_buttons[i].transform.GetChild(1).GetComponent<Text>().text = result[i].ToString();
+                    m_buttons[i].transform.GetChild(1).GetComponent<Text>().text = result[i + 1].ToString();
                 }
+                m_skip.transform.GetChild(1).gameObject.SetActive(true);
+                m_skip.transform.GetChild(1).GetComponent<Text>().text = result[0].ToString();
                 break;
         }
     }

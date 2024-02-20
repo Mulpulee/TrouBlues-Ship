@@ -34,7 +34,7 @@ public class PVHandler : MonoBehaviour
     }
 
     [PunRPC]
-    public void StartVote(VoteType type, string subject, Player[] list = null)
+    public void StartVote(VoteType type, string subject, int[] list = null)
     {
         GameObject.FindObjectOfType<VoteUI>().StartVote(type, subject, list);
     }

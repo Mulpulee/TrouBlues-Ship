@@ -11,6 +11,8 @@ public class SystemTester : MonoBehaviour
 
     [SerializeField] private ItemSearchingUI script;
 
+    [SerializeField] private Sprite m_sprite;
+
     private void Start()
     {
     }
@@ -21,13 +23,7 @@ public class SystemTester : MonoBehaviour
         {
             if (!PVHandler.pv.IsMine) return;
             IdGenerator.ClearID();
-            VoteManager.StartVote(VoteType.Normal, "테스트 투표입니다.", 4, 2,
-                new Player[4] {
-                new Player(IdGenerator.GenerateID(), new Job()),
-                new Player(IdGenerator.GenerateID(), new Job()),
-                new Player(IdGenerator.GenerateID(), new Job()),
-                new Player(IdGenerator.GenerateID(), new Job())
-            });
+            VoteManager.StartVote(VoteType.Normal, "테스트 투표입니다.", 5, 2, new int[4] { 1, 2, 3, 4 });
             Timer.SetTimer(20);
             StartCoroutine(ReduceTime());
         }
@@ -35,7 +31,10 @@ public class SystemTester : MonoBehaviour
 
     private IEnumerator ReduceTime()
     {
-        yield return new WaitForSeconds(1);
-        Timer.ReduceTimer();
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            Timer.ReduceTimer();
+        }
     }
 }
