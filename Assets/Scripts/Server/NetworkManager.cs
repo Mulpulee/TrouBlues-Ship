@@ -83,7 +83,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PVHandler.pv = gameObject.GetComponent<PhotonView>();
             gameObject.AddComponent<PVHandler>();
         }
-        if (PVHandler.pv.IsMine)
+        if (PhotonNetwork.PlayerList[0] == PhotonNetwork.LocalPlayer)
         {
             lobby.NewPlayer();
             GameObject.Find("JoinButton").SetActive(false);
