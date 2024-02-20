@@ -66,6 +66,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (gameObject.GetComponent<PVHandler>() == null) gameObject.AddComponent<PVHandler>();
 
         PhotonNetwork.SetMasterClient(PhotonNetwork.LocalPlayer);
+        PVHandler.pv.TransferOwnership(PhotonNetwork.LocalPlayer);
     }
 
     public void JoinRoom() => PhotonNetwork.JoinRoom(codeInput.text);
@@ -103,7 +104,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Destroy(player.gameObject);
         }
         lobby.ResetList();
-        if (PVHandler.pv.IsMine && PhotonNetwork.PlayerList.Length > 1) PhotonNetwork.SetMasterClient(PhotonNetwork.PlayerListOthers[0]);
+        if (PVHandler.pv.IsMine && PhotonNetwork.PlayerList.Length > 1)
+        {
+            PhotonNetwork.SetMasterClient(PhotonNetwork.PlayerListOthers[0]);
+            PVHandler.pv.TransferOwnership(PhotonNetwork.PlayerListOthers[0]);
+        }
         PhotonNetwork.LeaveRoom();
     }
 }
