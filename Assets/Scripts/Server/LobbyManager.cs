@@ -20,6 +20,9 @@ public class LobbyManager : MonoBehaviour
 
     public int m_currentProfile;
 
+    public LobbyPlayer mylobby; //
+    public int playerID; //
+
     public void SetProfile()
     {
         Profile[] profiles = Resources.LoadAll<Profile>("ScriptableObject/Profile");
@@ -40,6 +43,13 @@ public class LobbyManager : MonoBehaviour
         lobbyPlayer.Setup(m_profilesAsset[item].nickName, m_profilesAsset[item].profile);
     }
 
+    public void AddMyPlayer(int item)
+    {
+        m_players.Add(item);
+        mylobby = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
+        mylobby.Setup(m_profilesAsset[item].nickName, m_profilesAsset[item].profile);
+    }
+
     public void NewPlayer()
     {
         foreach (int i in m_players) m_profiles.Remove(i);
@@ -48,7 +58,20 @@ public class LobbyManager : MonoBehaviour
 
         PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, m_currentProfile);
 
-        AddPlayer(m_currentProfile);
+        playerID = m_currentProfile;
+        AddMyPlayer(m_currentProfile);
+    }
+
+    public void RemovePlayer(int item)
+    {
+        m_players.Remove(item);
+        Destroy(mylobby);
+    }
+
+    public void RemoveMyPlayer()
+    {
+        m_players.Remove(playerID);
+        Destroy(mylobby);
     }
 }
 
