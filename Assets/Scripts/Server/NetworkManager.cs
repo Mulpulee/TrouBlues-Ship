@@ -62,7 +62,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         panel_Server.SetActive(false);
         panel_Lobby.SetActive(true);
 
-        if (PVHandler.pv == null) PVHandler.pv = gameObject.AddComponent<PhotonView>();
+        if (PVHandler.pv == null) PVHandler.pv = gameObject.GetComponent<PhotonView>();
         if (gameObject.GetComponent<PVHandler>() == null) gameObject.AddComponent<PVHandler>();
     }
 
@@ -77,8 +77,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         lobby.SetProfile();
         if (PVHandler.pv == null)
         {
-            PVHandler.pv = gameObject.AddComponent<PhotonView>();
-            PhotonNetwork.AllocateViewID(PVHandler.pv);
+            PVHandler.pv = gameObject.GetComponent<PhotonView>();
             gameObject.AddComponent<PVHandler>();
         }
         if (PVHandler.pv.IsMine)
