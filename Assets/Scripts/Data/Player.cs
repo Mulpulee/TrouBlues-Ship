@@ -11,6 +11,7 @@ public class Player
     }
 
     private Sprite m_profile;
+    private int m_profileID;
     private string m_name;
     private int[] m_id;
     private Dictionary<ItemIndex, int> m_inventory;

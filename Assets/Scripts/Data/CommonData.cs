@@ -30,11 +30,9 @@ public static class CommonData
         MultipleSuccessStack = 0;
     }
 
-    public static void SetPlayerInfo(List<Player> pPlayers, List<Player> pSpys, Player pInfected)
+    public static void SetPlayerInfo(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs)
     {
-        Players = pPlayers;
-        Spys = pSpys;
-        Infected = pInfected;
+        // 받아온 데이터 바탕으로 플레이어 리스트 재구성(프로필, 이름, 아이디, 스파이/감염, 직업(나중에추가))
 
         Medecines = 0;
         RepairProgress = new int[3];

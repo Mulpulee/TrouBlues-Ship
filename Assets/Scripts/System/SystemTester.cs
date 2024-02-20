@@ -23,7 +23,7 @@ public class SystemTester : MonoBehaviour
         {
             if (!PVHandler.pv.IsMine) return;
             IdGenerator.ClearID();
-            VoteManager.StartVote(VoteType.Normal, "테스트 투표입니다.", 5, 2, new int[4] { 1, 2, 3, 4 });
+            VoteManager.StartVote(VoteType.Normal, "테스트 투표입니다.", 5, 2, new int[4] { 3, 6, 9, 1 });
             Timer.SetTimer(20);
             StartCoroutine(ReduceTime());
         }
