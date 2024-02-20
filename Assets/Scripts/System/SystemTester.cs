@@ -20,7 +20,7 @@ public class SystemTester : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.V))
         {
             if (!PVHandler.pv.IsMine) return;
-
+            IdGenerator.ClearID();
             VoteManager.StartVote(VoteType.Normal, "테스트 투표입니다.", 4, 2,
                 new Player[4] {
                 new Player(IdGenerator.GenerateID(), new Job()),
