@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,8 +21,8 @@ public class LobbyManager : MonoBehaviour
 
     public int m_currentProfile;
 
-    public LobbyPlayer mylobby; //
-    public int playerID; //
+    public int playerID;
+    public Dictionary<int, LobbyPlayer> LobbyPlayers = new Dictionary<int, LobbyPlayer>();
 
     public void SetProfile()
     {
@@ -41,13 +42,8 @@ public class LobbyManager : MonoBehaviour
         m_players.Add(item);
         LobbyPlayer lobbyPlayer = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
         lobbyPlayer.Setup(m_profilesAsset[item].nickName, m_profilesAsset[item].profile);
-    }
 
-    public void AddMyPlayer(int item)
-    {
-        m_players.Add(item);
-        mylobby = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
-        mylobby.Setup(m_profilesAsset[item].nickName, m_profilesAsset[item].profile);
+        LobbyPlayers.Add(item, lobbyPlayer);
     }
 
     public void NewPlayer()
@@ -59,19 +55,12 @@ public class LobbyManager : MonoBehaviour
         PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, m_currentProfile);
 
         playerID = m_currentProfile;
-        AddMyPlayer(m_currentProfile);
+        AddPlayer(m_currentProfile);
     }
 
     public void RemovePlayer(int item)
     {
-        m_players.Remove(item);
-        Destroy(mylobby.gameObject);
-    }
-
-    public void RemoveMyPlayer()
-    {
-        m_players.Remove(playerID);
-        Destroy(mylobby.gameObject);
+        LobbyPlayers.Remove(item);
     }
 }
 
