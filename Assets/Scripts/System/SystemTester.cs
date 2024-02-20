@@ -13,17 +13,24 @@ public class SystemTester : MonoBehaviour
 
     private void Start()
     {
-        if (!PVHandler.pv.IsMine) return;
+    }
 
-        VoteManager.StartVote(VoteType.Normal, "테스트 투표입니다.", 4, 2,
-            new Player[4] {
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            if (!PVHandler.pv.IsMine) return;
+
+            VoteManager.StartVote(VoteType.Normal, "테스트 투표입니다.", 4, 2,
+                new Player[4] {
                 new Player(IdGenerator.GenerateID(), new Job()),
                 new Player(IdGenerator.GenerateID(), new Job()),
                 new Player(IdGenerator.GenerateID(), new Job()),
                 new Player(IdGenerator.GenerateID(), new Job())
-        });
-        Timer.SetTimer(20);
-        StartCoroutine(ReduceTime());
+            });
+            Timer.SetTimer(20);
+            StartCoroutine(ReduceTime());
+        }
     }
 
     private IEnumerator ReduceTime()
