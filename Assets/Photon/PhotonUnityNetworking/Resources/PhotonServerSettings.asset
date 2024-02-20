@@ -44,6 +44,8 @@ MonoBehaviour:
   - SetPlayerData
   - AddPlayer
   - MakePlayerList
+  - GetVoteResult
+  - Vote
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

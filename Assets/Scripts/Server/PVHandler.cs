@@ -25,4 +25,16 @@ public class PVHandler : MonoBehaviour
     {
         CommonData.SetPlayerInfo(pPlayers, pSpys, pInfected);
     }
+
+    [PunRPC]
+    public void Vote(int index)
+    {
+        VoteManager.Vote(index);
+    }
+
+    [PunRPC]
+    public void GetVoteResult(int[] result)
+    {
+        VoteManager.VoteResult = result;
+    }
 }

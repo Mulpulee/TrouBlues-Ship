@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class EarthCommunication
 {
+    private static EarthCommunication instance;
+    public static EarthCommunication ins
+    {
+        get
+        {
+            if (instance == null) instance = new EarthCommunication();
+            return instance;
+        }
+    }
     public static char[] CharacterID = { '¢À', '¡Ú', '¢¾', '¢¼', '¡ß', '¡Ü' };
 
     private List<List<int>> m_openedAloneHint;

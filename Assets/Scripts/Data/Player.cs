@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Player
 {
+    private static Player m_this;
+    public static Player This
+    {
+        get { return m_this; }
+    }
+
     private Sprite m_profile;
     private string m_name;
     private int[] m_id;
