@@ -60,8 +60,11 @@ public class LobbyManager : MonoBehaviour
 
     public void RemovePlayer(int item)
     {
-        Destroy(LobbyPlayers[item].gameObject);
-        LobbyPlayers.Remove(item);
+        if (LobbyPlayers.ContainsKey(item))
+        {
+            Destroy(LobbyPlayers[item].gameObject);
+            LobbyPlayers.Remove(item);
+        }
         m_players.Remove(item);
     }
 
