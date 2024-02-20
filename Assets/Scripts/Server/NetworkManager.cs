@@ -63,7 +63,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         panel_Lobby.SetActive(true);
 
         if (PVHandler.pv == null) PVHandler.pv = gameObject.AddComponent<PhotonView>();
-        PhotonNetwork.AllocateViewID(PVHandler.pv);
         if (gameObject.GetComponent<PVHandler>() == null) gameObject.AddComponent<PVHandler>();
     }
 
