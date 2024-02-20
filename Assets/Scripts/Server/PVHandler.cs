@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PVHandler : MonoBehaviour
 {
@@ -26,6 +27,12 @@ public class PVHandler : MonoBehaviour
     {
         LobbyManager lobby = FindObjectOfType<LobbyManager>();
         lobby.Ready(item);
+    }
+
+    [PunRPC]
+    public void GameStart()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 
     [PunRPC]

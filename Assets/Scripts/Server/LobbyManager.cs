@@ -11,16 +11,14 @@ public class LobbyManager : MonoBehaviour
 {
     [SerializeField] public GameObject gridLayoutGroup;
     public LobbyPlayer prefab;
-    private List<int> m_players = new List<int>();
+    public List<int> m_players = new List<int>();
     public List<int> Players
     {
         get { return m_players; }
     }
     List<Profile> m_profilesAsset;
     List<int> m_profiles;
-
     public int m_currentProfile;
-
     public int playerID;
     public Dictionary<int, LobbyPlayer> LobbyPlayers = new Dictionary<int, LobbyPlayer>();
 
