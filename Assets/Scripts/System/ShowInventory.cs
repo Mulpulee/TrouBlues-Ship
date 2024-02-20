@@ -9,7 +9,7 @@ public class ShowInventory : MonoBehaviour
 
     public void Show()
     {
-        Show(GameManagerEx.Player.GetInventory());
+        Show(Player.This.GetInventory());
     }
 
     public void Show(Dictionary<ItemIndex, int> pInventory)

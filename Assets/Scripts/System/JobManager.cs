@@ -87,9 +87,9 @@ public class JanitorSkill : Skill
 
     public override void DoSkill()
     {
-        GameManagerEx.Player.AddItem(ItemIndex.Scrap, 2);
-        GameManagerEx.Player.AddItem(ItemIndex.Bolt, 2);
-        GameManagerEx.Player.AddItem(ItemIndex.Wire, 2);
+        Player.This.AddItem(ItemIndex.Scrap, 2);
+        Player.This.AddItem(ItemIndex.Bolt, 2);
+        Player.This.AddItem(ItemIndex.Wire, 2);
         // 원하는 자원 지급받음
         // 각각 선택 시 고철/나사/전선 4개, 초전도체 2개, 스캐너 1개 지급
     }
@@ -106,6 +106,6 @@ public class ControllerSkill : Skill
 
     public override void DoSkill()
     {
-        Script = GameManagerEx.EarthCommu.Together();
+        Script = EarthCommunication.ins.Together();
     }
 }
