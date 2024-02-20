@@ -109,6 +109,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.SetMasterClient(PhotonNetwork.PlayerListOthers[0]);
             PVHandler.pv.TransferOwnership(PhotonNetwork.PlayerListOthers[0]);
         }
+        else if (!PVHandler.pv.IsMine)
+            PVHandler.pv.TransferOwnership(PVHandler.pv.ViewID);
         PhotonNetwork.LeaveRoom();
     }
 }
