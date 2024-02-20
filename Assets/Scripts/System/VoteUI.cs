@@ -39,6 +39,7 @@ public class VoteUI : MonoBehaviour
 
     public void StartVote(VoteType type, string subject, int[] list = null)
     {
+        m_time.text = Timer.Time.ToString("000");
         m_subject.text = subject;
         m_type = type;
         m_count = list.Length;
