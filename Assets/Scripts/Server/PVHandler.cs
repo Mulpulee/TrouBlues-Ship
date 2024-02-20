@@ -22,6 +22,13 @@ public class PVHandler : MonoBehaviour
     }
 
     [PunRPC]
+    public void Ready(int item)
+    {
+        LobbyManager lobby = FindObjectOfType<LobbyManager>();
+        lobby.Ready(item);
+    }
+
+    [PunRPC]
     public void MakePlayerList(List<Player> pList)
     {
         CommonData.MakePlayerInfo(pList);

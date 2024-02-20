@@ -76,6 +76,11 @@ public class LobbyManager : MonoBehaviour
 
     public void Ready(int item)
     {
-        LobbyPlayers[item].isReady = true;
+        LobbyPlayers[item].isReady = !LobbyPlayers[item].isReady;
+    }
+
+    public void ReadyBnt()
+    {
+        PVHandler.pv.RPC("Ready", RpcTarget.AllBuffered, playerID);
     }
 }

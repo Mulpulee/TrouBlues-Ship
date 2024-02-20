@@ -1970,7 +1970,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1122054550
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4692,9 +4692,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 236886485}
-        m_TargetAssemblyTypeName: TitleSceneController, Assembly-CSharp
-        m_MethodName: gotoSampleScene
+      - m_Target: {fileID: 36219090}
+        m_TargetAssemblyTypeName: LobbyManager, Assembly-CSharp
+        m_MethodName: ReadyBnt
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
