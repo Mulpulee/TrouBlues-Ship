@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour
 {
-    [SerializeField] GameObject gridLayoutGroup;
+    [SerializeField] public GameObject gridLayoutGroup;
     public LobbyPlayer prefab;
     private List<int> m_players = new List<int>();
     public List<int> Players

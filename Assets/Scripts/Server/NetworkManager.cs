@@ -97,8 +97,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         panel_Lobby.SetActive(false);
-        lobby.RemovePlayer(lobby.playerID);
-        PVHandler.pv.RPC("RemovePlayer", RpcTarget.OthersBuffered, lobby.playerID);
+        PVHandler.pv.RPC("RemovePlayer", RpcTarget.AllBuffered, lobby.playerID);
+        foreach (Transform player in lobby.gridLayoutGroup.transform)
+        {
+            Destroy(player.gameObject);
+        }
         PhotonNetwork.LeaveRoom();
     }
 }
