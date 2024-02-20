@@ -30,6 +30,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         btn_joinRoom.interactable = false;
 
         lobby = GetComponent<LobbyManager>();
+
+        GameObject go = GameObject.Find("NetworkManager");
+
+        if (go == null)
+        {
+            gameObject.name = "NetworkManager";
+            DontDestroyOnLoad(gameObject);
+        }
+        if (go != null && go != gameObject)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Connect() => PhotonNetwork.ConnectUsingSettings();

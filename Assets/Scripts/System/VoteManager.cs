@@ -15,19 +15,24 @@ public static class VoteManager
     private static int m_voteCount;
     private static VoteType m_type;
 
-    public static void StartVote(VoteType type, string subject, int index, Player[] list = null)
+    public static void StartVote(VoteType type, string subject, int index, int count, Player[] list = null)
     {
         m_type = type;
         m_vote = new int[index];
-        m_voteCount = 0;
+        m_voteCount = count;
 
-        GameObject.FindObjectOfType<VoteUI>().StartVote(type, subject, list);
+        PVHandler.pv.RPC("StartVote", Photon.Pun.RpcTarget.All, type, subject, list);
     }
 
     public static void Vote(int index)
     {
         m_vote[index]++;
-        m_voteCount++;
+        m_voteCount--;
+
+        if (m_voteCount == 0)
+        {
+            PVHandler.pv.RPC("EndVote", Photon.Pun.RpcTarget.All, m_vote);
+        }
     }
 
     public static int[] VoteResult { set { m_vote = value; } get { return m_vote; } }

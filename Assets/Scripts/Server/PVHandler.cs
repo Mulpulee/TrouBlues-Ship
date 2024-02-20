@@ -34,14 +34,26 @@ public class PVHandler : MonoBehaviour
     }
 
     [PunRPC]
+    public void StartVote(VoteType type, string subject, Player[] list = null)
+    {
+        GameObject.FindObjectOfType<VoteUI>().StartVote(type, subject, list);
+    }
+
+    [PunRPC]
     public void Vote(int index)
     {
         VoteManager.Vote(index);
     }
 
     [PunRPC]
-    public void GetVoteResult(int[] result)
+    public void EndVote(int[] result)
     {
-        VoteManager.VoteResult = result;
+        GameObject.FindObjectOfType<VoteUI>().EndVote(result);
+    }
+
+    [PunRPC]
+    public void SetTimer(int time)
+    {
+        Timer.Time = time;
     }
 }

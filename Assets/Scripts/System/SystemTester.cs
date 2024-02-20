@@ -13,21 +13,22 @@ public class SystemTester : MonoBehaviour
 
     private void Start()
     {
-        ItemSearching searching = new ItemSearching();
-        searching.Search(4);
-        script.SetValue(searching.GetSelectable(), searching.GetItems());
-        script.ShowUI();
+        if (!PVHandler.pv.IsMine) return;
+
+        VoteManager.StartVote(VoteType.Normal, "테스트 투표입니다.", 4, 2,
+            new Player[4] {
+                new Player(IdGenerator.GenerateID(), new Job()),
+                new Player(IdGenerator.GenerateID(), new Job()),
+                new Player(IdGenerator.GenerateID(), new Job()),
+                new Player(IdGenerator.GenerateID(), new Job())
+        });
+        Timer.SetTimer(20);
+        StartCoroutine(ReduceTime());
     }
 
-    private void PrintArrayInLine<T>(T[] pArray)
+    private IEnumerator ReduceTime()
     {
-        string temp = "";
-
-        foreach (T t in pArray)
-        {
-            temp = $"{temp} {t}";
-        }
-
-        Debug.Log(temp);
+        yield return new WaitForSeconds(1);
+        Timer.ReduceTimer();
     }
 }
