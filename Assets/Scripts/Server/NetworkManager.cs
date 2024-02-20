@@ -98,7 +98,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         panel_Lobby.SetActive(false);
         lobby.RemovePlayer(lobby.playerID);
-        PVHandler.pv.RPC("RemovePlayer", RpcTarget.OthersBuffered);
+        PVHandler.pv.RPC("RemovePlayer", RpcTarget.OthersBuffered, lobby.playerID);
         PhotonNetwork.LeaveRoom();
     }
 }
