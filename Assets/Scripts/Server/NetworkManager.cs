@@ -102,6 +102,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             Destroy(player.gameObject);
         }
+        lobby.ResetList();
         PhotonNetwork.LeaveRoom();
     }
 }

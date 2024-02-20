@@ -62,6 +62,13 @@ public class LobbyManager : MonoBehaviour
     {
         Destroy(LobbyPlayers[item].gameObject);
         LobbyPlayers.Remove(item);
+        m_players.Remove(item);
+    }
+
+    public void ResetList()
+    {
+        LobbyPlayers.Clear();
+        m_players.Clear();
     }
 }
 
