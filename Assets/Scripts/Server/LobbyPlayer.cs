@@ -7,7 +7,20 @@ public class LobbyPlayer : MonoBehaviour
 {
     public Text nickName;
     public Image profile;
-    public bool isReady;
+    public bool isReady = false;
+    public GameObject ReadyLine;
+
+    private void Update()
+    {
+        if (isReady)
+        {
+            ReadyLine.SetActive(true);
+        }
+        else
+        {
+            ReadyLine.SetActive(false);
+        }
+    }
 
     public void Setup(string name, Image sprite)
     {

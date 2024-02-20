@@ -73,16 +73,9 @@ public class LobbyManager : MonoBehaviour
         LobbyPlayers.Clear();
         m_players.Clear();
     }
+
+    public void Ready(int item)
+    {
+        LobbyPlayers[item].isReady = true;
+    }
 }
-
-//public class LobbyPlayer : MonoBehaviour
-//{
-//    public Text nickName;
-//    public Sprite profile;
-
-//    public void Setup(string name, Sprite sprite)
-//    {
-//        nickName.text = name;
-//        profile = sprite;
-//    }
-//}
