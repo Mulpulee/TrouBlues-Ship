@@ -103,7 +103,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Destroy(player.gameObject);
         }
         lobby.ResetList();
-        if (PVHandler.pv.IsMine && PhotonNetwork.CountOfPlayersInRooms > 1) PhotonNetwork.SetMasterClient(PhotonNetwork.PlayerListOthers[0]);
+        if (PVHandler.pv.IsMine && PhotonNetwork.PlayerList.Length > 1) PhotonNetwork.SetMasterClient(PhotonNetwork.PlayerListOthers[0]);
         PhotonNetwork.LeaveRoom();
     }
 }
