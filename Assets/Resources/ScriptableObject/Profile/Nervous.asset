@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8e769e595c8b7489a9c1900d97d096, type: 3}
   m_Name: Nervous
   m_EditorClassIdentifier: 
-  profile: {fileID: 0}
+  profile: {fileID: 21300000, guid: 12df647da4cd56e47aaa8f5ef0ee3815, type: 3}
   nickName: "\uBD88\uC548\uD55C \uC5F0\uAD6C\uC6D0"

@@ -34,7 +34,7 @@ public class CaptainSkill : Skill
     public CaptainSkill()
     {
         CoolDown = 0;
-        Script = $"{Searched.Name}의 직업은  {Searched.PlayerJob.name}으로 밝혀졌습니다!";
+        //Script = $"{Searched.Name}의 직업은  {Searched.PlayerJob.name}으로 밝혀졌습니다!";
     }
 
     public override void DoSkill()

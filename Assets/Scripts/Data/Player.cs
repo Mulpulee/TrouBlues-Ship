@@ -8,6 +8,7 @@ public class Player
     public static Player This
     {
         get { return m_this; }
+        set { m_this = value; }
     }
 
     private Sprite m_profile;

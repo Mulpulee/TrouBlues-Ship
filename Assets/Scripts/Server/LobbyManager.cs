@@ -53,6 +53,7 @@ public class LobbyManager : MonoBehaviour
         PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, m_currentProfile);
 
         playerID = m_currentProfile;
+        CommonData.ProfileID = playerID;
         AddPlayer(m_currentProfile);
     }
 

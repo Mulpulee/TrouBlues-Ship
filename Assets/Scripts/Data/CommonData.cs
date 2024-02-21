@@ -5,6 +5,8 @@ using UnityEngine;
 
 public static class CommonData
 {
+    public static int ProfileID;
+
     public static List<Player> Players;
     public static List<Player> Spys;
     public static Player Infected;
@@ -27,7 +29,7 @@ public static class CommonData
             {
                 PlayerProfile = profiles[pList[i]].profile,
                 ProfileID = pList[i],
-                Name = profiles[pList[i]].name,
+                Name = profiles[pList[i]].nickName,
                 ID = IdGenerator.GenerateID()
             });
         }
@@ -39,6 +41,9 @@ public static class CommonData
         Infected = Spys[Random.Range(0, Spys.Count)];
         Spys.Remove(Infected);
 
+        foreach (Player p in Spys) p.SetSpy();
+        Infected.SetInfected();
+
         List<JobType> jobList = new List<JobType> { JobType.Engineer, JobType.Medic, JobType.Janitor, JobType.Controller };
 
         Player captain = Players[Random.Range(0, Players.Count)];
@@ -46,9 +51,9 @@ public static class CommonData
 
         for (int i = 1; i < Players.Count; i++)
         {
-            Player player = Players[Random.Range(0, Players.Count - i)];
+            Player player = Players[Random.Range(0, Players.Count)];
 
-            while (player.PlayerJob != null) player = Players[Random.Range(0, Players.Count - i)];
+            while (player.PlayerJob != null) player = Players[Random.Range(0, Players.Count)];
 
             if (jobList.Count == 0)
             {
@@ -59,6 +64,8 @@ public static class CommonData
                 player.PlayerJob = JobManager.GetJob(jobList[Random.Range(0, jobList.Count)]);
                 jobList.Remove(player.PlayerJob.Type);
             }
+
+            if (player.ProfileID == ProfileID) Player.This = player;
         }
 
         Medecines = 0;
@@ -67,12 +74,12 @@ public static class CommonData
 
         int[] spyArr = new int[Spys.Count];
         int[] idArr = new int[Players.Count * 5];
-        JobType[] jobArr = new JobType[Players.Count];
+        int[] jobArr = new int[Players.Count];
 
         for (int i = 0; i < Players.Count; i++)
         {
             for (int j = 0; j < 5; j++) idArr[i * 5 + j] = Players[i].GetID(j);
-            jobArr[i] = Players[i].PlayerJob.Type;
+            jobArr[i] = (int)Players[i].PlayerJob.Type;
         }
 
         for (int i = 0; i < Spys.Count; i++) spyArr[i] = Spys[i].ProfileID;
@@ -80,12 +87,13 @@ public static class CommonData
         PVHandler.pv.RPC("SetPlayerList", Photon.Pun.RpcTarget.Others, pList, spyArr, Infected.ProfileID, idArr, jobArr);
     }
 
-    public static void SetPlayerInfo(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, JobType[] pJobs)
+    public static void SetPlayerInfo(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, int[] pJobs)
     {
         Profile[] profiles = Resources.LoadAll<Profile>("ScriptableObject/Profile");
         JobManager.SetJobs();
 
         Players = new List<Player>();
+        Spys = new List<Player>();
 
         for (int i = 0; i < pPlayers.Length; i++)
         {
@@ -93,9 +101,9 @@ public static class CommonData
             {
                 PlayerProfile = profiles[pPlayers[i]].profile,
                 ProfileID = pPlayers[i],
-                Name = profiles[pPlayers[i]].name,
+                Name = profiles[pPlayers[i]].nickName,
                 ID = new int[5] { pIDs[i * 5], pIDs[i * 5 + 1], pIDs[i * 5 + 2], pIDs[i * 5 + 3], pIDs[i * 5 + 4] },
-                PlayerJob = JobManager.GetJob(pJobs[i])
+                PlayerJob = JobManager.GetJob((JobType)pJobs[i])
             };
             foreach (int s in pSpys)
             {
@@ -113,6 +121,8 @@ public static class CommonData
             }
 
             Players.Add(player);
+
+            if (player.ProfileID == ProfileID) Player.This = player;
         }
 
         Medecines = 0;

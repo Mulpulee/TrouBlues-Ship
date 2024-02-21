@@ -36,7 +36,7 @@ public class PVHandler : MonoBehaviour
     }
 
     [PunRPC]
-    public void SetPlayerList(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, JobType[] pJobs)
+    public void SetPlayerList(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, int[] pJobs)
     {
         CommonData.SetPlayerInfo(pPlayers, pSpys, pInfected, pIDs, pJobs);
     }

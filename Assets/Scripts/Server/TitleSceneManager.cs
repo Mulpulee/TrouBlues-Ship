@@ -16,14 +16,14 @@ public class TitleSceneManager : MonoBehaviour
 
     public void StartBtn()
     {
-        Invoke("GameStart", 2f);
+        GameStart();
     }
 
     public void GameStart()
     {
         Debug.Log("Invoke Success");
         count = 0;
-        if (lobby.m_players != null)
+        if (lobby.m_players != null && lobby.LobbyPlayers.Count > 3)
         {
             foreach (int item in lobby.m_players)
             {
@@ -31,6 +31,7 @@ public class TitleSceneManager : MonoBehaviour
             }
             if (count == lobby.LobbyPlayers.Count)
             {
+                CommonData.MakePlayerInfo(lobby.Players.ToArray());
                 SceneManager.LoadScene("SampleScene");
                 PVHandler.pv.RPC("GameStart", RpcTarget.Others);
             }

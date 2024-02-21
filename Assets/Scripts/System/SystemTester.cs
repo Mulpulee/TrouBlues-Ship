@@ -5,28 +5,25 @@ using UnityEngine;
 
 public class SystemTester : MonoBehaviour
 {
-    [SerializeField] private int m_players;
-    [SerializeField] private int m_participants;
-    [SerializeField] private bool m_isSpy;
-
-    [SerializeField] private ItemSearchingUI script;
-
-    [SerializeField] private Sprite m_sprite;
+    private IntroUI intro;
 
     private void Start()
     {
+        intro = FindObjectOfType<IntroUI>();
+
+        intro.Show();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            if (!PVHandler.pv.IsMine) return;
-            IdGenerator.ClearID();
-            VoteManager.StartVote(VoteType.Normal, "테스트 투표입니다.", 5, 2, new int[4] { 3, 6, 9, 1 });
-            Timer.SetTimer(20);
-            StartCoroutine(ReduceTime());
-        }
+        //if (Input.GetKeyDown(KeyCode.V))
+        //{
+        //    if (!PVHandler.pv.IsMine) return;
+        //    IdGenerator.ClearID();
+        //    VoteManager.StartVote(VoteType.Normal, "테스트 투표입니다.", 5, 2, new int[4] { 3, 6, 9, 1 });
+        //    Timer.SetTimer(20);
+        //    StartCoroutine(ReduceTime());
+        //}
     }
 
     private IEnumerator ReduceTime()
