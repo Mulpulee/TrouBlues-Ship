@@ -11,6 +11,6 @@ public class SetHudInfo : MonoBehaviour
     public void UpdateInfo()
     {
         m_tabCount.text = CommonData.Medecines.ToString();
-        m_profile.sprite = Player.This.Profile;
+        m_profile.sprite = Player.This.PlayerProfile;
     }
 }

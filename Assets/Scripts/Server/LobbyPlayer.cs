@@ -22,9 +22,9 @@ public class LobbyPlayer : MonoBehaviour
         }
     }
 
-    public void Setup(string name, Image sprite)
+    public void Setup(string name, Sprite sprite)
     {
         nickName.text = name;
-        profile = sprite;
+        profile.sprite = sprite;
     }
 }

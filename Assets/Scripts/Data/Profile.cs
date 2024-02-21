@@ -6,6 +6,6 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "ProfileObject", menuName = "ScriptableObject/ProfileObject", order = 1)]
 public class Profile : ScriptableObject
 {
-    public Image profile;
+    public Sprite profile;
     public string nickName;
 }

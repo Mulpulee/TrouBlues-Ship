@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184f830913ca3724baed7ecbfeda3b9f, type: 3}
   m_Name: Captian
   m_EditorClassIdentifier: 
+  Type: 1
   Icon: {fileID: 21300000, guid: 857ef8ef7b22af8478f7b8601abfb8c4, type: 3}
   Name: "\uC6B0\uC8FC\uC120\uC7A5"
   Description: "\uCCAD\uB8E1\uD638\uC758 \uC120\uC7A5\uC73C\uB85C \uD604\uC7AC \uC774\uACF3\uC5D0\uC11C

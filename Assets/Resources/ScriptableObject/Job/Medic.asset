@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184f830913ca3724baed7ecbfeda3b9f, type: 3}
   m_Name: Medic
   m_EditorClassIdentifier: 
+  Type: 3
   Icon: {fileID: 21300000, guid: f0b86a0be63f4c746ba9c8d597c99273, type: 3}
   Name: "\uC758\uB8CC\uACF5\uD559\uC790"
   Description: "\uC804 \uC6B0\uC8FC\uC5D0 \uC874\uC7AC\uD558\uB294 \uC678\uACC4 \uAE30\uC0DD\uCDA9\uC5D0

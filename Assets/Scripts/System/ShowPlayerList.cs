@@ -21,7 +21,7 @@ public class ShowPlayerList : MonoBehaviour
         {
             Transform p = m_listParent.GetChild(i);
             p.gameObject.SetActive(true);
-            p.GetChild(0).GetComponent<Image>().sprite = pPlayers[i].Profile;
+            p.GetChild(0).GetComponent<Image>().sprite = pPlayers[i].PlayerProfile;
 
             if (!pSetID) continue;
 

@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class JobManager
+public static class JobManager
 {
-    private Dictionary<string, Job> m_jobs;
+    private static Dictionary<JobType, Job> m_jobs;
+    public static Job GetJob(JobType type) { return m_jobs[type]; }
 
-    public void SetJobs()
+    public static void SetJobs()
     {
         Job[] objects = Resources.LoadAll<Job>("ScriptableObject/Job");
 
-        m_jobs = new Dictionary<string, Job>();
+        m_jobs = new Dictionary<JobType, Job>();
         foreach (Job obj in objects)
         {
-            m_jobs.Add(obj.Name, obj);
+            m_jobs.Add(obj.Type, obj);
         }
+
+        m_jobs[JobType.Captain].SpecialSkill = new CaptainSkill();
+        m_jobs[JobType.Engineer].SpecialSkill = new EngineerSkill();
+        m_jobs[JobType.Medic].SpecialSkill = new MedicSkill();
+        m_jobs[JobType.Janitor].SpecialSkill = new JanitorSkill();
+        m_jobs[JobType.Controller].SpecialSkill = new ControllerSkill();
     }
 }
 
@@ -27,14 +34,14 @@ public class CaptainSkill : Skill
     public CaptainSkill()
     {
         CoolDown = 0;
-        Script = $"{Searched.Name}의 직업은  {Searched.Job.name}으로 밝혀졌습니다!";
+        Script = $"{Searched.Name}의 직업은  {Searched.PlayerJob.name}으로 밝혀졌습니다!";
     }
 
     public override void DoSkill()
     {
-        if (Searched.Job.Icon != null)
+        if (Searched.PlayerJob.Icon != null)
         {
-            Searched.Job.SpecialSkill.DoSkill();
+            Searched.PlayerJob.SpecialSkill.DoSkill();
         }
         // 지목한 플레이어의 직업 열람, 특수능력을 사용
         // 개백수 고르면 안타까움

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184f830913ca3724baed7ecbfeda3b9f, type: 3}
   m_Name: Engineer
   m_EditorClassIdentifier: 
+  Type: 2
   Icon: {fileID: 21300000, guid: 84345933dbe880a4b98c7eb55ff35538, type: 3}
   Name: "\uC5D4\uC9C0\uB2C8\uC5B4"
   Description: "\uC6B0\uC8FC\uC120\uC774 \uC548\uC804\uD558\uAC8C \uC720\uC9C0\uB418\uAE30
