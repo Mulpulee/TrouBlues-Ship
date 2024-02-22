@@ -39,6 +39,8 @@ public class CaptainSkill : Skill
 
     public override void DoSkill()
     {
+        Script = $"{Searched.Name}의 직업은  {Searched.PlayerJob.Name}으로 밝혀졌습니다!";
+
         if (Searched.PlayerJob.Icon != null)
         {
             Searched.PlayerJob.SpecialSkill.DoSkill();
@@ -61,7 +63,7 @@ public class EngineerSkill : Skill
     {
         for (int i = 0; i < 3; i++)
             CommonData.RepairProgress[i] += DataManager.Data.EngineerSkillLevel[CommonData.Players.Count - 4][i];
-        // 우주선 수리 진척도 올림(수치받아와야함ㅜㅜ)
+        // 우주선 수리 진척도 올림
     }
 }
 

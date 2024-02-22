@@ -45,6 +45,8 @@ public static class CommonData
         Infected.SetInfected();
 
         List<JobType> jobList = new List<JobType> { JobType.Engineer, JobType.Medic, JobType.Janitor, JobType.Controller };
+        for (int i = jobList.Count - 1; i > DataManager.Data.JobPerPlayer[Players.Count - 4]; i--)
+            jobList.RemoveAt(Random.Range(0, jobList.Count));
 
         Player captain = Players[Random.Range(0, Players.Count)];
         captain.PlayerJob = JobManager.GetJob(JobType.Captain);
