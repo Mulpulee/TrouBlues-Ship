@@ -53,6 +53,9 @@ MonoBehaviour:
   - Ready
   - OnCanvasGroupChanged
   - GameStart
+  - SendDeadPlayer
+  - UseScanner
+  - UseSkill
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -8,25 +8,27 @@ public class PVHandler : MonoBehaviour
 {
     public static PhotonView pv;
 
+    #region Lobby
+
     [PunRPC]
-    public void AddPlayer(int item)
+    public void AddPlayer(int pItem)
     {
         LobbyManager lobby = FindObjectOfType<LobbyManager>();
-        lobby.AddPlayer(item);
+        lobby.AddPlayer(pItem);
     }
 
     [PunRPC]
-    public void RemovePlayer(int item)
+    public void RemovePlayer(int pItem)
     {
         LobbyManager lobby = FindObjectOfType<LobbyManager>();
-        lobby.RemovePlayer(item);
+        lobby.RemovePlayer(pItem);
     }
 
     [PunRPC]
-    public void Ready(int item)
+    public void Ready(int pItem)
     {
         LobbyManager lobby = FindObjectOfType<LobbyManager>();
-        lobby.Ready(item);
+        lobby.Ready(pItem);
     }
 
     [PunRPC]
@@ -35,6 +37,10 @@ public class PVHandler : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
+    #endregion
+
+    #region CommonData
+
     [PunRPC]
     public void SetPlayerList(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, int[] pJobs)
     {
@@ -42,26 +48,53 @@ public class PVHandler : MonoBehaviour
     }
 
     [PunRPC]
-    public void StartVote(VoteType type, string subject, int[] list = null)
+    public void SetTimer(int pTime)
     {
-        GameObject.FindObjectOfType<VoteUI>().StartVote(type, subject, list);
+        Timer.Time = pTime;
+    }
+
+    #endregion
+
+    #region Vote
+
+    [PunRPC]
+    public void StartVote(VoteType pType, string pSubject, int[] pList = null)
+    {
+        GameObject.FindObjectOfType<VoteUI>().StartVote(pType, pSubject, pList);
     }
 
     [PunRPC]
-    public void Vote(int index)
+    public void Vote(int pIndex)
     {
-        VoteManager.Vote(index);
+        VoteManager.Vote(pIndex);
     }
 
     [PunRPC]
-    public void EndVote(int[] result)
+    public void EndVote(int[] pResult)
     {
-        GameObject.FindObjectOfType<VoteUI>().EndVote(result);
+        GameObject.FindObjectOfType<VoteUI>().EndVote(pResult);
+    }
+
+    #endregion
+
+    [PunRPC]
+    public void SendDeadPlayer(int pProfileId)
+    {
+        BriefingManager.Init();
+        BriefingManager.DeadPlayer(pProfileId);
     }
 
     [PunRPC]
-    public void SetTimer(int time)
+    public void UseSkill(JobType pType, string pScript)
     {
-        Timer.Time = time;
+        BriefingManager.Init();
+        BriefingManager.UseSkill(pType, pScript);
+    }
+
+    [PunRPC]
+    public void UseScanner(int pProfileId)
+    {
+        BriefingManager.Init();
+        BriefingManager.UseScanner(pProfileId);
     }
 }

@@ -2,29 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EarthCommunication
+public static class EarthCommunication
 {
-    private static EarthCommunication instance;
-    public static EarthCommunication ins
-    {
-        get
-        {
-            if (instance == null) instance = new EarthCommunication();
-            return instance;
-        }
-    }
     public static char[] CharacterID = { '¢À', '¡Ú', '¢¾', '¢¼', '¡ß', '¡Ü' };
 
-    private List<List<int>> m_openedAloneHint;
-    private List<List<int>> m_openedTogetherHint;
+    private static List<List<int>> m_openedAloneHint;
+    private static List<List<int>> m_openedTogetherHint;
 
-    private List<int[]> m_spys;
-    private int m_spyCount;
+    private static List<int[]> m_spys;
+    private static int m_spyCount;
 
-    private int m_successStack = 0;
-    private int m_alonePercent = 30;
+    private static int m_successStack = 0;
+    private static int m_alonePercent = 30;
 
-    public void SetInfo(List<Player> pSpylist)
+    public static void SetInfo(List<Player> pSpylist)
     {
         m_spys = new List<int[]>();
         foreach (var item in pSpylist) m_spys.Add(item.ID);
@@ -36,7 +27,7 @@ public class EarthCommunication
         m_openedTogetherHint = new List<List<int>>(m_openedAloneHint);
     }
 
-    public bool StartCommunication(int pPlayer)
+    public static bool StartCommunication(int pPlayer)
     {
         int[] percent = DataManager.Data.FailureProbability;
 
@@ -56,7 +47,7 @@ public class EarthCommunication
         }
     }
 
-    public string Alone()
+    public static string Alone()
     {
         int index = Random.Range(0, m_spyCount);
         int[] id = m_spys[index];
@@ -71,7 +62,7 @@ public class EarthCommunication
         return $"{indexing} ½ºÆÄÀÌÀÇ ID¿¡´Â {CharacterID[id[code]]}°¡ Æ÷ÇÔµÊÀÌ ¹àÇôÁü";
     }
 
-    public string Together()
+    public static string Together()
     {
         int index = Random.Range(0, m_spyCount);
         int[] id = m_spys[index];
