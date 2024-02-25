@@ -21,6 +21,7 @@ public class TitleSceneManager : MonoBehaviour
 
     public void GameStart()
     {
+        SceneManager.LoadScene("SleepScene");
         Debug.Log("Invoke Success");
         count = 0;
         if (lobby.m_players != null && lobby.LobbyPlayers.Count > 3)

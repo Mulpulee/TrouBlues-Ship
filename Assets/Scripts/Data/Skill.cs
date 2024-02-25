@@ -61,7 +61,7 @@ public class MedicSkill : Skill
         // 스캐너사용
         // 아이템사용이랑 별개라서 하루에 두번도 ㄱㄴ
 
-        return "";
+        return $"{Target.Name}, {(Target.IsInfected ? "" : "비")}감염자로 확인되었습니다.";
     }
 }
 

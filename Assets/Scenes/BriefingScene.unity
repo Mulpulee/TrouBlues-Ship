@@ -451,7 +451,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &191462341
 RectTransform:
   m_ObjectHideFlags: 0
@@ -583,7 +583,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uC6B0\uC8FC\uC120 \uB0B4\uBD80 \uAD00\uB9AC\uC778\uC774 \uB2A5\uB825\uC744
+  m_Text: "\uC6B0\uC8FC\uC120 \uB0B4\uBD80 \uAD00\uB9AC\uC778\uC774(\uAC00) \uB2A5\uB825\uC744
     \uC0AC\uC6A9\uD588\uC2B5\uB2C8\uB2E4."
 --- !u!222 &313885691
 CanvasRenderer:
@@ -1345,7 +1345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1019431549
 RectTransform:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,15 +19,30 @@ public class SleepUI : MonoBehaviour
 
     private List<Player> players;
     private bool m_useSkill = false;
+    private bool m_useScanner = false;
+    private bool m_usingScanner = false;
+    private int m_scannerTargetId;
 
     private void Update()
     {
-        m_remainTime.text = Timer.Time.ToString("00");
+        if (Timer.Time == 0) EndSleep();
+        m_remainTime.text = Timer.Time.ToString("000");
     }
 
     public void Show()
     {
         m_mainChoosing.transform.parent.gameObject.SetActive(true);
+
+        m_scannerCount.text = $"현재 {Player.This.GetItem(ItemIndex.Scanner)}개";
+        if (Player.This.GetItem(ItemIndex.Scanner) == 0)
+            m_scannerCount.GetComponentInParent<Button>().interactable = false;
+
+        if (Player.This.PlayerJob.Type == JobType.None)
+        {
+            m_skillState.text = $"(직업 없음)";
+            m_skillState.GetComponentInParent<Button>().interactable = false;
+            return;
+        }
 
         Job job = Player.This.PlayerJob;
 
@@ -38,12 +54,9 @@ public class SleepUI : MonoBehaviour
         }
         else
         {
-            m_skillState.text = $"{job.SpecialSkill.CoolCount}턴 남음";
-            m_skillState.GetComponentInParent<Button>().enabled = false;
+            m_skillState.text = $"({job.SpecialSkill.CoolCount}턴 남음)";
+            m_skillState.GetComponentInParent<Button>().interactable = false;
         }
-
-        m_scannerCount.text = $"현재 {Player.This.GetItem(ItemIndex.Scanner)}개";
-        if (Player.This.GetItem(ItemIndex.Scanner) == 0) m_scannerCount.GetComponentInParent<Button>().enabled = false;
     }
 
     public void UseJobSkill()
@@ -91,11 +104,24 @@ public class SleepUI : MonoBehaviour
 
     public void SelectTarget(int index)
     {
-        if (index == -1) m_useSkill = false;
+        if (m_usingScanner)
+        {
+            if (index == -1) m_useScanner = false;
+            else
+            {
+                m_scannerTargetId = CommonData.Players[index].ProfileID;
+                m_useScanner = true;
+            }
+            m_usingScanner = false;
+        }
         else
         {
-            Player.This.PlayerJob.SpecialSkill.Target = players[index];
-            m_useSkill = true;
+            if (index == -1) m_useSkill = false;
+            else
+            {
+                Player.This.PlayerJob.SpecialSkill.Target = players[index];
+                m_useSkill = true;
+            }
         }
     }
 
@@ -104,17 +130,46 @@ public class SleepUI : MonoBehaviour
         m_useSkill = value;
     }
 
+    public void UseScanner()
+    {
+        m_listCanvas.SetActive(true);
+        m_listCanvas.transform.GetChild(3).GetComponent<Text>().text = "지목한 플레이어의 감염 여부를 확인합니다.";
+
+        for (int i = 0; i < CommonData.Players.Count; i++)
+        {
+            Transform p = m_listCanvas.transform.GetChild(1).GetChild(i);
+            p.gameObject.SetActive(true);
+            p.GetChild(0).GetComponent<Image>().sprite = CommonData.Players[i].PlayerProfile;
+        }
+
+        m_usingScanner = true;
+    }
+
     public void EndSleep()
     {
+        Timer.SetTimer(-1);
+
         Job job = Player.This.PlayerJob;
 
         if (m_useSkill)
         {
             PVHandler.pv.RPC("UseSkill", Photon.Pun.RpcTarget.All, job.Type, job.SpecialSkill.GetResult());
-            if (job.Type == JobType.Medic)
-            {
-                PVHandler.pv.RPC("UseScanner", Photon.Pun.RpcTarget.All, job.SpecialSkill.Target.ProfileID);
-            }
         }
+        if (m_useScanner)
+        {
+            PVHandler.pv.RPC("UseScanner", Photon.Pun.RpcTarget.All, m_scannerTargetId);
+        }
+
+        Hide();
+        PVHandler.pv.RPC("StartBriefing", Photon.Pun.RpcTarget.All);
+    }
+
+    public void Hide()
+    {
+        m_mainChoosing.SetActive(false);
+        m_listCanvas.SetActive(false);
+        m_useornotCanvas.SetActive(false);
+
+        m_remainTime.gameObject.SetActive(false);
     }
 }

@@ -97,4 +97,10 @@ public class PVHandler : MonoBehaviour
         BriefingManager.Init();
         BriefingManager.UseScanner(pProfileId);
     }
+
+    [PunRPC]
+    public void StartBriefing()
+    {
+        BriefingManager.StartBriefing();
+    }
 }
