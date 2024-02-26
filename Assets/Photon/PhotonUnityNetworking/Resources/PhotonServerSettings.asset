@@ -57,6 +57,9 @@ MonoBehaviour:
   - UseScanner
   - UseSkill
   - StartBriefing
+  - Choose
+  - EndChoose
+  - StartChoosing
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

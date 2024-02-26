@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8e769e595c8b7489a9c1900d97d096, type: 3}
   m_Name: Worker
   m_EditorClassIdentifier: 
-  profile: {fileID: 21300000, guid: 22b2b6076fd959a4189c84a910daf804, type: 3}
+  ID: 1
+  profile: {fileID: 21300000, guid: 8429f72724ddf854c8ec8d13187148a4, type: 3}
   nickName: "\uC6CC\uCEE4\uD640\uB9AD \uC5F0\uAD6C\uC6D0"

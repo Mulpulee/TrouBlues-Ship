@@ -25,6 +25,7 @@ public class LobbyManager : MonoBehaviour
     public void SetProfile()
     {
         Profile[] profiles = Resources.LoadAll<Profile>("ScriptableObject/Profile");
+        profiles = profiles.OrderBy(p => p.ID).ToArray();
         m_profilesAsset = new List<Profile>();
         foreach (Profile profile in profiles)
         {

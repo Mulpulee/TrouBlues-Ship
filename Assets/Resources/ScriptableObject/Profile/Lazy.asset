@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8e769e595c8b7489a9c1900d97d096, type: 3}
   m_Name: Lazy
   m_EditorClassIdentifier: 
-  profile: {fileID: 21300000, guid: 12df647da4cd56e47aaa8f5ef0ee3815, type: 3}
+  ID: 3
+  profile: {fileID: 21300000, guid: 19fa5ccf33f3cd347a99b5a506485b3c, type: 3}
   nickName: "\uADFC\uBB34\uD0DC\uB9CC \uC5F0\uAD6C\uC6D0"

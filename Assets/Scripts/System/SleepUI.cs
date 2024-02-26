@@ -112,7 +112,6 @@ public class SleepUI : MonoBehaviour
                 m_scannerTargetId = CommonData.Players[index].ProfileID;
                 m_useScanner = true;
             }
-            m_usingScanner = false;
         }
         else
         {
@@ -123,6 +122,11 @@ public class SleepUI : MonoBehaviour
                 m_useSkill = true;
             }
         }
+    }
+
+    public void EndUsingScanner()
+    {
+        m_usingScanner = false;
     }
 
     public void UseSkill(bool value)

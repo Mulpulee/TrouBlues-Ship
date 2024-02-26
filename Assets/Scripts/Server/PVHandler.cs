@@ -31,12 +31,6 @@ public class PVHandler : MonoBehaviour
         lobby.Ready(pItem);
     }
 
-    [PunRPC]
-    public void GameStart()
-    {
-        SceneManager.LoadScene("SampleScene");
-    }
-
     #endregion
 
     #region CommonData
@@ -77,6 +71,8 @@ public class PVHandler : MonoBehaviour
 
     #endregion
 
+    #region Sleep/Briefing
+
     [PunRPC]
     public void SendDeadPlayer(int pProfileId)
     {
@@ -103,4 +99,28 @@ public class PVHandler : MonoBehaviour
     {
         BriefingManager.StartBriefing();
     }
+
+    #endregion
+
+    #region ChooseActivity
+
+    [PunRPC]
+    public void StartChoosing()
+    {
+        GameObject.FindObjectOfType<ChooseActivityUI>().StartChoosing();
+    }
+
+    [PunRPC]
+    public void Choose(int pIndex, int pProfileId)
+    {
+        ChooseActivity.AddMember(pIndex, pProfileId);
+    }
+
+    [PunRPC]
+    public void EndChoose(int[][] pResults)
+    {
+        GameObject.FindObjectOfType<ChooseActivityUI>().EndChoosing(pResults);
+    }
+
+    #endregion
 }

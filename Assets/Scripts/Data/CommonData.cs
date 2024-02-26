@@ -1,7 +1,9 @@
 using Photon.Realtime;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class CommonData
 {
@@ -15,9 +17,12 @@ public static class CommonData
     public static int[] RepairProgress;
     public static int MultipleSuccessStack;
 
+    public static Profile[] ProfileObjects;
+
     public static void MakePlayerInfo(int[] pList)
     {
-        Profile[] profiles = Resources.LoadAll<Profile>("ScriptableObject/Profile");
+        ProfileObjects = Resources.LoadAll<Profile>("ScriptableObject/Profile");
+        ProfileObjects = ProfileObjects.OrderBy(p => p.ID).ToArray();
         JobManager.SetJobs();
 
         Players = new List<Player>();
@@ -27,11 +32,13 @@ public static class CommonData
         {
             Players.Add(new Player()
             {
-                PlayerProfile = profiles[pList[i]].profile,
+                PlayerProfile = ProfileObjects[pList[i]].profile,
                 ProfileID = pList[i],
-                Name = profiles[pList[i]].nickName,
+                Name = ProfileObjects[pList[i]].nickName,
                 ID = IdGenerator.GenerateID()
             });
+
+            if (pList[i] == ProfileID) Player.This = Players[Players.Count - 1];
         }
 
         Spys = new List<Player>(Players);
@@ -66,8 +73,6 @@ public static class CommonData
                 player.PlayerJob = JobManager.GetJob(jobList[Random.Range(0, jobList.Count)]);
                 jobList.Remove(player.PlayerJob.Type);
             }
-
-            if (player.ProfileID == ProfileID) Player.This = player;
         }
 
         Medecines = 0;
@@ -87,11 +92,13 @@ public static class CommonData
         for (int i = 0; i < Spys.Count; i++) spyArr[i] = Spys[i].ProfileID;
 
         PVHandler.pv.RPC("SetPlayerList", Photon.Pun.RpcTarget.Others, pList, spyArr, Infected.ProfileID, idArr, jobArr);
+        SceneManager.LoadScene("SampleScene");
     }
 
     public static void SetPlayerInfo(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, int[] pJobs)
     {
-        Profile[] profiles = Resources.LoadAll<Profile>("ScriptableObject/Profile");
+        ProfileObjects = Resources.LoadAll<Profile>("ScriptableObject/Profile");
+        ProfileObjects = ProfileObjects.OrderBy(p => p.ID).ToArray();
         JobManager.SetJobs();
 
         Players = new List<Player>();
@@ -101,9 +108,9 @@ public static class CommonData
         {
             Player player = new Player()
             {
-                PlayerProfile = profiles[pPlayers[i]].profile,
+                PlayerProfile = ProfileObjects[pPlayers[i]].profile,
                 ProfileID = pPlayers[i],
-                Name = profiles[pPlayers[i]].nickName,
+                Name = ProfileObjects[pPlayers[i]].nickName,
                 ID = new int[5] { pIDs[i * 5], pIDs[i * 5 + 1], pIDs[i * 5 + 2], pIDs[i * 5 + 3], pIDs[i * 5 + 4] },
                 PlayerJob = JobManager.GetJob((JobType)pJobs[i])
             };
@@ -130,6 +137,8 @@ public static class CommonData
         Medecines = 0;
         RepairProgress = new int[3];
         MultipleSuccessStack = 0;
+
+        SceneManager.LoadScene("SampleScene");
     }
 
     public static void AddMedicines(int pValue)

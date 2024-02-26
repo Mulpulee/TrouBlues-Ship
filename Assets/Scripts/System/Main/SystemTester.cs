@@ -10,26 +10,19 @@ public class SystemTester : MonoBehaviour
 
     private void Awake()
     {
-        CommonData.ProfileID = 0;
-        CommonData.MakePlayerInfo(new int[5] { 0, 1, 2, 3, 4 });
+
     }
 
     private void Start()
     {
-        Timer.SetTimer(60);
-        StartCoroutine(ReduceTime());
+
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            for (int i = 0; i < 10; i++) Timer.ReduceTimer();
-        }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene("SleepScene");
-            BriefingManager.Init(true);
+            ChooseActivity.Init();
         }
     }
 

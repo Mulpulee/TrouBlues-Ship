@@ -24,8 +24,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        Screen.SetResolution(1920, 1080, true);
-
         btn_makeRoom.interactable = false;
         btn_joinRoom.interactable = false;
 
