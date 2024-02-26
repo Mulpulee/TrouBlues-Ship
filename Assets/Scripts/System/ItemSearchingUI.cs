@@ -77,6 +77,6 @@ public class ItemSearchingUI : MonoBehaviour
             pPlayer.AddItem((ItemIndex)i, m_collectedItems[i]);
         }
 
-        CommonData.Medecines += m_collectedItems[(int)ItemIndex.Medicine];
+        PVHandler.pv.RPC("AddMedicines", Photon.Pun.RpcTarget.MasterClient, m_collectedItems[(int)ItemIndex.Medicine]);
     }
 }

@@ -47,6 +47,30 @@ public class PVHandler : MonoBehaviour
         Timer.Time = pTime;
     }
 
+    [PunRPC]
+    public void AddMedicines(int pValue)
+    {
+        CommonData.AddMedicines(pValue);
+    }
+
+    [PunRPC]
+    public void SetMedicineCount(int pValue)
+    {
+        CommonData.Medecines = pValue;
+    }
+
+    [PunRPC]
+    public void AddProgress(int[] pValue)
+    {
+        CommonData.AddProgress(pValue);
+    }
+
+    [PunRPC]
+    public void SetProgress(int[] pValue)
+    {
+        CommonData.RepairProgress = pValue;
+    }
+
     #endregion
 
     #region Vote
@@ -120,6 +144,22 @@ public class PVHandler : MonoBehaviour
     public void EndChoose(int[][] pResults)
     {
         GameObject.FindObjectOfType<ChooseActivityUI>().EndChoosing(pResults);
+    }
+
+    #endregion
+
+    #region Activity
+
+    [PunRPC]
+    public void Communicated(bool pSucceed, string pResult = null)
+    {
+        FindObjectOfType<EarthCommunicationUI>().PrintResult(pSucceed, pResult);
+    }
+
+    [PunRPC]
+    public void TaskEnded()
+    {
+        FindObjectOfType<SystemTester>().TaskEnded();
     }
 
     #endregion

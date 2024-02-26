@@ -76,7 +76,7 @@ public class Repairing : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             Player.This.AddItem((ItemIndex)i, -m_usingItems[i]);
-            if (!Player.This.IsInfected) CommonData.RepairProgress[i] += m_usingItems[i];
+            if (!Player.This.IsInfected) PVHandler.pv.RPC("AddProgress", Photon.Pun.RpcTarget.MasterClient, m_usingItems);
         }
     }
 }

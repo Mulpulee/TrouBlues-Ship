@@ -14,14 +14,12 @@ public class IntroUI : MonoBehaviour
 
     public void Show()
     {
-        Debug.Log("player");
         Player p = Player.This;
 
         if (p.IsSpy)
         {
             string t = "";
             m_spyCanvas.SetActive(true);
-            Debug.Log("spy");
 
             for (int i = 0; i < CommonData.Spys.Count; i++)
             {
@@ -36,7 +34,6 @@ public class IntroUI : MonoBehaviour
         else
         {
             m_crueCanvas.SetActive(true);
-            Debug.Log("crue ");
 
             Image[] players = m_crueCanvas.transform.GetChild(1).GetComponentsInChildren<Image>(true);
 

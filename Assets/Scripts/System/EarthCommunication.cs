@@ -12,7 +12,6 @@ public static class EarthCommunication
     private static List<int[]> m_spys;
     private static int m_spyCount;
 
-    private static int m_successStack = 0;
     private static int m_alonePercent = 30;
 
     public static void SetInfo(List<Player> pSpylist)
@@ -27,23 +26,19 @@ public static class EarthCommunication
         m_openedTogetherHint = new List<List<int>>(m_openedAloneHint);
     }
 
-    public static bool StartCommunication(int pPlayer)
+    public static void StartCommunication(int pPlayer)
     {
         int[] percent = DataManager.Data.FailureProbability;
 
-        if (Random.Range(0, 100) < (pPlayer == 1 ? m_alonePercent : percent[m_successStack]))
+        if (Random.Range(0, 100) < (pPlayer == 1 ? m_alonePercent : percent[CommonData.MultipleSuccessStack]))
         {
-            m_successStack = 0;
-            //Debug.Log("(치지직)....&#$....$..@$...#.>>$>...%>>..(치지직)..$%#..#..@%...");
-            //Debug.Log("연결이 불안정합니다.");
-            return false;
+            CommonData.AddSuccessStack(true);
+            PVHandler.pv.RPC("Communicated", Photon.Pun.RpcTarget.All, false);
         }
         else
         {
-            if (pPlayer == 1) Alone();
-            else Together();
-
-            return true;
+            CommonData.AddSuccessStack();
+            PVHandler.pv.RPC("Communicated", Photon.Pun.RpcTarget.All, true, pPlayer == 1 ? Alone() : Together());
         }
     }
 
