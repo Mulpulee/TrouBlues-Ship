@@ -2,12 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ChooseActivity
+public class ChooseActivity
 {
-    private static List<int>[] m_selectedMemberLists;
-    private static int m_memberCount;
+    private static ChooseActivity m_instance;
+    public static ChooseActivity Ins
+    {
+        get
+        {
+            if (m_instance == null) m_instance = new ChooseActivity();
+            return m_instance;
+        }
+    }
 
-    public static void Init()
+    private List<int>[] m_selectedMemberLists;
+    private int m_memberCount;
+    public int SelectedActivity;
+
+    public void Init()
     {
         m_selectedMemberLists = new List<int>[2] { new List<int>(), new List<int>() };
         m_memberCount = 0;
@@ -20,7 +31,7 @@ public static class ChooseActivity
         PVHandler.pv.RPC("StartChoosing", Photon.Pun.RpcTarget.All);
     }
 
-    public static void AddMember(int pIndex, int pProfileId)
+    public void AddMember(int pIndex, int pProfileId)
     {
         m_selectedMemberLists[pIndex].Add(pProfileId);
         m_memberCount--;
@@ -29,6 +40,13 @@ public static class ChooseActivity
         {
             PVHandler.pv.RPC("EndChoose", Photon.Pun.RpcTarget.All,
                 new int[][] { m_selectedMemberLists[0].ToArray(), m_selectedMemberLists[1].ToArray() });
+
+            GameManagerEx.Ins.TaskEnded();
         }
+    }
+
+    public int GetCommunicationCount()
+    {
+        return m_selectedMemberLists[1].Count;
     }
 }

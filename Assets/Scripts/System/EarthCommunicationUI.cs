@@ -6,11 +6,14 @@ using UnityEngine.UI;
 
 public class EarthCommunicationUI : MonoBehaviour
 {
+    [SerializeField] private GameObject m_room;
+
     [SerializeField] private HorizontalLayoutGroup m_layout;
     [SerializeField] private Text m_text;
 
     public void PrintResult(bool pSucceed, string pResult)
     {
+        m_room.SetActive(true);
         m_layout.gameObject.SetActive(true);
         StartCoroutine(PrintRoutine(pSucceed, pResult));
     }
@@ -31,7 +34,9 @@ public class EarthCommunicationUI : MonoBehaviour
         }
         yield return new WaitUntil(() => isEnd);
 
+        m_room.SetActive(false);
         m_layout.gameObject.SetActive(false);
+        PVHandler.pv.RPC("TaskEnded", Photon.Pun.RpcTarget.MasterClient);
     }
 
     private IEnumerator Printer(string pText, Action pNext = null)

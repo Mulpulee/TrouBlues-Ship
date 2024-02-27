@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Repairing : MonoBehaviour
 {
+    [SerializeField] private GameObject[] m_canvas;
+
     [SerializeField] private Text[] m_usingItemsText;
     [SerializeField] private Text[] m_progressText;
     [SerializeField] private Text[] m_inventoryText;
@@ -16,7 +18,7 @@ public class Repairing : MonoBehaviour
 
     public void ShowUI()
     {
-        gameObject.SetActive(true);
+        foreach (var item in m_canvas) item.SetActive(true);
 
         m_usingItems = new int[3];
         m_inventory = new int[3];
@@ -32,6 +34,7 @@ public class Repairing : MonoBehaviour
         }
 
         if (!Player.This.IsSpy) m_changeUse[0].transform.parent.gameObject.SetActive(false);
+        foreach (var item in GetComponentsInChildren<Button>()) item.interactable = true;
     }
 
     public void SetText(int index)
@@ -73,10 +76,15 @@ public class Repairing : MonoBehaviour
 
     public void EndSelection()
     {
+        foreach (var item in GetComponentsInChildren<Button>()) item.interactable = false;
+
         for (int i = 0; i < 3; i++)
         {
             Player.This.AddItem((ItemIndex)i, -m_usingItems[i]);
             if (!Player.This.IsInfected) PVHandler.pv.RPC("AddProgress", Photon.Pun.RpcTarget.MasterClient, m_usingItems);
         }
+
+        PVHandler.pv.RPC("TaskEnded", Photon.Pun.RpcTarget.MasterClient);
+        foreach (var item in m_canvas) item.SetActive(false);
     }
 }

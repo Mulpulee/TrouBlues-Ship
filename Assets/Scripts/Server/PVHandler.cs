@@ -13,22 +13,19 @@ public class PVHandler : MonoBehaviour
     [PunRPC]
     public void AddPlayer(int pItem)
     {
-        LobbyManager lobby = FindObjectOfType<LobbyManager>();
-        lobby.AddPlayer(pItem);
+        FindObjectOfType<LobbyManager>().AddPlayer(pItem);
     }
 
     [PunRPC]
     public void RemovePlayer(int pItem)
     {
-        LobbyManager lobby = FindObjectOfType<LobbyManager>();
-        lobby.RemovePlayer(pItem);
+        FindObjectOfType<LobbyManager>().RemovePlayer(pItem);
     }
 
     [PunRPC]
     public void Ready(int pItem)
     {
-        LobbyManager lobby = FindObjectOfType<LobbyManager>();
-        lobby.Ready(pItem);
+        FindObjectOfType<LobbyManager>().Ready(pItem);
     }
 
     #endregion
@@ -78,19 +75,25 @@ public class PVHandler : MonoBehaviour
     [PunRPC]
     public void StartVote(VoteType pType, string pSubject, int[] pList = null)
     {
-        GameObject.FindObjectOfType<VoteUI>().StartVote(pType, pSubject, pList);
+        FindObjectOfType<VoteUI>().StartVote(pType, pSubject, pList);
     }
 
     [PunRPC]
     public void Vote(int pIndex)
     {
-        VoteManager.Vote(pIndex);
+        VoteManager.Ins.Vote(pIndex);
     }
 
     [PunRPC]
     public void EndVote(int[] pResult)
     {
-        GameObject.FindObjectOfType<VoteUI>().EndVote(pResult);
+        FindObjectOfType<VoteUI>().EndVote(pResult);
+    }
+
+    [PunRPC]
+    public void HideVote()
+    {
+        FindObjectOfType<VoteUI>().Hide();
     }
 
     #endregion
@@ -100,28 +103,19 @@ public class PVHandler : MonoBehaviour
     [PunRPC]
     public void SendDeadPlayer(int pProfileId)
     {
-        BriefingManager.Init();
-        BriefingManager.DeadPlayer(pProfileId);
+        BriefingManager.Ins.DeadPlayer(pProfileId);
     }
 
     [PunRPC]
     public void UseSkill(JobType pType, string pScript)
     {
-        BriefingManager.Init();
-        BriefingManager.UseSkill(pType, pScript);
+        BriefingManager.Ins.UseSkill(pType, pScript);
     }
 
     [PunRPC]
     public void UseScanner(int pProfileId)
     {
-        BriefingManager.Init();
-        BriefingManager.UseScanner(pProfileId);
-    }
-
-    [PunRPC]
-    public void StartBriefing()
-    {
-        BriefingManager.StartBriefing();
+        BriefingManager.Ins.UseScanner(pProfileId);
     }
 
     #endregion
@@ -131,19 +125,19 @@ public class PVHandler : MonoBehaviour
     [PunRPC]
     public void StartChoosing()
     {
-        GameObject.FindObjectOfType<ChooseActivityUI>().StartChoosing();
+        FindObjectOfType<ChooseActivityUI>().StartChoosing();
     }
 
     [PunRPC]
     public void Choose(int pIndex, int pProfileId)
     {
-        ChooseActivity.AddMember(pIndex, pProfileId);
+        ChooseActivity.Ins.AddMember(pIndex, pProfileId);
     }
 
     [PunRPC]
     public void EndChoose(int[][] pResults)
     {
-        GameObject.FindObjectOfType<ChooseActivityUI>().EndChoosing(pResults);
+        FindObjectOfType<ChooseActivityUI>().EndChoosing(pResults);
     }
 
     #endregion
@@ -151,15 +145,89 @@ public class PVHandler : MonoBehaviour
     #region Activity
 
     [PunRPC]
+    public void SetSearchDatas(int pP, int pS, int pC, int[] pPercent)
+    {
+        ItemSearching.Ins.SetDatas(pP, pS, pC, pPercent);
+    }
+
+    [PunRPC]
     public void Communicated(bool pSucceed, string pResult = null)
     {
-        FindObjectOfType<EarthCommunicationUI>().PrintResult(pSucceed, pResult);
+        if (ChooseActivity.Ins.SelectedActivity == 1)
+            FindObjectOfType<EarthCommunicationUI>().PrintResult(pSucceed, pResult);
     }
 
     [PunRPC]
     public void TaskEnded()
     {
-        FindObjectOfType<SystemTester>().TaskEnded();
+        GameManagerEx.Ins.TaskEnded();
+    }
+
+    #endregion
+
+    #region Game
+
+    [PunRPC]
+    public void Intro(int pIndex)
+    {
+        IntroUI intro = FindObjectOfType<IntroUI>();
+        switch (pIndex)
+        {
+            case 0: intro.Show(); break;
+            case 1: intro.ShowJob(); break;
+            case 2: intro.Hide(); break;
+        }
+    }
+
+    [PunRPC]
+    public void Hud(int pIndex, bool pPar)
+    {
+        SetHudInfo hud = FindObjectOfType<SetHudInfo>();
+        switch (pIndex)
+        {
+            case 0: hud.OnOff(pPar); break;
+            case 1: hud.UpdateInfo(pPar); break;
+        }
+    }
+
+    [PunRPC]
+    public void Sleep(int pIndex)
+    {
+        SleepUI sleep = FindObjectOfType<SleepUI>();
+        switch (pIndex)
+        {
+            case 0: sleep.Show(); break;
+            case 1: sleep.EndSleep(); break;
+        }
+    }
+
+    [PunRPC]
+    public void Brief(int pIndex)
+    {
+        switch (pIndex)
+        {
+            case 0: BriefingManager.Ins.Init(); break;
+            case 1: BriefingManager.Ins.StartBriefing(); break;
+        }
+    }
+
+    [PunRPC]
+    public void Activity(int pIndex)
+    {
+        switch (pIndex)
+        {
+            case 0: ChooseActivity.Ins.Init(); break;
+            case 1:
+                if (ChooseActivity.Ins.SelectedActivity == 0)
+                {
+                    ItemSearchingUI ui = FindObjectOfType<ItemSearchingUI>();
+                    ui.SetValue(ItemSearching.Ins.GetSelectable(), ItemSearching.Ins.GetItems());
+                    ui.ShowUI();
+                }
+                break;
+            case 2: FindObjectOfType<Repairing>().ShowUI(); break;
+            case 3: FindObjectOfType<ChooseActivityUI>().HideCanvas(); break;
+        }
     }
 
     #endregion

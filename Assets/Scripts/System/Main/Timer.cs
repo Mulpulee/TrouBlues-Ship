@@ -13,7 +13,7 @@ public static class Timer
 
     public static int ReduceTimer()
     {
-        PVHandler.pv.RPC("SetTimer", Photon.Pun.RpcTarget.Others, --Time);
+        PVHandler.pv.RPC("SetTimer", Photon.Pun.RpcTarget.All, Time - 1);
         return Time;
     }
 }

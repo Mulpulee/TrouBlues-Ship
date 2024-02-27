@@ -42,8 +42,6 @@ public class IntroUI : MonoBehaviour
                 players[CommonData.Players[i].ProfileID].gameObject.SetActive(true);
             }
         }
-
-        Invoke("ShowJob", 3f);
     }
 
     public void ShowJob()

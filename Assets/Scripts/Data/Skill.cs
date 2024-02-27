@@ -100,6 +100,6 @@ public class ControllerSkill : Skill
 
     public override string GetResult()
     {
-        return EarthCommunication.Together();
+        return EarthCommunication.Ins.Together();
     }
 }

@@ -56,5 +56,11 @@ public class BriefingUI : MonoBehaviour
 
             yield return new WaitForSeconds(3f);
         }
+
+        PVHandler.pv.RPC("TaskEnded", Photon.Pun.RpcTarget.MasterClient);
+        m_nothing.SetActive(false);
+        m_death.SetActive(false);
+        m_skill.SetActive(false);
+        m_scanner.SetActive(false);
     }
 }

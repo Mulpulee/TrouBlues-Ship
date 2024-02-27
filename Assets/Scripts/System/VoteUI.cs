@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class VoteUI : MonoBehaviour
 {
+    [SerializeField] private GameObject m_ui;
+
     [SerializeField] private GameObject m_buttonParent;
     [SerializeField] private GameObject m_pacParent;
     [SerializeField] private Button m_skip;
@@ -33,20 +35,22 @@ public class VoteUI : MonoBehaviour
         if (!m_isVoting) return;
 
         m_time.text = Timer.Time.ToString("000");
-
-        if (PVHandler.pv.IsMine && Timer.Time < 1)
-        {
-            m_time.text = "000";
-            PVHandler.pv.RPC("EndVote", Photon.Pun.RpcTarget.All, VoteManager.VoteResult);
-        }
     }
 
     public void StartVote(VoteType type, string subject, int[] list = null)
     {
+        m_ui.SetActive(true);
         m_time.text = Timer.Time.ToString("000");
         m_subject.text = subject;
         m_type = type;
         m_isVoting = true;
+        foreach (var button in m_buttons) button.gameObject.SetActive(false);
+        m_pacParent.SetActive(false);
+
+        foreach (var button in m_buttons) { button.interactable = true; button.transform.GetChild(1).gameObject.SetActive(false); }
+        foreach (var button in m_pacButtons) { button.interactable = true; button.transform.GetChild(1).gameObject.SetActive(false); }
+        m_skip.interactable = true;
+
         switch (type)
         {
             case VoteType.Normal:
@@ -55,7 +59,7 @@ public class VoteUI : MonoBehaviour
                 {
                     m_buttons[i].gameObject.SetActive(true);
                     Debug.Log(list[i]);
-                    //m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = list[i];
+                    m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = CommonData.Players[list[i]].PlayerProfile;
                 }
                 break;
             case VoteType.ProsAndCons:
@@ -69,7 +73,7 @@ public class VoteUI : MonoBehaviour
                 for (int i = 0; i < m_count; i++)
                 {
                     m_buttons[i].gameObject.SetActive(true);
-                    //m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = list[i];
+                    m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = CommonData.Players[list[i]].PlayerProfile;
                 }
                 break;
         }
@@ -133,5 +137,12 @@ public class VoteUI : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    public void Hide()
+    {
+        foreach (var button in m_buttons) button.gameObject.SetActive(false);
+        m_pacParent.SetActive(false);
+        m_ui.SetActive(false);
     }
 }

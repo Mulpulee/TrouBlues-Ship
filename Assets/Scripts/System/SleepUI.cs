@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class SleepUI : MonoBehaviour
 {
+    [SerializeField] private GameObject m_background;
     [SerializeField] private GameObject m_mainChoosing;
     [SerializeField] private GameObject m_listCanvas;
     [SerializeField] private GameObject m_useornotCanvas;
@@ -25,12 +26,12 @@ public class SleepUI : MonoBehaviour
 
     private void Update()
     {
-        if (Timer.Time == 0) EndSleep();
         m_remainTime.text = Timer.Time.ToString("000");
     }
 
     public void Show()
     {
+        m_background.SetActive(true);
         m_mainChoosing.transform.parent.gameObject.SetActive(true);
 
         m_scannerCount.text = $"ÇöÀç {Player.This.GetItem(ItemIndex.Scanner)}°³";
@@ -151,8 +152,6 @@ public class SleepUI : MonoBehaviour
 
     public void EndSleep()
     {
-        Timer.SetTimer(-1);
-
         Job job = Player.This.PlayerJob;
 
         if (m_useSkill)
@@ -165,15 +164,13 @@ public class SleepUI : MonoBehaviour
         }
 
         Hide();
-        PVHandler.pv.RPC("StartBriefing", Photon.Pun.RpcTarget.All);
     }
 
     public void Hide()
     {
-        m_mainChoosing.SetActive(false);
+        m_background.SetActive(false);
+        m_mainChoosing.transform.parent.gameObject.SetActive(false);
         m_listCanvas.SetActive(false);
         m_useornotCanvas.SetActive(false);
-
-        m_remainTime.gameObject.SetActive(false);
     }
 }

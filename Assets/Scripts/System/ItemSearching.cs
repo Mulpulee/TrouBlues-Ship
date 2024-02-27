@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class ItemSearching
 {
+    private static ItemSearching m_instance;
+    public static ItemSearching Ins
+    {
+        get
+        {
+            if (m_instance == null) m_instance = new ItemSearching();
+            return m_instance;
+        }
+    }
+
     private int m_provided;
     private int m_selectable;
     private int m_currentMap;
@@ -16,6 +26,12 @@ public class ItemSearching
         m_currentMap = Random.Range(0, 3);
 
         m_percentage = DataManager.Data.SearchedItemPercentage[m_currentMap];
+    }
+
+    public int[] GetDatas(bool percent)
+    {
+        if (percent) return m_percentage;
+        else return new int[] { m_provided, m_selectable, m_currentMap };
     }
 
     public void SetDatas(int pP, int pS, int pC, int[] pPercent)

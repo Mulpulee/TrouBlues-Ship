@@ -27,21 +27,28 @@ public struct News
     }
 }
 
-public static class BriefingManager
+public class BriefingManager
 {
-    private static Dictionary<JobType, News> m_newsList;
-    private static List<News> m_result;
-
-    public static void Init(bool force = false)
+    private static BriefingManager m_instance;
+    public static BriefingManager Ins
     {
-        if (m_newsList == null || force)
+        get
         {
-            m_newsList = new Dictionary<JobType, News>();
-            m_result = new List<News>();
+            if (m_instance == null) m_instance = new BriefingManager();
+            return m_instance;
         }
     }
 
-    public static void DeadPlayer(int profileId)
+    private Dictionary<JobType, News> m_newsList;
+    private List<News> m_result;
+
+    public void Init()
+    {
+        m_newsList = new Dictionary<JobType, News>();
+        m_result = new List<News>();
+    }
+
+    public void DeadPlayer(int profileId)
     {
         foreach (var p in CommonData.Players)
         {
@@ -54,13 +61,13 @@ public static class BriefingManager
         }
     }
 
-    public static void UseSkill(JobType pJob, string pScript)
+    public void UseSkill(JobType pJob, string pScript)
     {
         m_newsList.Add(pJob, new News(JobManager.GetJob(pJob).Icon,
             $"{JobManager.GetJob(pJob).Name}이(가) 능력을 사용했습니다.", pScript, NewsType.JobSkill));
     }
 
-    public static void UseScanner(int profileId)
+    public void UseScanner(int profileId)
     {
         foreach (var p in CommonData.Players)
         {
@@ -73,7 +80,7 @@ public static class BriefingManager
         }
     }
 
-    public static void StartBriefing()
+    public void StartBriefing()
     {
         if (m_result.Count == 0) m_result.Add(new News(null, null, null, NewsType.Nothing));
 

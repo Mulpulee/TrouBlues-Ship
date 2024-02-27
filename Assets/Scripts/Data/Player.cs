@@ -19,6 +19,7 @@ public class Player
     private bool m_isSpy = false;
     private bool m_isInfected = false;
     private bool m_isDead = false;
+    private bool m_isLocked = false;
     private Job m_job;
     private Dictionary<ItemIndex, int> m_usedItem;
 
@@ -48,6 +49,8 @@ public class Player
 
     public bool IsDead { get { return m_isDead; } }
     public void SetDead() { m_isDead = true; }
+
+    public bool IsLocked { get { return m_isLocked; } set { m_isLocked = value; } }
 
     public Player()
     {

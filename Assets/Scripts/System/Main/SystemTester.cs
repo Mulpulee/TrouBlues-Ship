@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class SystemTester : MonoBehaviour
 {
     private int m_endCount;
-    private IntroUI intro;
+    private SleepUI sleep;
 
     private void Awake()
     {
@@ -18,7 +18,7 @@ public class SystemTester : MonoBehaviour
     private void Start()
     {
         Timer.SetTimer(60);
-        StartCoroutine(ReduceTime());
+        StartCoroutine(ReduceTime(0, () => sleep.EndSleep()));
 
         m_endCount = 0;
 
@@ -46,12 +46,8 @@ public class SystemTester : MonoBehaviour
             if (pAction != null && Timer.Time == pPoint)
             {
                 pAction.Invoke();
+                break;
             }
         }
-    }
-
-    public void TaskEnded()
-    {
-        m_endCount--;
     }
 }

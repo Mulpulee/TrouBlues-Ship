@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ItemSearchingUI : MonoBehaviour
 {
+    [SerializeField] private GameObject[] m_canvas;
+
     [SerializeField] private Text m_remainCountText;
 
     [SerializeField] private Text[] m_searchedItemsText;
@@ -16,7 +18,7 @@ public class ItemSearchingUI : MonoBehaviour
 
     public void ShowUI()
     {
-        gameObject.SetActive(true);
+        foreach (var item in m_canvas) item.SetActive(true);
 
         m_remainCountText.text = m_collectableCount.ToString();
 
@@ -70,13 +72,15 @@ public class ItemSearchingUI : MonoBehaviour
         }
     }
 
-    public void EndSelection(Player pPlayer)
+    public void EndSelection()
     {
         for (int i = 0; i < 5; i++)
         {
-            pPlayer.AddItem((ItemIndex)i, m_collectedItems[i]);
+            Player.This.AddItem((ItemIndex)i, m_collectedItems[i]);
         }
 
         PVHandler.pv.RPC("AddMedicines", Photon.Pun.RpcTarget.MasterClient, m_collectedItems[(int)ItemIndex.Medicine]);
+        PVHandler.pv.RPC("TaskEnded", Photon.Pun.RpcTarget.MasterClient);
+        foreach (var item in m_canvas) item.SetActive(false);
     }
 }

@@ -7,12 +7,12 @@ public class ShowPlayerList : MonoBehaviour
 {
     [SerializeField] private Transform m_listParent;
 
-    public void Show(bool SetID = true)
+    public void Show()
     {
-        Show(CommonData.Players, SetID);
+        Show(CommonData.Players);
     }
 
-    public void Show(List<Player> pPlayers, bool pSetID)
+    public void Show(List<Player> pPlayers)
     {
         gameObject.SetActive(true);
         for (int i = 0; i < m_listParent.childCount; i++) m_listParent.GetChild(i).gameObject.SetActive(false);
@@ -22,8 +22,6 @@ public class ShowPlayerList : MonoBehaviour
             Transform p = m_listParent.GetChild(i);
             p.gameObject.SetActive(true);
             p.GetChild(0).GetComponent<Image>().sprite = pPlayers[i].PlayerProfile;
-
-            if (!pSetID) continue;
 
             int[] id = pPlayers[i].ID;
             string temp = "";

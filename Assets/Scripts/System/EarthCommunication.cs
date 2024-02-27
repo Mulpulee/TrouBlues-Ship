@@ -2,22 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class EarthCommunication
+public class EarthCommunication
 {
+    private static EarthCommunication m_instance;
+    public static EarthCommunication Ins
+    {
+        get
+        {
+            if (m_instance == null) m_instance = new EarthCommunication();
+            return m_instance;
+        }
+    }
+
     public static char[] CharacterID = { '¢À', '¡Ú', '¢¾', '¢¼', '¡ß', '¡Ü' };
 
-    private static List<List<int>> m_openedAloneHint;
-    private static List<List<int>> m_openedTogetherHint;
+    private List<List<int>> m_openedAloneHint;
+    private List<List<int>> m_openedTogetherHint;
 
-    private static List<int[]> m_spys;
-    private static int m_spyCount;
+    private List<int[]> m_spys;
+    private int m_spyCount;
 
-    private static int m_alonePercent = 30;
+    private int m_alonePercent = 30;
 
-    public static void SetInfo(List<Player> pSpylist)
+    public void Init()
     {
         m_spys = new List<int[]>();
-        foreach (var item in pSpylist) m_spys.Add(item.ID);
+        foreach (var item in CommonData.Players)
+        {
+            if (item.IsSpy) m_spys.Add(item.ID);
+        }
 
         m_spyCount = m_spys.Count;
 
@@ -26,8 +39,10 @@ public static class EarthCommunication
         m_openedTogetherHint = new List<List<int>>(m_openedAloneHint);
     }
 
-    public static void StartCommunication(int pPlayer)
+    public void StartCommunication(int pPlayer)
     {
+        if (pPlayer == 0) return;
+
         int[] percent = DataManager.Data.FailureProbability;
 
         if (Random.Range(0, 100) < (pPlayer == 1 ? m_alonePercent : percent[CommonData.MultipleSuccessStack]))
@@ -42,7 +57,7 @@ public static class EarthCommunication
         }
     }
 
-    public static string Alone()
+    public string Alone()
     {
         int index = Random.Range(0, m_spyCount);
         int[] id = m_spys[index];
@@ -57,7 +72,7 @@ public static class EarthCommunication
         return $"{indexing} ½ºÆÄÀÌÀÇ ID¿¡´Â {CharacterID[id[code]]}°¡ Æ÷ÇÔµÊÀÌ ¹àÇôÁü";
     }
 
-    public static string Together()
+    public string Together()
     {
         int index = Random.Range(0, m_spyCount);
         int[] id = m_spys[index];

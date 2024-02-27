@@ -92,7 +92,7 @@ public static class CommonData
         for (int i = 0; i < Spys.Count; i++) spyArr[i] = Spys[i].ProfileID;
 
         PVHandler.pv.RPC("SetPlayerList", Photon.Pun.RpcTarget.Others, pList, spyArr, Infected.ProfileID, idArr, jobArr);
-        SceneManager.LoadScene("IntroScene");
+        SceneManager.LoadScene("GameScene");
     }
 
     public static void SetPlayerInfo(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, int[] pJobs)
@@ -138,7 +138,7 @@ public static class CommonData
         RepairProgress = new int[3];
         MultipleSuccessStack = 0;
 
-        SceneManager.LoadScene("IntroScene");
+        SceneManager.LoadScene("GameScene");
     }
 
     public static void AddMedicines(int pValue)

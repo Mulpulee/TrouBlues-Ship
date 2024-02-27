@@ -9,22 +9,34 @@ public enum VoteType
     Expel
 }
 
-public static class VoteManager
+public class VoteManager
 {
-    private static int[] m_vote;
-    private static int m_voteCount;
-    private static VoteType m_type;
+    private static VoteManager m_instance;
+    public static VoteManager Ins
+    {
+        get
+        {
+            if (m_instance == null) m_instance = new VoteManager();
+            return m_instance;
+        }
+    }
 
-    public static void StartVote(VoteType type, string subject, int index, int count, int[] list = null)
+    private int[] m_vote;
+    private int m_voteCount;
+    private VoteType m_type;
+    private int[] m_list;
+
+    public void StartVote(VoteType type, string subject, int index, int count, int[] list = null)
     {
         m_type = type;
         m_vote = new int[index];
         m_voteCount = count;
+        m_list = list;
 
         PVHandler.pv.RPC("StartVote", Photon.Pun.RpcTarget.All, type, subject, list);
     }
 
-    public static void Vote(int index)
+    public void Vote(int index)
     {
         m_vote[index]++;
         m_voteCount--;
@@ -32,12 +44,13 @@ public static class VoteManager
         if (m_voteCount == 0)
         {
             PVHandler.pv.RPC("EndVote", Photon.Pun.RpcTarget.All, m_vote);
+            GameManagerEx.Ins.TaskEnded();
         }
     }
 
-    public static int[] VoteResult { set { m_vote = value; } get { return m_vote; } }
+    public int[] VoteResult { set { m_vote = value; } get { return m_vote; } }
 
-    public static int GetResult()
+    public int GetResult(bool index)
     {
         int result = 0;
         int highest = 0;
@@ -54,6 +67,7 @@ public static class VoteManager
             }
         }
 
-        return result;
+        if (!index && result == 0) return -1;
+        return index ? result : m_list[m_type == VoteType.Normal ? result - 1 : result];
     }
 }

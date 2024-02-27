@@ -13,6 +13,7 @@ public class ChooseActivityUI : MonoBehaviour
 
     public void StartChoosing()
     {
+        GetComponent<Canvas>().enabled = true;
         m_resultCanvas.SetActive(false);
         foreach (var item in m_butttons)
         {
@@ -39,6 +40,7 @@ public class ChooseActivityUI : MonoBehaviour
         m_butttons[index].transform.GetChild(2).gameObject.SetActive(true);
 
         PVHandler.pv.RPC("Choose", Photon.Pun.RpcTarget.MasterClient, index, Player.This.ProfileID);
+        ChooseActivity.Ins.SelectedActivity = index;
     }
 
     public void EndChoosing(int[][] result)
@@ -54,5 +56,10 @@ public class ChooseActivityUI : MonoBehaviour
                 img.sprite = CommonData.ProfileObjects[result[i][j]].profile;
             }
         }
+    }
+
+    public void HideCanvas()
+    {
+        GetComponent<Canvas>().enabled = false;
     }
 }
