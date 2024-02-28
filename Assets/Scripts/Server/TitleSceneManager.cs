@@ -31,6 +31,10 @@ public class TitleSceneManager : MonoBehaviour
             if (count == lobby.LobbyPlayers.Count)
             {
                 CommonData.MakePlayerInfo(lobby.Players.ToArray());
+                foreach (int item in lobby.m_players)
+                {
+                    lobby.LobbyPlayers[item].isReady = false;
+                }
             }
         }
     }
