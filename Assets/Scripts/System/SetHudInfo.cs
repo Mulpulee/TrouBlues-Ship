@@ -15,12 +15,12 @@ public class SetHudInfo : MonoBehaviour
         m_hudCanvas.SetActive(onoff);
     }
 
-    public void UpdateInfo(bool dead)
+    public void UpdateInfo()
     {
         m_tabCount.text = CommonData.Medecines.ToString();
         m_profile.sprite = Player.This.PlayerProfile;
 
-        if (dead) m_profile.color = Color.gray;
+        if (Player.This.IsDead) m_profile.color = Color.gray;
         else m_profile.color = Color.white;
     }
 }

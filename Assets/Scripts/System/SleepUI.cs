@@ -31,12 +31,17 @@ public class SleepUI : MonoBehaviour
 
     public void Show()
     {
+        if (Player.This.IsDead || Player.This.IsLocked) return;
+
         m_background.SetActive(true);
         m_mainChoosing.transform.parent.gameObject.SetActive(true);
+        m_skillState.GetComponentInParent<Button>().interactable = true;
 
         m_scannerCount.text = $"현재 {Player.This.GetItem(ItemIndex.Scanner)}개";
         if (Player.This.GetItem(ItemIndex.Scanner) == 0)
             m_scannerCount.GetComponentInParent<Button>().interactable = false;
+        else
+            m_scannerCount.GetComponentInParent<Button>().interactable = true;
 
         if (Player.This.PlayerJob.Type == JobType.None)
         {
@@ -45,6 +50,7 @@ public class SleepUI : MonoBehaviour
             return;
         }
 
+        if (Player.This.PlayerJob.SpecialSkill.CoolCount != 0) Player.This.PlayerJob.SpecialSkill.CoolCount--;
         Job job = Player.This.PlayerJob;
 
         m_jobIcon.sprite = job.Icon;
@@ -55,7 +61,10 @@ public class SleepUI : MonoBehaviour
         }
         else
         {
-            m_skillState.text = $"({job.SpecialSkill.CoolCount}턴 남음)";
+            if (job.Type == JobType.Captain)
+                m_skillState.text = $"(추방투표 이후 가능)";
+            else
+                m_skillState.text = $"({job.SpecialSkill.CoolCount}턴 남음)";
             m_skillState.GetComponentInParent<Button>().interactable = false;
         }
     }
@@ -70,6 +79,7 @@ public class SleepUI : MonoBehaviour
             case JobType.Medic:
                 {
                     m_listCanvas.SetActive(true);
+                    m_listCanvas.transform.GetChild(2).GetComponent<Text>().text = "직업 능력 사용";
                     m_listCanvas.transform.GetChild(3).GetComponent<Text>().text = job.SpecialSkill.Explanation;
 
                     List<Player> list = CommonData.Players;
@@ -138,6 +148,7 @@ public class SleepUI : MonoBehaviour
     public void UseScanner()
     {
         m_listCanvas.SetActive(true);
+        m_listCanvas.transform.GetChild(2).GetComponent<Text>().text = "스캐너 사용";
         m_listCanvas.transform.GetChild(3).GetComponent<Text>().text = "지목한 플레이어의 감염 여부를 확인합니다.";
 
         for (int i = 0; i < CommonData.Players.Count; i++)
@@ -152,16 +163,22 @@ public class SleepUI : MonoBehaviour
 
     public void EndSleep()
     {
+        if (Player.This.IsDead || Player.This.IsLocked) return;
         Job job = Player.This.PlayerJob;
 
         if (m_useSkill)
         {
             PVHandler.pv.RPC("UseSkill", Photon.Pun.RpcTarget.All, job.Type, job.SpecialSkill.GetResult());
+            Player.This.PlayerJob.SpecialSkill.CoolCount = job.SpecialSkill.CoolDown + 1;
         }
         if (m_useScanner)
         {
             PVHandler.pv.RPC("UseScanner", Photon.Pun.RpcTarget.All, m_scannerTargetId);
+            Player.This.AddItem(ItemIndex.Scanner, -1);
         }
+
+        m_useSkill = false;
+        m_useScanner = false;
 
         Hide();
     }

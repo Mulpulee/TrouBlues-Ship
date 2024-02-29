@@ -42,10 +42,13 @@ public class BriefingManager
     private Dictionary<JobType, News> m_newsList;
     private List<News> m_result;
 
+    private int m_scannerCount;
+
     public void Init()
     {
         m_newsList = new Dictionary<JobType, News>();
         m_result = new List<News>();
+        m_scannerCount = -1;
     }
 
     public void DeadPlayer(int profileId)
@@ -73,7 +76,7 @@ public class BriefingManager
         {
             if (p.ProfileID == profileId)
             {
-                m_newsList.Add(JobType.None,
+                m_newsList.Add((JobType)m_scannerCount--,
                     new News(null, p.Name, $"{(p.IsInfected ? "" : "비")}감염자로 확인되었습니다.", NewsType.Scanner));
                 break;
             }
@@ -89,7 +92,7 @@ public class BriefingManager
 
         foreach (var p in newlist)
         {
-            if (p.Key == JobType.None) scanners.Add(p.Value);
+            if (p.Key < 0) scanners.Add(p.Value);
             else m_result.Add(p.Value);
         }
 

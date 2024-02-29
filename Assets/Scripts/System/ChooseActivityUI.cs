@@ -13,6 +13,12 @@ public class ChooseActivityUI : MonoBehaviour
 
     public void StartChoosing()
     {
+        if (Player.This.IsDead)
+        {
+            ChooseActivity.Ins.SelectedActivity = -1;
+            return;
+        }
+
         GetComponent<Canvas>().enabled = true;
         m_resultCanvas.SetActive(false);
         foreach (var item in m_butttons)
@@ -26,11 +32,6 @@ public class ChooseActivityUI : MonoBehaviour
             {
                 item.GetChild(1 + (i / 4)).GetChild(i % 4).GetComponent<Image>().color = Color.clear;
             }
-        }
-
-        if (Player.This.IsDead)
-        {
-            foreach (var item in m_butttons) item.interactable = false;
         }
     }
 

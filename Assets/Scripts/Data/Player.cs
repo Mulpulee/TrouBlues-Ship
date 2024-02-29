@@ -45,7 +45,7 @@ public class Player
     public void SetSpy() { m_isSpy = true; }
 
     public bool IsInfected { get { return m_isInfected; } }
-    public void SetInfected() { m_isInfected = true; }
+    public void SetInfected(bool infected = true) { m_isInfected = infected; }
 
     public bool IsDead { get { return m_isDead; } }
     public void SetDead() { m_isDead = true; }

@@ -73,6 +73,14 @@ MonoBehaviour:
   - Sleep
   - SetSearchDatas
   - HideVote
+  - ReturnToLobby
+  - Expel
+  - Ending
+  - SetSpyMode
+  - SetGameScene
+  - ClearReady
+  - UpdatePlayerInfo
+  - CutProgress
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

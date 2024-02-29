@@ -28,6 +28,25 @@ public class PVHandler : MonoBehaviour
         FindObjectOfType<LobbyManager>().Ready(pItem);
     }
 
+    [PunRPC]
+    public void ClearReady()
+    {
+        FindObjectOfType<TitleSceneManager>().ClearReady();
+    }
+
+    [PunRPC]
+    public void SetGameScene()
+    {
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("GameScene"));
+    }
+
+    [PunRPC]
+    public void ReturnToLobby()
+    {
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("TitleScene"));
+        SceneManager.UnloadSceneAsync("GameScene");
+    }
+
     #endregion
 
     #region CommonData
@@ -68,12 +87,24 @@ public class PVHandler : MonoBehaviour
         CommonData.RepairProgress = pValue;
     }
 
+    [PunRPC]
+    public void CutProgress()
+    {
+        CommonData.CutProgress();
+    }
+
+    [PunRPC]
+    public void UpdatePlayerInfo(int pProfileId, bool pInfected, bool pLocked)
+    {
+        CommonData.UpdatePlayerInfo(pProfileId, pInfected, pLocked);
+    }
+
     #endregion
 
     #region Vote
 
     [PunRPC]
-    public void StartVote(VoteType pType, string pSubject, int[] pList = null)
+    public void StartVote(VoteType pType, string pSubject, int[] pList)
     {
         FindObjectOfType<VoteUI>().StartVote(pType, pSubject, pList);
     }
@@ -94,6 +125,12 @@ public class PVHandler : MonoBehaviour
     public void HideVote()
     {
         FindObjectOfType<VoteUI>().Hide();
+    }
+
+    [PunRPC]
+    public void SetSpyMode(bool pSpyMode)
+    {
+        FindObjectOfType<VoteUI>().SpyMode = pSpyMode;
     }
 
     #endregion
@@ -151,7 +188,7 @@ public class PVHandler : MonoBehaviour
     }
 
     [PunRPC]
-    public void Communicated(bool pSucceed, string pResult = null)
+    public void Communicated(bool pSucceed, string pResult)
     {
         if (ChooseActivity.Ins.SelectedActivity == 1)
             FindObjectOfType<EarthCommunicationUI>().PrintResult(pSucceed, pResult);
@@ -186,7 +223,7 @@ public class PVHandler : MonoBehaviour
         switch (pIndex)
         {
             case 0: hud.OnOff(pPar); break;
-            case 1: hud.UpdateInfo(pPar); break;
+            case 1: hud.UpdateInfo(); break;
         }
     }
 
@@ -227,6 +264,28 @@ public class PVHandler : MonoBehaviour
                 break;
             case 2: FindObjectOfType<Repairing>().ShowUI(); break;
             case 3: FindObjectOfType<ChooseActivityUI>().HideCanvas(); break;
+        }
+    }
+
+    [PunRPC]
+    public void Expel(int pIndex, int pProfileId, string pText)
+    {
+        ExpelUI ui = FindObjectOfType<ExpelUI>();
+        switch (pIndex)
+        {
+            case 0: ui.Expel(pProfileId, pText); break;
+            case 1: ui.Hide(); break;
+        }
+    }
+
+    [PunRPC]
+    public void Ending(int pIndex, string pEnding, string pSubScript)
+    {
+        EndingUI ending = FindObjectOfType<EndingUI>();
+        switch (pIndex)
+        {
+            case 0: ending.ShowEnding(pEnding, pSubScript); break;
+            case 1: ending.Hide(); break;
         }
     }
 

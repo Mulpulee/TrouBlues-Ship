@@ -48,7 +48,7 @@ public class EarthCommunication
         if (Random.Range(0, 100) < (pPlayer == 1 ? m_alonePercent : percent[CommonData.MultipleSuccessStack]))
         {
             CommonData.AddSuccessStack(true);
-            PVHandler.pv.RPC("Communicated", Photon.Pun.RpcTarget.All, false);
+            PVHandler.pv.RPC("Communicated", Photon.Pun.RpcTarget.All, false, "");
         }
         else
         {

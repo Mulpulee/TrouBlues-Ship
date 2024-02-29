@@ -22,6 +22,8 @@ public class VoteUI : MonoBehaviour
     private VoteType m_type;
     private int m_count;
 
+    public bool SpyMode = false;
+
     private void Start()
     {
         m_buttons = m_buttonParent.GetComponentsInChildren<Button>();
@@ -39,6 +41,8 @@ public class VoteUI : MonoBehaviour
 
     public void StartVote(VoteType type, string subject, int[] list = null)
     {
+        if (SpyMode && !Player.This.IsSpy) return;
+
         m_ui.SetActive(true);
         m_time.text = Timer.Time.ToString("000");
         m_subject.text = subject;
@@ -47,9 +51,13 @@ public class VoteUI : MonoBehaviour
         foreach (var button in m_buttons) button.gameObject.SetActive(false);
         m_pacParent.SetActive(false);
 
-        foreach (var button in m_buttons) { button.interactable = true; button.transform.GetChild(1).gameObject.SetActive(false); }
-        foreach (var button in m_pacButtons) { button.interactable = true; button.transform.GetChild(1).gameObject.SetActive(false); }
+        foreach (var button in m_buttons)
+        { button.interactable = true; button.transform.GetChild(1).gameObject.SetActive(false); button.transform.GetChild(2).gameObject.SetActive(false); }
+        foreach (var button in m_pacButtons)
+        { button.interactable = true; button.transform.GetChild(1).gameObject.SetActive(false); button.transform.GetChild(0).gameObject.SetActive(false); }
         m_skip.interactable = true;
+        m_skipFrame.SetActive(false);
+        m_skip.transform.GetChild(1).gameObject.SetActive(false);
 
         switch (type)
         {
@@ -58,9 +66,9 @@ public class VoteUI : MonoBehaviour
                 for (int i = 0; i < m_count; i++)
                 {
                     m_buttons[i].gameObject.SetActive(true);
-                    Debug.Log(list[i]);
-                    m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = CommonData.Players[list[i]].PlayerProfile;
+                    m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = CommonData.ProfileObjects[list[i]].profile;
                 }
+                m_skip.gameObject.SetActive(true);
                 break;
             case VoteType.ProsAndCons:
                 m_count = 2;
@@ -73,9 +81,16 @@ public class VoteUI : MonoBehaviour
                 for (int i = 0; i < m_count; i++)
                 {
                     m_buttons[i].gameObject.SetActive(true);
-                    m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = CommonData.Players[list[i]].PlayerProfile;
+                    m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = CommonData.ProfileObjects[list[i]].profile;
                 }
                 break;
+        }
+
+        if (Player.This.IsDead || Player.This.IsLocked)
+        {
+            foreach (var button in m_buttons) button.interactable = false;
+            foreach (var button in m_pacButtons) button.interactable = false;
+            m_skip.interactable = false;
         }
     }
 
@@ -106,6 +121,8 @@ public class VoteUI : MonoBehaviour
 
     public void EndVote(int[] result)
     {
+        if (SpyMode && !Player.This.IsSpy) return;
+
         m_isVoting = false;
         foreach (var button in m_buttons) button.interactable = false;
         foreach (var button in m_pacButtons) button.interactable = false;

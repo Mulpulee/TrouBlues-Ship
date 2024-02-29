@@ -7,8 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class SystemTester : MonoBehaviour
 {
-    private int m_endCount;
-    private SleepUI sleep;
+    [SerializeField] private ExpelUI expel;
 
     private void Awake()
     {
@@ -17,23 +16,12 @@ public class SystemTester : MonoBehaviour
 
     private void Start()
     {
-        Timer.SetTimer(60);
-        StartCoroutine(ReduceTime(0, () => sleep.EndSleep()));
-
-        m_endCount = 0;
-
-        foreach (var p in CommonData.Players)
-        {
-            if (!p.IsDead) m_endCount++;
-        }
+        expel.Expel(0, "8명이 비행을 계속합니다...");
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            for (int i = 0; i < 10; i++) Timer.ReduceTimer();
-        }
+
     }
 
     private IEnumerator ReduceTime(int pPoint = 0, Action pAction = null)

@@ -15,6 +15,7 @@ public interface Data
     [CSharpCallLua] List<int[]> SearchedItemPercentage { get; }
     int[] JobPerPlayer { get; }
     [CSharpCallLua] List<int[]> EngineerSkillLevel { get; }
+    [CSharpCallLua] List<int[]> ExpelMilestones { get; }
 }
 
 public static class DataManager

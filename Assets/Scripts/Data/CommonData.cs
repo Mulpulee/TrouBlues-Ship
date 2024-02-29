@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public static class CommonData
 {
@@ -91,8 +92,8 @@ public static class CommonData
 
         for (int i = 0; i < Spys.Count; i++) spyArr[i] = Spys[i].ProfileID;
 
-        PVHandler.pv.RPC("SetPlayerList", Photon.Pun.RpcTarget.Others, pList, spyArr, Infected.ProfileID, idArr, jobArr);
-        SceneManager.LoadScene("GameScene");
+        PVHandler.pv.RPC("SetPlayerList", RpcTarget.Others, pList, spyArr, Infected.ProfileID, idArr, jobArr);
+        SceneManager.LoadScene("GameScene", LoadSceneMode.Additive);
     }
 
     public static void SetPlayerInfo(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, int[] pJobs)
@@ -138,23 +139,47 @@ public static class CommonData
         RepairProgress = new int[3];
         MultipleSuccessStack = 0;
 
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("GameScene", LoadSceneMode.Additive);
+    }
+
+    public static void UpdatePlayerInfo(int pProfileId, bool pInfected, bool pLocked)
+    {
+        foreach (var p in Players)
+        {
+            if (p.ProfileID == pProfileId)
+            {
+                p.SetInfected(pInfected);
+                p.IsLocked = pLocked;
+            }
+        }
+
+        if (Player.This.ProfileID == pProfileId)
+        {
+            Player.This.SetInfected(pInfected);
+            Player.This.IsLocked = pLocked;
+        }
     }
 
     public static void AddMedicines(int pValue)
     {
         Medecines += pValue;
-        PVHandler.pv.RPC("SetMedicineCount", Photon.Pun.RpcTarget.Others, Medecines);
+        PVHandler.pv.RPC("SetMedicineCount", RpcTarget.Others, Medecines);
+        PVHandler.pv.RPC("Hud", RpcTarget.All, 1, false);
     }
 
     public static void AddProgress(int[] pValue)
     {
-        for (int i = 0; i < pValue.Length; i++)
-        {
-            RepairProgress[i] += pValue[i];
-        }
+        for (int i = 0; i < pValue.Length; i++) RepairProgress[i] += pValue[i];
+        
+        PVHandler.pv.RPC("SetProgress", RpcTarget.Others, RepairProgress);
+    }
 
-        PVHandler.pv.RPC("SetProgress", Photon.Pun.RpcTarget.Others, RepairProgress);
+    public static void CutProgress()
+    {
+        for (int i = 0; i < RepairProgress.Length; i++)
+            if (RepairProgress[i] > DataManager.Data.ShipRequirements[Players.Count - 4][i])
+                RepairProgress[i] = DataManager.Data.ShipRequirements[Players.Count - 4][i];
+        PVHandler.pv.RPC("SetProgress", RpcTarget.Others, RepairProgress);
     }
 
     public static void AddSuccessStack(bool pReset = false)

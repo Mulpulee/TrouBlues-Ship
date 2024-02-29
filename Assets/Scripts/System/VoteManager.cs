@@ -50,7 +50,7 @@ public class VoteManager
 
     public int[] VoteResult { set { m_vote = value; } get { return m_vote; } }
 
-    public int GetResult(bool index)
+    public int GetResult(bool index = false)
     {
         int result = 0;
         int highest = 0;
@@ -67,7 +67,7 @@ public class VoteManager
             }
         }
 
-        if (!index && result == 0) return -1;
+        if (!index && result < (m_type == VoteType.Normal ? 1 : 0)) return -1;
         return index ? result : m_list[m_type == VoteType.Normal ? result - 1 : result];
     }
 }

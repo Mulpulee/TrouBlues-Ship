@@ -18,6 +18,14 @@ public class TitleSceneManager : MonoBehaviour
         GameStart();
     }
 
+    public void ClearReady()
+    {
+        foreach (int item in lobby.m_players)
+        {
+            lobby.LobbyPlayers[item].isReady = false;
+        }
+    }
+
     public void GameStart()
     {
         Debug.Log("Invoke Success");
@@ -30,11 +38,8 @@ public class TitleSceneManager : MonoBehaviour
             }
             if (count == lobby.LobbyPlayers.Count)
             {
+                PVHandler.pv.RPC("ClearReady", RpcTarget.All);
                 CommonData.MakePlayerInfo(lobby.Players.ToArray());
-                foreach (int item in lobby.m_players)
-                {
-                    lobby.LobbyPlayers[item].isReady = false;
-                }
             }
         }
     }

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184f830913ca3724baed7ecbfeda3b9f, type: 3}
   m_Name: None
   m_EditorClassIdentifier: 
-  Icon: {fileID: 0}
+  Type: 0
+  Icon: {fileID: 21300000, guid: c1f9fcfec69e50b44a81ebabf3b7afdc, type: 3}
   Name: "\uC77C\uBC18 \uC5F0\uAD6C\uC6D0"
   Description: "\uD589\uC131\uC5D0 \uB300\uD574 \uC804\uCCB4\uC801\uC73C\uB85C \uC5F0\uAD6C\uD558\uAE30
     \uC704\uD574 \uD0D1\uC2B9\uD55C \uC5F0\uAD6C\uC6D0\uB4E4"

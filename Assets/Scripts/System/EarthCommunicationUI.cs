@@ -46,8 +46,11 @@ public class EarthCommunicationUI : MonoBehaviour
         {
             m_text.text += t;
             m_layout.SetLayoutHorizontal();
-            if (t != ' ') yield return new WaitForSeconds(0.25f);
+            if (t != ' ') yield return new WaitForSeconds(0.1f);
+            m_layout.SetLayoutHorizontal();
         }
+        m_text.text += ' ';
+        m_layout.SetLayoutHorizontal();
 
         yield return new WaitUntil(() => Input.anyKeyDown || Input.GetMouseButtonDown(0));
         if (pNext != null) pNext.Invoke();

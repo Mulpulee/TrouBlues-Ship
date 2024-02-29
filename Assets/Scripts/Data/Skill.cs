@@ -16,7 +16,7 @@ public class CaptainSkill : Skill
 {
     public CaptainSkill()
     {
-        CoolDown = -1;
+        CoolDown = -10;
         CoolCount = 0;
         Explanation = "지목한 플레이어의 직업을 확인하고, 그 능력을 사용합니다.";
         //Script = $"{Searched.Name}의 직업은  {Searched.PlayerJob.name}으로 밝혀졌습니다!";
@@ -39,8 +39,7 @@ public class EngineerSkill : Skill
 
     public override string GetResult()
     {
-        for (int i = 0; i < 3; i++)
-            CommonData.RepairProgress[i] += DataManager.Data.EngineerSkillLevel[CommonData.Players.Count - 4][i];
+        PVHandler.pv.RPC("AddProgress", Photon.Pun.RpcTarget.MasterClient, DataManager.Data.EngineerSkillLevel[CommonData.Players.Count - 4]);
         // 우주선 수리 진척도 올림
 
         return "우주선 수리 진척도가 일정 수준 올라갔습니다.";
