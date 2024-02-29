@@ -99,6 +99,12 @@ public class PVHandler : MonoBehaviour
         CommonData.UpdatePlayerInfo(pProfileId, pInfected, pLocked);
     }
 
+    [PunRPC]
+    public void UnlockAll()
+    {
+        CommonData.UnlockAll();
+    }
+
     #endregion
 
     #region Vote
@@ -197,7 +203,8 @@ public class PVHandler : MonoBehaviour
     [PunRPC]
     public void TaskEnded()
     {
-        GameManagerEx.Ins.TaskEnded();
+        if (GameManagerEx.Ins == null) GameObject.FindObjectOfType<GameManagerEx>().TaskEnded();
+        else GameManagerEx.Ins.TaskEnded();
     }
 
     #endregion

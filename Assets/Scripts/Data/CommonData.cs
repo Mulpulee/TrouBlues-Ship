@@ -160,6 +160,11 @@ public static class CommonData
         }
     }
 
+    public static void UnlockAll()
+    {
+        foreach (var p in Players) p.IsLocked = false;
+    }
+
     public static void AddMedicines(int pValue)
     {
         Medecines += pValue;
@@ -186,5 +191,7 @@ public static class CommonData
     {
         if (pReset) MultipleSuccessStack = 0;
         else MultipleSuccessStack++;
+
+        if (MultipleSuccessStack > 2) MultipleSuccessStack = 2;
     }
 }

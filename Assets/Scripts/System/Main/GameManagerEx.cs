@@ -47,7 +47,6 @@ public class GameManagerEx : MonoBehaviour
 
     private IEnumerator Intro()
     {
-        yield return new WaitUntil(() => m_endCount == 8 - CommonData.Players.Count);
         PVHandler.pv.RPC("SetGameScene", RpcTarget.All);
 
         // 인트로 재생
@@ -78,7 +77,10 @@ public class GameManagerEx : MonoBehaviour
             // 수면시간 시작
             PVHandler.pv.RPC("Brief", RpcTarget.All, 0);
 
-            if (m_canSpyKill)
+            int hasSpy = 0;
+            foreach (var p in CommonData.Spys) if (!p.IsDead && !p.IsLocked) hasSpy++;
+
+            if (m_canSpyKill && hasSpy > 0)
             {
                 m_canSpyKill = false;
                 PVHandler.pv.RPC("SetSpyMode", RpcTarget.All, true);
@@ -86,7 +88,7 @@ public class GameManagerEx : MonoBehaviour
                 Timer.SetTimer(30);
                 timer = StartCoroutine(ReduceTime(0, () => isTaskEnd = true));
                 m_endCount = 1;
-                VoteManager.Ins.StartVote(VoteType.Normal, "누구를 죽일까?", alives.Count + 1, alives.Count, alives.ToArray());
+                VoteManager.Ins.StartVote(VoteType.Normal, "누구를 죽일까?", alives.Count + 1, hasSpy, alives.ToArray());
 
                 while (m_endCount != 0)
                 {
@@ -109,6 +111,7 @@ public class GameManagerEx : MonoBehaviour
                 }
 
                 PVHandler.pv.RPC("SetSpyMode", RpcTarget.All, false);
+                PVHandler.pv.RPC("HideVote", RpcTarget.All);
             }
 
             isTaskEnd = false;
@@ -124,15 +127,8 @@ public class GameManagerEx : MonoBehaviour
             yield return new WaitForSeconds(1);
             PVHandler.pv.RPC("Brief", RpcTarget.All, 1);
             yield return new WaitUntil(() => m_endCount == 0);
-
-            foreach (var p in CommonData.Players)
-            {
-                if (p.IsLocked)
-                {
-                    p.IsLocked = false;
-                    PVHandler.pv.RPC("UpdatePlayerInfo", RpcTarget.All, p.ProfileID, p.IsInfected, true);
-                }
-            }
+            
+            PVHandler.pv.RPC("UnlockAll", RpcTarget.All);
             PVHandler.pv.RPC("CutProgress", RpcTarget.All);
 
             // 오전 행동선택
@@ -252,13 +248,13 @@ public class GameManagerEx : MonoBehaviour
             foreach (var i in CommonData.RepairProgress) progress += i;
 
             // 추방 투표
-            Debug.Log(progress);
-            Debug.Log(m_goal);
-            while (((float)(progress / m_goal) * 100) >= DataManager.Data.ExpelMilestones[CommonData.Spys.Count][m_mileStone])
+            Debug.Log($"{progress}/{m_goal} = {((float)progress / m_goal) * 100}%");
+            Debug.Log($"{DataManager.Data.ExpelMilestones[CommonData.Spys.Count - 1][m_mileStone]}");
+            while ((((float)progress / m_goal) * 100) >= DataManager.Data.ExpelMilestones[CommonData.Spys.Count - 1][m_mileStone])
             {
                 m_canSpyKill = true;
 
-                m_endCount = 1;
+                m_endCount = 1; isTaskEnd = false;
                 Timer.SetTimer(90);
                 VoteManager.Ins.StartVote(VoteType.Expel, "누구를 내보낼까?", alives.Count, alives.Count - haslocked, alives.ToArray());
                 timer = StartCoroutine(ReduceTime(0, () => isTaskEnd = true));
@@ -385,6 +381,25 @@ public class GameManagerEx : MonoBehaviour
                 pAction.Invoke();
                 break;
             }
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            PVHandler.pv.RPC("AddProgress", RpcTarget.MasterClient, new int[] { 5, 5, 5 });
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            for (int i = 0; i < 5; i++)
+                Timer.ReduceTimer();
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            for (int i = 0; i < 5; i++)
+                Timer.ReduceTimer(true);
         }
     }
 }

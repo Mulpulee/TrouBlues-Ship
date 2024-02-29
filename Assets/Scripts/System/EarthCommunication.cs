@@ -52,7 +52,7 @@ public class EarthCommunication
         }
         else
         {
-            CommonData.AddSuccessStack();
+            if (pPlayer > 1) CommonData.AddSuccessStack();
             PVHandler.pv.RPC("Communicated", Photon.Pun.RpcTarget.All, true, pPlayer == 1 ? Alone() : Together());
         }
     }
