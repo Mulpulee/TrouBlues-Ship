@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,8 +45,17 @@ public class BriefingUI : MonoBehaviour
                     m_skill.SetActive(true);
                     m_skill.transform.GetChild(0).GetComponent<Image>().sprite = news.Icon;
                     m_skill.transform.GetChild(1).GetComponent<Text>().text = news.Target;
+                    m_skill.transform.GetChild(2).gameObject.SetActive(false);
                     yield return new WaitForSeconds(2f);
-                    m_skill.transform.GetChild(1).GetComponent<Text>().text = news.Script;
+
+                    string[] s = news.Script.Split('`');
+                    if (s.Length > 1)
+                    {
+                        m_skill.transform.GetChild(1).GetComponent<Text>().text = s[0];
+                        m_skill.transform.GetChild(2).gameObject.SetActive(true);
+                        m_skill.transform.GetChild(2).GetComponent<Image>().sprite = EarthCommunication.CharacterID[Int32.Parse(s[1])];
+                    }
+                    else m_skill.transform.GetChild(1).GetComponent<Text>().text = news.Script;
                     break;
                 case NewsType.Scanner:
                     m_scanner.SetActive(true);

@@ -24,9 +24,12 @@ public class ShowPlayerList : MonoBehaviour
             p.GetChild(0).GetComponent<Image>().sprite = pPlayers[i].PlayerProfile;
 
             int[] id = pPlayers[i].ID;
-            string temp = "";
-            foreach (int item in id) temp = $"{temp}{EarthCommunication.CharacterID[item]}";
-            p.GetChild(1).GetComponent<Text>().text = temp;
+            Transform idP = p.GetChild(1);
+
+            for (int j = 0; j < id.Length; j++)
+            {
+                idP.GetChild(j).GetComponent<Image>().sprite = EarthCommunication.CharacterID[id[j]];
+            }
         }
     }
 

@@ -9,6 +9,7 @@ public class SetHudInfo : MonoBehaviour
 
     [SerializeField] private Text m_tabCount;
     [SerializeField] private Image m_profile;
+    [SerializeField] private Text m_playerName;
 
     public void OnOff(bool onoff)
     {
@@ -19,6 +20,7 @@ public class SetHudInfo : MonoBehaviour
     {
         m_tabCount.text = CommonData.Medecines.ToString();
         m_profile.sprite = Player.This.PlayerProfile;
+        m_playerName.text = Player.This.Name;
 
         if (Player.This.IsDead) m_profile.color = Color.gray;
         else m_profile.color = Color.white;

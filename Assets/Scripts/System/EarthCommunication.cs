@@ -14,7 +14,7 @@ public class EarthCommunication
         }
     }
 
-    public static char[] CharacterID = { '¢À', '¡Ú', '¢¾', '¢¼', '¡ß', '¡Ü' };
+    public static Sprite[] CharacterID; // = { '¢À', '¡Ú', '¢¾', '¢¼', '¡ß', '¡Ü' };
 
     private List<List<int>> m_openedAloneHint;
     private List<List<int>> m_openedTogetherHint;
@@ -26,6 +26,8 @@ public class EarthCommunication
 
     public void Init()
     {
+        CharacterID = Resources.LoadAll<Sprite>("ID");
+
         m_spys = new List<int[]>();
         foreach (var item in CommonData.Players)
         {
@@ -48,7 +50,7 @@ public class EarthCommunication
         if (Random.Range(0, 100) < (pPlayer == 1 ? m_alonePercent : percent[CommonData.MultipleSuccessStack]))
         {
             CommonData.AddSuccessStack(true);
-            PVHandler.pv.RPC("Communicated", Photon.Pun.RpcTarget.All, false, "");
+            PVHandler.pv.RPC("Communicated", Photon.Pun.RpcTarget.All, false, null);
         }
         else
         {
@@ -57,33 +59,31 @@ public class EarthCommunication
         }
     }
 
-    public string Alone()
+    public int[] Alone()
     {
         int index = Random.Range(0, m_spyCount);
         int[] id = m_spys[index];
 
-        string indexing = m_spyCount == 1 ? "" : $"{index + 1}¹ø";
         int code;
 
         if (m_openedAloneHint[index].Count == 0) code = Random.Range(0, 6);
         else code = m_openedAloneHint[index][Random.Range(0, m_openedAloneHint[index].Count)];
         m_openedAloneHint[index].Remove(code);
 
-        return $"{indexing} ½ºÆÄÀÌÀÇ ID¿¡´Â {CharacterID[id[code]]}°¡ Æ÷ÇÔµÊÀÌ ¹àÇôÁü";
+        return new int[] { m_spyCount == 1 ? -1 : index + 1, id[code] };
     }
 
-    public string Together()
+    public int[] Together()
     {
         int index = Random.Range(0, m_spyCount);
         int[] id = m_spys[index];
 
-        string indexing = m_spyCount == 1 ? "" : $"{index + 1}¹ø";
         int code;
 
         if (m_openedTogetherHint[index].Count == 0) code = Random.Range(0, 6);
         else code = m_openedTogetherHint[index][Random.Range(0, m_openedTogetherHint[index].Count)];
         m_openedTogetherHint[index].Remove(code);
 
-        return $"{indexing} ½ºÆÄÀÌÀÇ ID {code + 1}¹ø Ä­ ¹®ÀÚ´Â {CharacterID[id[code]]}ÀÓÀÌ ¹àÇôÁü";
+        return new int[] { m_spyCount == 1 ? -1 : index + 1, code + 1, id[code] };
     }
 }

@@ -99,6 +99,9 @@ public class ControllerSkill : Skill
 
     public override string GetResult()
     {
-        return EarthCommunication.Ins.Together();
+        int[] results = EarthCommunication.Ins.Together();
+        return results[0] == -1 ?
+            $"스파이의 ID {results[1]}번 칸 문자가 다음과 같음이 밝혀짐`{results[2]}" :
+            $"{results[0]} 스파이의 ID {results[1]}번 칸 문자가 다음과 같음이 밝혀짐`{results[2]}";
     }
 }

@@ -194,7 +194,7 @@ public class PVHandler : MonoBehaviour
     }
 
     [PunRPC]
-    public void Communicated(bool pSucceed, string pResult)
+    public void Communicated(bool pSucceed, int[] pResult)
     {
         if (ChooseActivity.Ins.SelectedActivity == 1)
             FindObjectOfType<EarthCommunicationUI>().PrintResult(pSucceed, pResult);
