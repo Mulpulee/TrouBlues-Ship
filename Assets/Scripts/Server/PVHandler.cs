@@ -52,9 +52,9 @@ public class PVHandler : MonoBehaviour
     #region CommonData
 
     [PunRPC]
-    public void SetPlayerList(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, int[] pJobs)
+    public void SetPlayerList(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, int[] pJobs, string[] pNames)
     {
-        CommonData.SetPlayerInfo(pPlayers, pSpys, pInfected, pIDs, pJobs);
+        CommonData.SetPlayerInfo(pPlayers, pSpys, pInfected, pIDs, pJobs, pNames);
     }
 
     [PunRPC]

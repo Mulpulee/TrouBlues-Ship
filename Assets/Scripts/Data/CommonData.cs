@@ -20,7 +20,7 @@ public static class CommonData
 
     public static Profile[] ProfileObjects;
 
-    public static void MakePlayerInfo(int[] pList)
+    public static void MakePlayerInfo(int[] pList, string[] pNames)
     {
         ProfileObjects = Resources.LoadAll<Profile>("ScriptableObject/Profile");
         ProfileObjects = ProfileObjects.OrderBy(p => p.ID).ToArray();
@@ -35,7 +35,7 @@ public static class CommonData
             {
                 PlayerProfile = ProfileObjects[pList[i]].profile,
                 ProfileID = pList[i],
-                Name = ProfileObjects[pList[i]].nickName,
+                Name = pNames[i],
                 ID = IdGenerator.GenerateID()
             });
 
@@ -92,11 +92,11 @@ public static class CommonData
 
         for (int i = 0; i < Spys.Count; i++) spyArr[i] = Spys[i].ProfileID;
 
-        PVHandler.pv.RPC("SetPlayerList", RpcTarget.Others, pList, spyArr, Infected.ProfileID, idArr, jobArr);
+        PVHandler.pv.RPC("SetPlayerList", RpcTarget.Others, pList, spyArr, Infected.ProfileID, idArr, jobArr, pNames);
         SceneManager.LoadScene("GameScene", LoadSceneMode.Additive);
     }
 
-    public static void SetPlayerInfo(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, int[] pJobs)
+    public static void SetPlayerInfo(int[] pPlayers, int[] pSpys, int pInfected, int[] pIDs, int[] pJobs, string[] pNames)
     {
         ProfileObjects = Resources.LoadAll<Profile>("ScriptableObject/Profile");
         ProfileObjects = ProfileObjects.OrderBy(p => p.ID).ToArray();
@@ -111,7 +111,7 @@ public static class CommonData
             {
                 PlayerProfile = ProfileObjects[pPlayers[i]].profile,
                 ProfileID = pPlayers[i],
-                Name = ProfileObjects[pPlayers[i]].nickName,
+                Name = pNames[i],
                 ID = new int[5] { pIDs[i * 5], pIDs[i * 5 + 1], pIDs[i * 5 + 2], pIDs[i * 5 + 3], pIDs[i * 5 + 4] },
                 PlayerJob = JobManager.GetJob((JobType)pJobs[i])
             };
@@ -158,6 +158,16 @@ public static class CommonData
             Player.This.SetInfected(pInfected);
             Player.This.IsLocked = pLocked;
         }
+    }
+
+    public static Player GetPlayer(int pProfileId)
+    {
+        foreach (var p in Players)
+        {
+            if (p.ProfileID == pProfileId) return p;
+        }
+
+        return null;
     }
 
     public static void UnlockAll()

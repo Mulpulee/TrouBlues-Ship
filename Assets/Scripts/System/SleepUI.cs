@@ -96,6 +96,7 @@ public class SleepUI : MonoBehaviour
                         Transform p = m_listCanvas.transform.GetChild(1).GetChild(i);
                         p.gameObject.SetActive(true);
                         p.GetChild(0).GetComponent<Image>().sprite = list[i].PlayerProfile;
+                        p.GetChild(1).GetComponent<Text>().text = list[i].Name;
                     }
 
                     players = list;

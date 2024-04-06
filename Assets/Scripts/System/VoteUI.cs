@@ -67,6 +67,7 @@ public class VoteUI : MonoBehaviour
                 {
                     m_buttons[i].gameObject.SetActive(true);
                     m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = CommonData.ProfileObjects[list[i]].profile;
+                    m_buttons[i].transform.GetChild(3).GetComponent<Text>().text = CommonData.GetPlayer(list[i]).Name;
                 }
                 m_skip.gameObject.SetActive(true);
                 break;
@@ -82,6 +83,7 @@ public class VoteUI : MonoBehaviour
                 {
                     m_buttons[i].gameObject.SetActive(true);
                     m_buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = CommonData.ProfileObjects[list[i]].profile;
+                    m_buttons[i].transform.GetChild(3).GetComponent<Text>().text = CommonData.GetPlayer(list[i]).Name;
                 }
                 break;
         }

@@ -39,7 +39,7 @@ public class TitleSceneManager : MonoBehaviour
             if (count == lobby.LobbyPlayers.Count)
             {
                 PVHandler.pv.RPC("ClearReady", RpcTarget.All);
-                CommonData.MakePlayerInfo(lobby.Players.ToArray());
+                //CommonData.MakePlayerInfo(lobby.Players.ToArray(), //요기에 string[]//);  <여기 주석풀고
             }
         }
     }

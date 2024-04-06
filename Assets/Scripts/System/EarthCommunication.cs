@@ -14,7 +14,7 @@ public class EarthCommunication
         }
     }
 
-    public static Sprite[] CharacterID; // = { '¢À', '¡Ú', '¢¾', '¢¼', '¡ß', '¡Ü' };
+    public static Sprite[] CharacterID; // = { '¢À', '¡Ú', '¢¾', '¢¼' }; // , '¡ß', '¡Ü' };
 
     private List<List<int>> m_openedAloneHint;
     private List<List<int>> m_openedTogetherHint;
@@ -66,7 +66,7 @@ public class EarthCommunication
 
         int code;
 
-        if (m_openedAloneHint[index].Count == 0) code = Random.Range(0, 6);
+        if (m_openedAloneHint[index].Count == 0) code = Random.Range(0, 4);
         else code = m_openedAloneHint[index][Random.Range(0, m_openedAloneHint[index].Count)];
         m_openedAloneHint[index].Remove(code);
 
@@ -80,7 +80,7 @@ public class EarthCommunication
 
         int code;
 
-        if (m_openedTogetherHint[index].Count == 0) code = Random.Range(0, 6);
+        if (m_openedTogetherHint[index].Count == 0) code = Random.Range(0, 4);
         else code = m_openedTogetherHint[index][Random.Range(0, m_openedTogetherHint[index].Count)];
         m_openedTogetherHint[index].Remove(code);
 

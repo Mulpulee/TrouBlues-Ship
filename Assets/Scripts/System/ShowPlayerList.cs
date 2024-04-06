@@ -22,6 +22,7 @@ public class ShowPlayerList : MonoBehaviour
             Transform p = m_listParent.GetChild(i);
             p.gameObject.SetActive(true);
             p.GetChild(0).GetComponent<Image>().sprite = pPlayers[i].PlayerProfile;
+            p.GetChild(2).GetComponent<Text>().text = pPlayers[i].Name;
 
             int[] id = pPlayers[i].ID;
             Transform idP = p.GetChild(1);
