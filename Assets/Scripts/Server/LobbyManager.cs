@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class LobbyManager : MonoBehaviour
 {
     [SerializeField] public GameObject gridLayoutGroup;
+    [SerializeField] public InputField nameInput;
     public LobbyPlayer prefab;
     public List<int> m_players = new List<int>();
     public List<int> Players
@@ -21,6 +22,13 @@ public class LobbyManager : MonoBehaviour
     public int m_currentProfile;
     public int playerID;
     public Dictionary<int, LobbyPlayer> LobbyPlayers = new Dictionary<int, LobbyPlayer>();
+    
+    private string m_name;
+
+    public void SetNickName()
+    {
+        m_name = nameInput.text;
+    }
 
     public void SetProfile()
     {
@@ -40,8 +48,8 @@ public class LobbyManager : MonoBehaviour
     {
         m_players.Add(item);
         LobbyPlayer lobbyPlayer = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
-        lobbyPlayer.Setup(m_profilesAsset[item].nickName, m_profilesAsset[item].profile);
-
+        if(m_name == null) lobbyPlayer.Setup(m_profilesAsset[item].nickName, m_profilesAsset[item].profile);
+        else lobbyPlayer.Setup(m_name, m_profilesAsset[item].profile);
         LobbyPlayers.Add(item, lobbyPlayer);
     }
 
