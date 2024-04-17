@@ -8,7 +8,8 @@ public enum NewsType
     Nothing,
     Death,
     JobSkill,
-    Scanner
+    Scanner,
+    Vaccine
 }
 
 public struct News
@@ -83,6 +84,19 @@ public class BriefingManager
         }
     }
 
+    public void UseVaccine(int profileId, bool used)
+    {
+        foreach (var p in CommonData.Players)
+        {
+            if (p.ProfileID == profileId)
+            {
+                m_newsList.Add((JobType)300,
+                    new News(p.PlayerProfile, p.Name, used ? "기생충에서 해방되었습니다." : "헛수고였습니다...", NewsType.Vaccine));
+                break;
+            }
+        }
+    }
+
     public void StartBriefing()
     {
         if (m_result.Count == 0) m_result.Add(new News(null, null, null, NewsType.Nothing));
@@ -93,6 +107,7 @@ public class BriefingManager
         foreach (var p in newlist)
         {
             if (p.Key < 0) scanners.Add(p.Value);
+            else if (p.Key == (JobType)300) m_result.Add(p.Value);
             else m_result.Add(p.Value);
         }
 

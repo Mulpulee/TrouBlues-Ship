@@ -9,6 +9,7 @@ public class ShowInventory : MonoBehaviour
 
     public void Show()
     {
+        SoundManager.Ins.PlaySfx("Game_button");
         Show(Player.This.GetInventory());
     }
 

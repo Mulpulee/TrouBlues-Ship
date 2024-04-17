@@ -19,10 +19,15 @@ Data = {
     SelectableItems = { 5, 6, 7, 8, 9 },
     FailureProbability = { 20, 50, 80 },
     SearchedItemPercentage = {
-        { 20, 24, 27, 13, 13, 3 },
-        { 26, 30, 20, 14, 8, 2 },
-        { 21, 27, 28, 11, 11, 2 }
+        { 25, 28, 31, 0, 13, 3 },
+        { 32, 34, 24, 0, 8, 2 },
+        { 24, 31, 32, 0, 11, 2 }
     },
+    --SearchedItemPercentage = {
+    --    { 20, 24, 27, 13, 13, 3 },
+    --    { 26, 30, 20, 14, 8, 2 },
+    --    { 21, 27, 28, 11, 11, 2 }
+    --},
     JobPerPlayer = { 2, 2, 3, 3, 4 },
     EngineerSkillLevel = {
         { 4, 2, 2 },

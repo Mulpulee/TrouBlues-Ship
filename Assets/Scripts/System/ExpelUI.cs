@@ -13,6 +13,7 @@ public class ExpelUI : MonoBehaviour
 
     public void Expel(int pProfileId, string pText)
     {
+        RoomDisplayer.Ins.Announce(Announcement.None);
         m_bg.SetActive(true);
         m_sprite.gameObject.SetActive(true);
 

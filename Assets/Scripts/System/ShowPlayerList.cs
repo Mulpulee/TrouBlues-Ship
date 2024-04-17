@@ -9,6 +9,7 @@ public class ShowPlayerList : MonoBehaviour
 
     public void Show()
     {
+        SoundManager.Ins.PlaySfx("Game_button");
         Show(CommonData.Players);
     }
 

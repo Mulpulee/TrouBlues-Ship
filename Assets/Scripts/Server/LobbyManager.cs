@@ -2,7 +2,6 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +9,9 @@ using UnityEngine.UI;
 public class LobbyManager : MonoBehaviour
 {
     [SerializeField] public GameObject gridLayoutGroup;
-    [SerializeField] public InputField nameInput;
     public LobbyPlayer prefab;
     public List<int> m_players = new List<int>();
+    public Dictionary<int, string> m_playerNames = new Dictionary<int, string>();
     public List<int> Players
     {
         get { return m_players; }
@@ -22,13 +21,6 @@ public class LobbyManager : MonoBehaviour
     public int m_currentProfile;
     public int playerID;
     public Dictionary<int, LobbyPlayer> LobbyPlayers = new Dictionary<int, LobbyPlayer>();
-    
-    private string m_name;
-
-    public void SetNickName()
-    {
-        m_name = nameInput.text;
-    }
 
     public void SetProfile()
     {
@@ -44,13 +36,14 @@ public class LobbyManager : MonoBehaviour
         for (int i = 0; i < 8; i++) m_profiles.Add(i);
     }
 
-    public void AddPlayer(int item)
+    public void AddPlayer(int pItem, string pName)
     {
-        m_players.Add(item);
+        m_players.Add(pItem);
+        m_playerNames.Add(pItem, pName);
         LobbyPlayer lobbyPlayer = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
-        if(m_name == null) lobbyPlayer.Setup(m_profilesAsset[item].nickName, m_profilesAsset[item].profile);
-        else lobbyPlayer.Setup(m_name, m_profilesAsset[item].profile);
-        LobbyPlayers.Add(item, lobbyPlayer);
+        if (pName == "") lobbyPlayer.Setup(m_profilesAsset[pItem].nickName, m_profilesAsset[pItem].profile);
+        else lobbyPlayer.Setup(pName, m_profilesAsset[pItem].profile);
+        LobbyPlayers.Add(pItem, lobbyPlayer);
     }
 
     public void NewPlayer()
@@ -59,11 +52,11 @@ public class LobbyManager : MonoBehaviour
         int random = Random.Range(0, 8 - m_players.Count);
         m_currentProfile = m_profiles[random];
 
-        PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, m_currentProfile);
+        PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, m_currentProfile, PlayerPrefs.GetString("PlayerName"));
 
         playerID = m_currentProfile;
         CommonData.ProfileID = playerID;
-        AddPlayer(m_currentProfile);
+        AddPlayer(m_currentProfile, PlayerPrefs.GetString("PlayerName"));
     }
 
     public void RemovePlayer(int item)
@@ -74,6 +67,7 @@ public class LobbyManager : MonoBehaviour
             LobbyPlayers.Remove(item);
         }
         m_players.Remove(item);
+        m_playerNames.Remove(item);
     }
 
     public void ResetList()

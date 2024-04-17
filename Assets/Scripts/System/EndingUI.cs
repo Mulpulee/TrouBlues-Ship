@@ -11,6 +11,8 @@ public class EndingUI : MonoBehaviour
 
     public void ShowEnding(string pEnding, string pSubScript)
     {
+        SoundManager.Ins.StopBgm();
+        RoomDisplayer.Ins.Announce(Announcement.None);
         m_ending.text = pEnding;
         m_subscript.text = pSubScript;
 

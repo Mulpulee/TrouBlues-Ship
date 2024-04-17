@@ -22,6 +22,7 @@ public class GameManagerEx : MonoBehaviour
     private int m_mileStone = 0;
     private int m_goal;
     private bool m_canSpyKill = false;
+    private int m_dayCount = 0;
 
     private Coroutine m_ingameRoutine;
 
@@ -60,6 +61,7 @@ public class GameManagerEx : MonoBehaviour
         PVHandler.pv.RPC("Hud", RpcTarget.All, 1, false);
         PVHandler.pv.RPC("Hud", RpcTarget.All, 0, true);
 
+        PVHandler.pv.RPC("Brief", RpcTarget.All, 0);
         m_ingameRoutine = StartCoroutine(InGame());
     }
 
@@ -75,7 +77,6 @@ public class GameManagerEx : MonoBehaviour
             foreach (var p in CommonData.Players) if (!p.IsDead) alives.Add(p.ProfileID);
 
             // 수면시간 시작
-            PVHandler.pv.RPC("Brief", RpcTarget.All, 0);
 
             int hasSpy = 0;
             foreach (var p in CommonData.Spys) if (!p.IsDead && !p.IsLocked) hasSpy++;
@@ -114,12 +115,13 @@ public class GameManagerEx : MonoBehaviour
                 PVHandler.pv.RPC("HideVote", RpcTarget.All);
             }
 
+            m_endCount = CommonData.Players.Count;
             isTaskEnd = false;
-            Timer.SetTimer(60);
-            StartCoroutine(ReduceTime(0, () => isTaskEnd = true));
+            Timer.SetTimer(30);
+            timer = StartCoroutine(ReduceTime(0, () => isTaskEnd = true));
             PVHandler.pv.RPC("Sleep", RpcTarget.All, 0);
-            yield return new WaitUntil(() => isTaskEnd == true);
-            foreach (var p in CommonData.Players) if (p.IsLocked) p.IsLocked = false;
+            yield return new WaitUntil(() => isTaskEnd == true || m_endCount == 0);
+            StopCoroutine(timer);
 
             // 수면시간 종료, 브리핑 시작
             m_endCount = CommonData.Players.Count;
@@ -156,6 +158,9 @@ public class GameManagerEx : MonoBehaviour
             yield return new WaitUntil(() => m_endCount == 0);
 
             PVHandler.pv.RPC("CutProgress", RpcTarget.All);
+
+            // 구금 해제
+            foreach (var p in CommonData.Players) if (p.IsLocked) p.IsLocked = false;
 
             // 구금 투표
             m_endCount = 1; isTaskEnd = false;
@@ -208,6 +213,7 @@ public class GameManagerEx : MonoBehaviour
                 yield return new WaitForSeconds(3);
             }
 
+            PVHandler.pv.RPC("Brief", RpcTarget.All, 0);
             // 구충제 사용 투표
             if (CommonData.Medecines > 0)
             {
@@ -252,8 +258,6 @@ public class GameManagerEx : MonoBehaviour
             Debug.Log($"{DataManager.Data.ExpelMilestones[CommonData.Spys.Count - 1][m_mileStone]}");
             while ((((float)progress / m_goal) * 100) >= DataManager.Data.ExpelMilestones[CommonData.Spys.Count - 1][m_mileStone])
             {
-                m_canSpyKill = true;
-
                 m_endCount = 1; isTaskEnd = false;
                 Timer.SetTimer(90);
                 VoteManager.Ins.StartVote(VoteType.Expel, "누구를 내보낼까?", alives.Count, alives.Count - haslocked, alives.ToArray());
@@ -318,6 +322,13 @@ public class GameManagerEx : MonoBehaviour
             {
                 break;
             }
+
+            if (m_dayCount == 2)
+            {
+                m_canSpyKill = true;
+                m_dayCount = 0;
+            }
+            m_dayCount++;
         }
     }
 

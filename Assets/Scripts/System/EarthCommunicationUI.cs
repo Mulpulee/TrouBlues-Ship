@@ -6,17 +6,21 @@ using UnityEngine.UI;
 
 public class EarthCommunicationUI : MonoBehaviour
 {
-    [SerializeField] private GameObject m_room;
-
     [SerializeField] private HorizontalLayoutGroup m_layout;
     [SerializeField] private Text m_text;
     [SerializeField] private Image m_ID;
 
+    private void Update()
+    {
+        m_layout.SetLayoutHorizontal();
+    }
+
     public void PrintResult(bool pSucceed, int[] pResult)
     {
-        m_room.SetActive(true);
+        RoomDisplayer.Ins.SetRoom(RoomType.Cockpit);
         m_layout.gameObject.SetActive(true);
         m_ID.gameObject.SetActive(true);
+        SoundManager.Ins.PlaySfx("Communicate");
         StartCoroutine(PrintRoutine(pSucceed, pResult));
     }
 
@@ -45,7 +49,6 @@ public class EarthCommunicationUI : MonoBehaviour
         }
         yield return new WaitUntil(() => isEnd);
 
-        m_room.SetActive(false);
         m_layout.gameObject.SetActive(false);
         m_ID.gameObject.SetActive(false);
         PVHandler.pv.RPC("TaskEnded", Photon.Pun.RpcTarget.MasterClient);
@@ -57,9 +60,7 @@ public class EarthCommunicationUI : MonoBehaviour
         foreach (var t in pText)
         {
             m_text.text += t;
-            m_layout.SetLayoutHorizontal();
             if (t != ' ') yield return new WaitForSeconds(0.1f);
-            m_layout.SetLayoutHorizontal();
         }
         m_text.text += ' ';
         m_layout.SetLayoutHorizontal();

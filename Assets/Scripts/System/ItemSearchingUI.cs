@@ -12,6 +12,7 @@ public class ItemSearchingUI : MonoBehaviour
     [SerializeField] private Text[] m_searchedItemsText;
     [SerializeField] private Text[] m_collectedItemsText;
 
+    private int m_place;
     private int m_collectableCount;
     private int[] m_searchedItems;
     private int[] m_collectedItems;
@@ -25,10 +26,13 @@ public class ItemSearchingUI : MonoBehaviour
         for (int i = 0; i < m_searchedItemsText.Length; i++)
             m_searchedItemsText[i].text = m_searchedItems[i].ToString();
         foreach (var t in m_collectedItemsText) t.transform.parent.gameObject.SetActive(false);
+
+        RoomDisplayer.Ins.SetRoom((RoomType)m_place + 2);
     }
 
-    public void SetValue(int pCount, int[] pItems)
+    public void SetValue(int pPlace, int pCount, int[] pItems)
     {
+        m_place = pPlace;
         m_collectableCount = pCount;
         m_searchedItems = pItems;
         m_collectedItems = new int[6];
@@ -36,6 +40,7 @@ public class ItemSearchingUI : MonoBehaviour
 
     public void SetText(int index)
     {
+        if (index == 3) return;
         m_remainCountText.text = m_collectableCount.ToString();
         m_searchedItemsText[index].text = m_searchedItems[index].ToString();
 
@@ -46,10 +51,12 @@ public class ItemSearchingUI : MonoBehaviour
             m_collectedItemsText[index].transform.parent.gameObject.SetActive(true);
             m_collectedItemsText[index].text = m_collectedItems[index].ToString();
         }
+        SoundManager.Ins.PlaySfx("Work");
     }
 
     public void CollectItem(int index)
     {
+        if (index == 3) return;
         if (m_collectableCount > 0 && m_searchedItems[index] > 0)
         {
             m_collectableCount--;
@@ -62,6 +69,7 @@ public class ItemSearchingUI : MonoBehaviour
 
     public void ReturnItem(int index)
     {
+        if (index == 3) return;
         if (m_collectedItems[index] > 0)
         {
             m_collectableCount++;
@@ -82,5 +90,6 @@ public class ItemSearchingUI : MonoBehaviour
         PVHandler.pv.RPC("AddMedicines", Photon.Pun.RpcTarget.MasterClient, m_collectedItems[(int)ItemIndex.Medicine]);
         PVHandler.pv.RPC("TaskEnded", Photon.Pun.RpcTarget.MasterClient);
         foreach (var item in m_canvas) item.SetActive(false);
+        SoundManager.Ins.PlaySfx("Game_button");
     }
 }

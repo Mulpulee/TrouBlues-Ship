@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TitleSceneManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class TitleSceneManager : MonoBehaviour
     private void Start()
     {
         lobby = GameObject.FindObjectOfType<LobbyManager>();
+        SoundManager.Ins.PlayBgm("Title");
     }
 
     public void StartBtn()
@@ -39,7 +41,7 @@ public class TitleSceneManager : MonoBehaviour
             if (count == lobby.LobbyPlayers.Count)
             {
                 PVHandler.pv.RPC("ClearReady", RpcTarget.All);
-                //CommonData.MakePlayerInfo(lobby.Players.ToArray(), //요기에 string[]//);  <여기 주석풀고
+                CommonData.MakePlayerInfo(lobby.Players.ToArray(), lobby.m_playerNames.Values.ToArray());
             }
         }
     }

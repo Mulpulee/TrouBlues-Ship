@@ -11,9 +11,9 @@ public class PVHandler : MonoBehaviour
     #region Lobby
 
     [PunRPC]
-    public void AddPlayer(int pItem)
+    public void AddPlayer(int pItem, string pName)
     {
-        FindObjectOfType<LobbyManager>().AddPlayer(pItem);
+        FindObjectOfType<LobbyManager>().AddPlayer(pItem, pName);
     }
 
     [PunRPC]
@@ -37,6 +37,7 @@ public class PVHandler : MonoBehaviour
     [PunRPC]
     public void SetGameScene()
     {
+        SoundManager.Ins.StopBgm();
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("GameScene"));
     }
 
@@ -112,18 +113,21 @@ public class PVHandler : MonoBehaviour
     [PunRPC]
     public void StartVote(VoteType pType, string pSubject, int[] pList)
     {
+        SoundManager.Ins.PlaySfx("Brief_positive");
         FindObjectOfType<VoteUI>().StartVote(pType, pSubject, pList);
     }
 
     [PunRPC]
     public void Vote(int pIndex)
     {
+        SoundManager.Ins.PlaySfx("Game_button");
         VoteManager.Ins.Vote(pIndex);
     }
 
     [PunRPC]
     public void EndVote(int[] pResult)
     {
+        SoundManager.Ins.PlaySfx("VoteResult");
         FindObjectOfType<VoteUI>().EndVote(pResult);
     }
 
@@ -168,18 +172,22 @@ public class PVHandler : MonoBehaviour
     [PunRPC]
     public void StartChoosing()
     {
+        SoundManager.Ins.PlaySfx("Brief_positive");
+        SoundManager.Ins.PlayBgm("Morning");
         FindObjectOfType<ChooseActivityUI>().StartChoosing();
     }
 
     [PunRPC]
     public void Choose(int pIndex, int pProfileId)
     {
+        SoundManager.Ins.PlaySfx("Game_button");
         ChooseActivity.Ins.AddMember(pIndex, pProfileId);
     }
 
     [PunRPC]
     public void EndChoose(int[][] pResults)
     {
+        SoundManager.Ins.PlaySfx("Game_button");
         FindObjectOfType<ChooseActivityUI>().EndChoosing(pResults);
     }
 
@@ -217,8 +225,8 @@ public class PVHandler : MonoBehaviour
         IntroUI intro = FindObjectOfType<IntroUI>();
         switch (pIndex)
         {
-            case 0: intro.Show(); break;
-            case 1: intro.ShowJob(); break;
+            case 0: intro.Show(); SoundManager.Ins.PlaySfx("Brief_positive"); break;
+            case 1: intro.ShowJob(); SoundManager.Ins.PlaySfx("Game_button"); break;
             case 2: intro.Hide(); break;
         }
     }
@@ -240,7 +248,7 @@ public class PVHandler : MonoBehaviour
         SleepUI sleep = FindObjectOfType<SleepUI>();
         switch (pIndex)
         {
-            case 0: sleep.Show(); break;
+            case 0: sleep.Show(); SoundManager.Ins.PlayBgm("Night"); break;
             case 1: sleep.EndSleep(); break;
         }
     }
@@ -265,7 +273,7 @@ public class PVHandler : MonoBehaviour
                 if (ChooseActivity.Ins.SelectedActivity == 0)
                 {
                     ItemSearchingUI ui = FindObjectOfType<ItemSearchingUI>();
-                    ui.SetValue(ItemSearching.Ins.GetSelectable(), ItemSearching.Ins.GetItems());
+                    ui.SetValue(ItemSearching.Ins.GetCurrentMap(), ItemSearching.Ins.GetSelectable(), ItemSearching.Ins.GetItems());
                     ui.ShowUI();
                 }
                 break;
@@ -280,7 +288,7 @@ public class PVHandler : MonoBehaviour
         ExpelUI ui = FindObjectOfType<ExpelUI>();
         switch (pIndex)
         {
-            case 0: ui.Expel(pProfileId, pText); break;
+            case 0: ui.Expel(pProfileId, pText); SoundManager.Ins.StopBgm(); SoundManager.Ins.PlaySfx("Expel"); break;
             case 1: ui.Hide(); break;
         }
     }

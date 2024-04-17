@@ -31,6 +31,8 @@ public class SleepUI : MonoBehaviour
 
     public void Show()
     {
+        RoomDisplayer.Ins.SetRoom(RoomType.Individual);
+        if (Player.This.IsLocked) RoomDisplayer.Ins.Announce(Announcement.Banned);
         if (Player.This.IsDead || Player.This.IsLocked) return;
 
         m_background.SetActive(true);
@@ -71,6 +73,7 @@ public class SleepUI : MonoBehaviour
 
     public void UseJobSkill()
     {
+        SoundManager.Ins.PlaySfx("Game_button");
         Job job = Player.This.PlayerJob;
 
         switch (job.Type)
@@ -93,7 +96,7 @@ public class SleepUI : MonoBehaviour
 
                     for (int i = 0; i < list.Count; i++)
                     {
-                        Transform p = m_listCanvas.transform.GetChild(1).GetChild(i);
+                        Transform p = m_listCanvas.transform.GetChild(4).GetChild(i);
                         p.gameObject.SetActive(true);
                         p.GetChild(0).GetComponent<Image>().sprite = list[i].PlayerProfile;
                         p.GetChild(1).GetComponent<Text>().text = list[i].Name;
@@ -134,16 +137,19 @@ public class SleepUI : MonoBehaviour
                 m_useSkill = true;
             }
         }
+        SoundManager.Ins.PlaySfx("Game_button");
     }
 
     public void EndUsingScanner()
     {
         m_usingScanner = false;
+        SoundManager.Ins.PlaySfx("Game_button");
     }
 
     public void UseSkill(bool value)
     {
         m_useSkill = value;
+        SoundManager.Ins.PlaySfx("Game_button");
     }
 
     public void UseScanner()
@@ -160,6 +166,16 @@ public class SleepUI : MonoBehaviour
         }
 
         m_usingScanner = true;
+        SoundManager.Ins.PlaySfx("Game_button");
+    }
+
+    public void Skip()
+    {
+        SoundManager.Ins.PlaySfx("Game_button");
+        m_mainChoosing.transform.parent.gameObject.SetActive(false);
+        m_listCanvas.SetActive(false);
+        m_useornotCanvas.SetActive(false);
+        PVHandler.pv.RPC("TaskEnded", Photon.Pun.RpcTarget.MasterClient);
     }
 
     public void EndSleep()

@@ -13,8 +13,13 @@ public class ChooseActivityUI : MonoBehaviour
 
     public void StartChoosing()
     {
-        if (Player.This.IsDead)
+        if (Player.This.IsLocked)
         {
+            RoomDisplayer.Ins.Announce(Announcement.Banned);
+        }
+        if (Player.This.IsDead || Player.This.IsLocked)
+        {
+            RoomDisplayer.Ins.SetRoom(RoomType.Individual);
             ChooseActivity.Ins.SelectedActivity = -1;
             return;
         }
@@ -40,6 +45,7 @@ public class ChooseActivityUI : MonoBehaviour
         foreach (var item in m_butttons) item.interactable = false;
         m_butttons[index].transform.GetChild(2).gameObject.SetActive(true);
 
+        SoundManager.Ins.PlaySfx("Game_button");
         PVHandler.pv.RPC("Choose", Photon.Pun.RpcTarget.MasterClient, index, Player.This.ProfileID);
         ChooseActivity.Ins.SelectedActivity = index;
     }

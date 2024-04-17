@@ -47,6 +47,11 @@ public class ItemSearching
         return m_selectable;
     }
 
+    public int GetCurrentMap()
+    {
+        return m_currentMap;
+    }
+
     public int[] GetItems()
     {
         int[] items = new int[6];

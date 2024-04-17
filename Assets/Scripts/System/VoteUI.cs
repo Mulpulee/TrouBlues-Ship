@@ -41,7 +41,13 @@ public class VoteUI : MonoBehaviour
 
     public void StartVote(VoteType type, string subject, int[] list = null)
     {
-        if (SpyMode && !Player.This.IsSpy) return;
+        RoomDisplayer.Ins.SetRoom(RoomType.Meeting);
+        if (SpyMode && !Player.This.IsSpy)
+        {
+            RoomDisplayer.Ins.Announce(Announcement.SpyActing);
+            return;
+        }
+        RoomDisplayer.Ins.Announce(Announcement.None);
 
         m_ui.SetActive(true);
         m_time.text = Timer.Time.ToString("000");

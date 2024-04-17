@@ -18,7 +18,17 @@ public class Repairing : MonoBehaviour
 
     public void ShowUI()
     {
-        if (Player.This.IsDead) return;
+        RoomDisplayer.Ins.SetRoom(RoomType.Meeting);
+        if (Player.This.IsDead)
+        {
+            RoomDisplayer.Ins.Announce(Announcement.Dead);
+            return;
+        }
+        if (Player.This.IsLocked)
+        {
+            RoomDisplayer.Ins.Announce(Announcement.Banned);
+            return;
+        }
 
         foreach (var item in m_canvas) item.SetActive(true);
 
@@ -42,6 +52,7 @@ public class Repairing : MonoBehaviour
 
     public void SetText(int index)
     {
+        SoundManager.Ins.PlaySfx("Work");
         m_usingItemsText[index].text = $"{(m_minus[index] ? "-" : "")}{m_usingItems[index]}";
         m_inventoryText[index].text = m_inventory[index].ToString();
     }
