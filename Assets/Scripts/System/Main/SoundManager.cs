@@ -43,7 +43,7 @@ public class SoundManager : MonoBehaviour
         m_sfxSources = new List<AudioSource>();
 
         SetVolume();
-        m_sfxVol = PlayerPrefs.GetFloat("sfxVol");
+        m_sfxVol = PlayerPrefs.GetFloat("sfxVol", 0.5f);
     }
     
     private void Update()
@@ -119,8 +119,8 @@ public class SoundManager : MonoBehaviour
     
     public void SetVolume()
     {
-        BgmSlider.value = PlayerPrefs.GetFloat("bgmVol");
-        m_sfxVol = PlayerPrefs.GetFloat("sfxVol");
+        BgmSlider.value = PlayerPrefs.GetFloat("bgmVol", 0.5f);
+        m_sfxVol = PlayerPrefs.GetFloat("sfxVol", 0.5f);
         SfxSlider.value = m_sfxVol;
     }
 }

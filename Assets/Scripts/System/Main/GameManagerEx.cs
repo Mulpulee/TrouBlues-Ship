@@ -22,6 +22,7 @@ public class GameManagerEx : MonoBehaviour
     private int m_mileStone = 0;
     private int m_goal;
     private bool m_canSpyKill = false;
+    private int m_hasLocked = 0;
     private int m_dayCount = 0;
 
     private Coroutine m_ingameRoutine;
@@ -106,7 +107,10 @@ public class GameManagerEx : MonoBehaviour
                 int killed = VoteManager.Ins.GetResult();
                 if (killed != -1)
                 {
-                    foreach (var p in CommonData.Players) if (p.ProfileID == killed) p.SetDead();
+                    foreach (var p in CommonData.Players)
+                    {
+                        if (p.ProfileID == killed) { p.IsLocked = false; p.SetDead(); }
+                    }
                     alives.Remove(killed);
                     PVHandler.pv.RPC("SendDeadPlayer", RpcTarget.All, killed);
                 }
@@ -115,7 +119,7 @@ public class GameManagerEx : MonoBehaviour
                 PVHandler.pv.RPC("HideVote", RpcTarget.All);
             }
 
-            m_endCount = CommonData.Players.Count;
+            m_endCount = alives.Count - m_hasLocked;
             isTaskEnd = false;
             Timer.SetTimer(30);
             timer = StartCoroutine(ReduceTime(0, () => isTaskEnd = true));
@@ -130,7 +134,6 @@ public class GameManagerEx : MonoBehaviour
             PVHandler.pv.RPC("Brief", RpcTarget.All, 1);
             yield return new WaitUntil(() => m_endCount == 0);
             
-            PVHandler.pv.RPC("UnlockAll", RpcTarget.All);
             PVHandler.pv.RPC("CutProgress", RpcTarget.All);
 
             // 오전 행동선택
@@ -141,7 +144,7 @@ public class GameManagerEx : MonoBehaviour
             PVHandler.pv.RPC("Activity", RpcTarget.All, 3);
 
             // 자원 탐색, 지구 통신 로직 돌리기
-            m_endCount = alives.Count;
+            m_endCount = alives.Count - m_hasLocked;
             ItemSearching.Ins.Search(CommonData.Players.Count);
             EarthCommunication.Ins.StartCommunication(ChooseActivity.Ins.GetCommunicationCount());
 
@@ -153,7 +156,7 @@ public class GameManagerEx : MonoBehaviour
             yield return new WaitUntil(() => m_endCount == 0);
 
             // 우주선 수리
-            m_endCount = alives.Count;
+            m_endCount = alives.Count - m_hasLocked;
             PVHandler.pv.RPC("Activity", RpcTarget.All, 2);
             yield return new WaitUntil(() => m_endCount == 0);
 
@@ -161,6 +164,7 @@ public class GameManagerEx : MonoBehaviour
 
             // 구금 해제
             foreach (var p in CommonData.Players) if (p.IsLocked) p.IsLocked = false;
+            PVHandler.pv.RPC("UnlockAll", RpcTarget.All);
 
             // 구금 투표
             m_endCount = 1; isTaskEnd = false;
@@ -179,7 +183,7 @@ public class GameManagerEx : MonoBehaviour
             Timer.SetTimer(0); StopCoroutine(timer);
             yield return new WaitForSeconds(3);
 
-            int haslocked = 0;
+            m_hasLocked = 0;
             int locked = VoteManager.Ins.GetResult();
             if (locked != -1)
             {
@@ -208,7 +212,7 @@ public class GameManagerEx : MonoBehaviour
                             PVHandler.pv.RPC("UpdatePlayerInfo", RpcTarget.All, locked, p.IsInfected, true);
                         }
                     }
-                    haslocked = 1;
+                    m_hasLocked = 1;
                 }
                 yield return new WaitForSeconds(3);
             }
@@ -219,7 +223,7 @@ public class GameManagerEx : MonoBehaviour
             {
                 m_endCount = 1; isTaskEnd = false;
                 Timer.SetTimer(60);
-                VoteManager.Ins.StartVote(VoteType.Normal, "누구에게 구충제를 사용할까?", alives.Count + 1, alives.Count - haslocked, alives.ToArray());
+                VoteManager.Ins.StartVote(VoteType.Normal, "누구에게 구충제를 사용할까?", alives.Count + 1, alives.Count - m_hasLocked, alives.ToArray());
                 timer = StartCoroutine(ReduceTime(0, () => isTaskEnd = true));
                 while (m_endCount != 0)
                 {
@@ -260,7 +264,7 @@ public class GameManagerEx : MonoBehaviour
             {
                 m_endCount = 1; isTaskEnd = false;
                 Timer.SetTimer(90);
-                VoteManager.Ins.StartVote(VoteType.Expel, "누구를 내보낼까?", alives.Count, alives.Count - haslocked, alives.ToArray());
+                VoteManager.Ins.StartVote(VoteType.Expel, "누구를 내보낼까?", alives.Count, alives.Count - m_hasLocked, alives.ToArray());
                 timer = StartCoroutine(ReduceTime(0, () => isTaskEnd = true));
                 while (m_endCount != 0)
                 {
@@ -281,7 +285,7 @@ public class GameManagerEx : MonoBehaviour
                 {
                     m_endCount = 1; isTaskEnd = false;
                     Timer.SetTimer(30);
-                    VoteManager.Ins.StartVote(VoteType.ProsAndCons, "정말 이 사람을 내보낼까?", 2, alives.Count - haslocked);
+                    VoteManager.Ins.StartVote(VoteType.ProsAndCons, "정말 이 사람을 내보낼까?", 2, alives.Count - m_hasLocked);
                     timer = StartCoroutine(ReduceTime(0, () => isTaskEnd = true));
                     while (m_endCount != 0)
                     {
@@ -298,7 +302,7 @@ public class GameManagerEx : MonoBehaviour
 
                     if (VoteManager.Ins.GetResult(true) == 0)
                     {
-                        foreach (var p in CommonData.Players) if (p.ProfileID == expeled) { p.SetDead(); alives.Remove(expeled); }
+                        foreach (var p in CommonData.Players) if (p.ProfileID == expeled) { p.IsLocked = false; p.SetDead(); alives.Remove(expeled); }
 
                         m_endCount = CommonData.Players.Count;
                         PVHandler.pv.RPC("Expel", RpcTarget.All, 0, expeled,

@@ -25,7 +25,7 @@ public class ChooseActivity
 
         foreach (var p in CommonData.Players)
         {
-            if (!p.IsDead) m_memberCount++;
+            if (!p.IsDead && !p.IsLocked) m_memberCount++;
         }
 
         PVHandler.pv.RPC("StartChoosing", Photon.Pun.RpcTarget.All);

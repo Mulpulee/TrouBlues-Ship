@@ -18,7 +18,7 @@ public class CaptainSkill : Skill
     {
         CoolDown = -10;
         CoolCount = 0;
-        Explanation = "지목한 플레이어의 직업을 확인하고, 그 능력을 사용합니다.";
+        Explanation = "지목한 플레이어의 직업을 확인합니다.";
         //Script = $"{Searched.Name}의 직업은  {Searched.PlayerJob.name}으로 밝혀졌습니다!";
     }
 

@@ -31,9 +31,13 @@ public class SleepUI : MonoBehaviour
 
     public void Show()
     {
+        m_useSkill = false;
+        m_useScanner = false;
+        m_usingScanner = false;
         RoomDisplayer.Ins.SetRoom(RoomType.Individual);
         if (Player.This.IsLocked) RoomDisplayer.Ins.Announce(Announcement.Banned);
         if (Player.This.IsDead || Player.This.IsLocked) return;
+        RoomDisplayer.Ins.Announce(Announcement.None);
 
         m_background.SetActive(true);
         m_mainChoosing.transform.parent.gameObject.SetActive(true);
@@ -86,14 +90,15 @@ public class SleepUI : MonoBehaviour
                     m_listCanvas.transform.GetChild(3).GetComponent<Text>().text = job.SpecialSkill.Explanation;
 
                     List<Player> list = CommonData.Players;
-                    if (job.Type == JobType.Medic)
-                    {
-                        foreach (Player player in list)
-                        {
-                            if (player.IsDead) list.Remove(player);
-                        }
-                    }
+                    //if (job.Type == JobType.Medic)
+                    //{
+                    //    foreach (Player player in list)
+                    //    {
+                    //        if (player.IsDead) list.Remove(player);
+                    //    }
+                    //}
 
+                    for (int i = 0; i < 8; i++) m_listCanvas.transform.GetChild(4).GetChild(i).gameObject.SetActive(false);
                     for (int i = 0; i < list.Count; i++)
                     {
                         Transform p = m_listCanvas.transform.GetChild(4).GetChild(i);
@@ -158,11 +163,13 @@ public class SleepUI : MonoBehaviour
         m_listCanvas.transform.GetChild(2).GetComponent<Text>().text = "스캐너 사용";
         m_listCanvas.transform.GetChild(3).GetComponent<Text>().text = "지목한 플레이어의 감염 여부를 확인합니다.";
 
+        for (int i = 0; i < 8; i++) m_listCanvas.transform.GetChild(4).GetChild(i).gameObject.SetActive(false);
         for (int i = 0; i < CommonData.Players.Count; i++)
         {
-            Transform p = m_listCanvas.transform.GetChild(1).GetChild(i);
+            Transform p = m_listCanvas.transform.GetChild(4).GetChild(i);
             p.gameObject.SetActive(true);
             p.GetChild(0).GetComponent<Image>().sprite = CommonData.Players[i].PlayerProfile;
+            p.GetChild(1).GetComponent<Text>().text = CommonData.Players[i].Name;
         }
 
         m_usingScanner = true;
@@ -181,7 +188,7 @@ public class SleepUI : MonoBehaviour
     public void EndSleep()
     {
         if (Player.This.IsDead || Player.This.IsLocked) return;
-        Job job = Player.This.PlayerJob;
+         Job job = Player.This.PlayerJob;
 
         if (m_useSkill)
         {

@@ -39,7 +39,7 @@ public class LobbyManager : MonoBehaviour
     public void AddPlayer(int pItem, string pName)
     {
         m_players.Add(pItem);
-        m_playerNames.Add(pItem, pName);
+        m_playerNames.Add(pItem, pName == "" ? m_profilesAsset[pItem].nickName : pName);
         LobbyPlayer lobbyPlayer = Instantiate<LobbyPlayer>(prefab, gridLayoutGroup.transform);
         if (pName == "") lobbyPlayer.Setup(m_profilesAsset[pItem].nickName, m_profilesAsset[pItem].profile);
         else lobbyPlayer.Setup(pName, m_profilesAsset[pItem].profile);
@@ -52,7 +52,7 @@ public class LobbyManager : MonoBehaviour
         int random = Random.Range(0, 8 - m_players.Count);
         m_currentProfile = m_profiles[random];
 
-        PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, m_currentProfile, PlayerPrefs.GetString("PlayerName"));
+        PVHandler.pv.RPC("AddPlayer", RpcTarget.OthersBuffered, m_currentProfile, PlayerPrefs.GetString("PlayerName", ""));
 
         playerID = m_currentProfile;
         CommonData.ProfileID = playerID;
